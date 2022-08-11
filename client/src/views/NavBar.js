@@ -74,7 +74,7 @@ export default function NavBar() {
         top: 0,
         left: 0,
         width: "100%",
-        zIndex: "1",
+        zIndex: "5",
       }}
     >
       <AppBar position="static" sx={{ margin: "auto", height: "2.5rem", justifyContent:'center' }}>

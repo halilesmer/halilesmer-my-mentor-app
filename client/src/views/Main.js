@@ -12,8 +12,8 @@ import ProfilePage from "./ProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import RegisterMenteePage from "../components/RegisterMenteePage";
-import RegisterMentorPage from "./RegisterMentorPage";
-import RegisterPage from "./RegisterPage";
+import RegisterMentorPage from "../components/RegisterMentorPage";
+import SignUpPage from "./SignUpPage";
 
 // import Grid from "@mui/material/Grid";
 
@@ -34,9 +34,15 @@ const Main = () => {
           />
           <Route path="mentors/" element={<Mentors />} />
           <Route path="favorit-mentor/" element={<FavoritMentorsPage />} />
-          <Route path="register-page/" element={<RegisterPage />} />
-          <Route path="register-mentor/" element={<RegisterMentorPage />} />
-          <Route path="register-mentee/" element={<RegisterMenteePage />} />
+          <Route path="register-page/" element={<SignUpPage />} />
+          <Route
+            path="register-page/mentor/"
+            element={<RegisterMentorPage />}
+          />
+          <Route
+            path="register-page/mentee/"
+            element={<RegisterMenteePage />}
+          />
 
           <Route path="login/" element={<LoginPage />} />
           <Route path="profile/" element={<ProfilePage />} />
