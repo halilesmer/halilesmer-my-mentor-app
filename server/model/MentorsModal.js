@@ -5,16 +5,17 @@ const { Schema } = mongoose;
 const mentorSchema = new Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  birthday: { type: String, required: true },
+  birthday: { type: Date, required: true },
   email: { type: String, required: true },
   pw: { type: String, required: true },
   gender: { type: Array, required: true },
   language: { type: Array, required: true },
-  experience: Int64,
+  experience: Number,
   website: String,
   couching_medium: { type: Array, required: true },
-  fee: { type: Int64, required: true },
+  fee: { type: Number, required: true },
   skills: { type: Array, required: true },
+  likes: {type: Number, required: true},
 });
 
 

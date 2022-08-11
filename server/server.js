@@ -1,29 +1,46 @@
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
-import cors from 'cors';
+import cors from "cors";
 import express from "express";
 import mentorsRoute from "./routes/mentorsRoute.js";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
 
-app.use(express.json());
-app.use(
+const addMiddelWare = () => {
+  app.use(express.json());
+  app.use(
     express.urlencoded({
-        extended: true,
+      extended: true,
     })
-);
-app.use(cors());
+  );
+  app.use(cors());
+};
 
-app.use("/mentors", mentorsRoute);
+const startServer = () => {
+  app.listen(port, (req, res) => {
+    console.log(`Server is running on ${port} port`);
+  });
+};
 
 // ---------- connect to mongo db ----------
-mongoose.connect(process.env.MONGO_URI)
-.then(()=> console.log('Connection to mongo db established!'))
-.catch(error => console.log('error', error))
+const mongoDbConnection =  () => {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => console.log("Connection to mongo db established!"))
+    .catch((error) => console.log("error", error));
+};
+// mongoDbConnection();
 
-app.listen(port, (req, res) => {
-  console.log(`Server is running on ${port} port`);
-});
+const loadRoutes = () => {
+  app.use("/mentors", mentorsRoute);
+};
+
+(function controller(){
+    addMiddelWare();
+    startServer();
+    mongoDbConnection();
+    loadRoutes();
+})()

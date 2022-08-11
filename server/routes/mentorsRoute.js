@@ -1,12 +1,7 @@
-import express from 'express';
+import express from "express";
+import { mentorsController } from "../controller/mentorsController.js";
 const router = express.Router();
 
-
-router.get('/', (req, res)=>{
-    res.send({
-        msg: 'Mentors route.'
-    });
-});
-
+router.get("/", mentorsController);
 
 export default router;
