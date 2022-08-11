@@ -58,7 +58,7 @@ const [loading, setLoading] = React.useState(false)
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {/* ----------------- All Characters  Page Link  --------------------- */}
+      {/* ----------------- Mentors  Page Link  --------------------- */}
 
       <List>
         <ListItem disablePadding>
@@ -68,15 +68,15 @@ const [loading, setLoading] = React.useState(false)
             </ListItemIcon>
 
             <NavLink
-              to="/cards/1"
+              to="mentors/"
               style={({ isActive }) => (isActive ? activeStyle : noActive)}
             >
-              <ListItemText primary="All Charachters" />
+              <ListItemText primary="Mentors" />
             </NavLink>
           </ListItemButton>
         </ListItem>
       </List>
-      {/* ----------------- My Characters  Page Link  --------------------- */}
+      {/* ----------------- Favorit Mentors  Page Link  --------------------- */}
       <List>
         <ListItem disablePadding>
           <ListItemButton>
@@ -84,7 +84,7 @@ const [loading, setLoading] = React.useState(false)
               <BookmarkBorderIcon />
             </ListItemIcon>
             <NavLink
-              to="/mycards"
+              to="/favorit-mentors"
               style={({ isActive }) => (isActive ? activeStyle : noActive)}
             >
               <Badge
@@ -107,7 +107,7 @@ const [loading, setLoading] = React.useState(false)
                 badgeContent={0}
                 color="primary"
               >
-                <ListItemText primary={"My Characters"} />
+                <ListItemText primary={"Favorit Mentors"} />
               </Badge>{" "}
             </NavLink>
           </ListItemButton>

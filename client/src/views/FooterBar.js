@@ -1,7 +1,7 @@
 import React from "react";
 
 const styleFooter = {
-  position: 'absolute',
+  position: 'fixed',
   bottom: 0,
   background: "darkgrey",
   width: "100%",

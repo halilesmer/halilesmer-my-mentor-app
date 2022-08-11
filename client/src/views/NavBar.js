@@ -76,7 +76,6 @@ export default function NavBar() {
         width: "100%",
         zIndex: "1",
       }}
-      gutterBottom
     >
       <AppBar position="static" sx={{ margin: "auto", height: "2.5rem", justifyContent:'center' }}>
         <Toolbar>
@@ -161,7 +160,7 @@ export default function NavBar() {
                     </ListItemIcon>
 
                     <NavLink
-                      to="registerpage/"
+                      to="register-page/"
                       style={({ isActive }) =>
                         isActive ? activeStyle : noActive
                       }

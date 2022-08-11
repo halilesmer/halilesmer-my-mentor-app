@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AppProvider } from "../contexts/appContext";
 import Chat from "./Chat";
 import ErrorPage from "./ErrorPage";
+import FavoritMentorsPage from "./FavoritMentorsPage";
 import Home from "./Home";
 import LoginPage from "./LoginPage";
 import Mentors from "./Mentors";
@@ -10,7 +11,9 @@ import MentorsDetails from "../components/MentorsDetails";
 import ProfilePage from "./ProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
-import RegisterPage from "./MenteeRegisterPage.js";
+import RegisterMenteePage from "../components/RegisterMenteePage";
+import RegisterMentorPage from "./RegisterMentorPage";
+import RegisterPage from "./RegisterPage";
 
 // import Grid from "@mui/material/Grid";
 
@@ -20,15 +23,6 @@ const Main = () => {
       <AppProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="cards/:pagination"
-            element={
-              <ProtectedRoute>
-                <Mentors />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="cards/details/:title/" element={<MentorsDetails />} />
 
           <Route
             path="chat/"
@@ -38,7 +32,12 @@ const Main = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="registerpage/" element={<RegisterPage />} />
+          <Route path="mentors/" element={<Mentors />} />
+          <Route path="favorit-mentor/" element={<FavoritMentorsPage />} />
+          <Route path="register-page/" element={<RegisterPage />} />
+          <Route path="register-mentor/" element={<RegisterMentorPage />} />
+          <Route path="register-mentee/" element={<RegisterMenteePage />} />
+
           <Route path="login/" element={<LoginPage />} />
           <Route path="profile/" element={<ProfilePage />} />
           <Route
