@@ -4,6 +4,8 @@ const AppContext = createContext();
 
 const AppProvider = (props) => {
   const [url, setUrl] = useState("");
+  const [focused, setFocused] = useState(false);
+
   // const [mentorsData, setMentorsData] = useState(null);
 
   // const fetchMentorsData = async () => {
@@ -18,6 +20,9 @@ const AppProvider = (props) => {
 
   //   return () => (didCancel = true);
   // }, []);
+const handlePwInputFocus = () => setFocused(true);
+const onBlur = () => setFocused(false);
+
 
   const value = {
     url,
@@ -25,7 +30,7 @@ const AppProvider = (props) => {
   };
   // console.log("mentorsData: ", mentorsData);
   return (
-    <AppContext.Provider value={{url, }}>
+    <AppContext.Provider value={{ url, onBlur, handlePwInputFocus, focused }}>
       {props.children}
     </AppContext.Provider>
   );

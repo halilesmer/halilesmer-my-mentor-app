@@ -1,12 +1,13 @@
-.checkBtn {
+.checkBtnUnclicked {
     box-shadow: "0 0 0 0.2rem rgba(0,123,255,.5) !important";
     background-color: #4a424ccf !important;
     margin: 5px !important;
-
-
+    min-width: unset !important;
+    padding: 4px 5px !important;
+    line-height: unset !important;
 }
 
-.checkBtn:hover {
+.checkBtnUnclicked:hover {
     background-color: #1f5da2 !important;
 
 }
@@ -15,5 +16,7 @@
     box-shadow: "0 0 0 0.2rem rgba(0,123,255,.5)" !important;
     background-color: #2de608 !important;
     margin: 5px !important;
-
+    min-width: unset !important;
+    padding: 4px 5px !important;
+    line-height: unset !important;
 }
