@@ -1,11 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { AppContext } from '../contexts/appContext'
+import useFetch from "../custom_hooks/useFetch.js";
 
 const Mentors = () => {
-  const {mentorsData} = useContext(AppContext);
+  const [mentorsData, setMentorsData] = useState(null);
+
+  // const {mentorsData} = useContext(AppContext);
   console.log("mentorsData: ", mentorsData && mentorsData);
-  
+  const { get } = useFetch("http://localhost:5001/");
+
+  useEffect(() => {
+    let didCancel = false;
+   if(!didCancel){
+     get("mentors/")
+       .then((data) => {
+         console.log(data);
+         setMentorsData(data);
+       })
+       .catch((error) => console.log(error));
+   }
+
+    return () => (didCancel = true);
+  }, []);
   return (
     <div>
       {mentorsData &&

@@ -4,29 +4,28 @@ const AppContext = createContext();
 
 const AppProvider = (props) => {
   const [url, setUrl] = useState("");
-  const [mentorsData, setMentorsData] = useState(null);
+  // const [mentorsData, setMentorsData] = useState(null);
 
-  const fetchMentorsData = async () => {
-    const mentorsUrl = "http://localhost:5001/mentors";
-    console.log("mentorsUrl: ", mentorsUrl);
-    const response = await fetch(mentorsUrl);
-    const data = await response.json();
-    setMentorsData(data);
-  };
-  useState(() => {
-    let didCancel = false;
-    fetchMentorsData();
+  // const fetchMentorsData = async () => {
+  //   const mentorsUrl = "http://localhost:5001/mentors";
+  //   console.log("mentorsUrl: ", mentorsUrl);
+  //   const response = await fetch(mentorsUrl);
+  //   const data = await response.json();
+  //   // setMentorsData(data);
+  // };
+  // useState(() => {
+  //   let didCancel = false;
 
-    return () => (didCancel = true);
-  }, []);
+  //   return () => (didCancel = true);
+  // }, []);
 
   const value = {
     url,
-    mentorsData,
+    // mentorsData,
   };
-  console.log("mentorsData: ", mentorsData);
+  // console.log("mentorsData: ", mentorsData);
   return (
-    <AppContext.Provider value={{url, mentorsData}}>
+    <AppContext.Provider value={{url, }}>
       {props.children}
     </AppContext.Provider>
   );

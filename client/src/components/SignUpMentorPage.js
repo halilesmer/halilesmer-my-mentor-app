@@ -1,3 +1,5 @@
+import "./SignUpMentorPage.css";
+
 import * as React from "react";
 
 import { IconButton, Tooltip } from "@mui/material";
@@ -7,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
+import { Checkbox as CheckboxBtn } from "react-btn-checkbox";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -22,6 +25,8 @@ import { styled } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function SignUpMentorPage() {
+  const [checkReact, setCheckReact] = React.useState([]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,28 +36,44 @@ export default function SignUpMentorPage() {
     });
   };
 
+  // const CouchingMediumBtn = styled(Button)(({ theme }) => ({
+  //   color: theme.palette.getContrastText(purple[500]),
+  //   backgroundColor: "#4a424ccf",
+  //   margin: "5px",
+  //   "&:hover": {
+  //     backgroundColor: "#1f5da2",
+  //   },
+  //   "&:active": {
+  //     boxShadow: "none",
+  //     // backgroundColor: "#0062cc",
+  //     backgroundColor: "#0062cc",
+  //     borderColor: "#005cbf",
+  //     // color:'green',
+  //   },
+  //   "&:focus": {
+  //     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
+  //     backgroundColor: "#0062cc",
+  //   },
+  // }));
 
+  // const styles = {
+  //   checkBtn: {
+  //     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
+  //     backgroundColor: "red",
+  //     color: "orange",
+  //   },
 
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: "#4a424ccf",
-    "&:hover": {
-      backgroundColor: "#1f5da2",
-    },
-    "&:active": {
-      boxShadow: "none",
-      // backgroundColor: "#0062cc",
-      backgroundColor: "#0062cc",
-      borderColor: "#005cbf",
-      // color:'green',
-    },
-    "&:focus": {
-      boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
-      backgroundColor: "#0062cc",
-    },
-  }));
+  // };
 
-  
+  let skills = ["React", "Java Script", "Java", "Material UI", "Bootstrap"];
+  const hadleSkillsClick = (button) => {
+    if (checkReact.includes(button)) {
+      setCheckReact(checkReact.filter((item) => item !== button));
+    } else {
+      setCheckReact([...checkReact, button]);
+    }
+  };
+  console.log("checkReact: ", checkReact);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -181,25 +202,37 @@ export default function SignUpMentorPage() {
               <TextField
                 size="small"
                 required
-                // fullWidth
-                id="couching-medium"
-                label="Couching Medium"
-                name="couching-medium"
-                autoComplete="off"
-              />
-              <ColorButton variant="contained">Custom CSS</ColorButton>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                required
                 fullWidth
-                id="skills"
-                label="Select Your Skills"
-                name="skills"
-                autoComplete="skills"
+                id="couching-medium"
+                label="Couching Medium *"
+                name="couching-medium"
               />
             </Grid>
+
+            <Grid item xs={12}>
+              <div>Select Your Skills:</div>
+              <div style={{ border: "solid 1px #d1d1d1", borderRadius: "4px" }}>
+                {skills.map((button, id) => {
+                  return (
+                    <Button
+                      size="small"
+                      id={id}
+                      className={
+                        checkReact.includes(button)
+                          ? "checkBtnClicked"
+                          : "checkBtn"
+                      }
+                      // styles={styles.checkBtn}
+                      variant="contained"
+                      onClick={() => hadleSkillsClick(button)}
+                    >
+                      {button}
+                    </Button>
+                  );
+                })}
+              </div>
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 size="small"

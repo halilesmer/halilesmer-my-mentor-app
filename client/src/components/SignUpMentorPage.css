@@ -1,0 +1,19 @@
+.checkBtn {
+    box-shadow: "0 0 0 0.2rem rgba(0,123,255,.5) !important";
+    background-color: #4a424ccf !important;
+    margin: 5px !important;
+
+
+}
+
+.checkBtn:hover {
+    background-color: #1f5da2 !important;
+
+}
+
+.checkBtnClicked {
+    box-shadow: "0 0 0 0.2rem rgba(0,123,255,.5)" !important;
+    background-color: #2de608 !important;
+    margin: 5px !important;
+
+}

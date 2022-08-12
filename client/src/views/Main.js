@@ -12,7 +12,7 @@ import ProfilePage from "./ProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import RegisterMenteePage from "../components/RegisterMenteePage";
-import RegisterMentorPage from "../components/RegisterMentorPage";
+import SignUpMentorPage from "../components/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
 
 // import Grid from "@mui/material/Grid";
@@ -37,7 +37,7 @@ const Main = () => {
           <Route path="register-page/" element={<SignUpPage />} />
           <Route
             path="register-page/mentor/"
-            element={<RegisterMentorPage />}
+            element={<SignUpMentorPage />}
           />
           <Route
             path="register-page/mentee/"
