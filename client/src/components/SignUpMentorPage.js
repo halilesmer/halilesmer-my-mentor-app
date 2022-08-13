@@ -47,32 +47,57 @@ export default function SignUpMentorPage() {
 
   const [termsAgr, setTermsAgr] = React.useState(false);
 
-  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
+  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
+  const [availableSkills, setAvailableSkills] = React.useState(
+    [
+      "React.js",
+      "Java",
+      "Material UI",
+      "Bootstrap",
+      "Python",
+      "JavaScript",
+      "C#",
+      "PHP",
+      "C/C++",
+      "R",
+      "TypeScript",
+      "Swift",
+      "Objective-C",
+      "jQuary",
+      "Express",
+      "Angular",
+      "Vue.js",
+      "ASP.NET Core",
+      "Flask",
+      "ASP.NET",
+      "Django",
+    ].sort()
+  );
   // ---- Handle Skills  -------
-  let availableSkills = [
-    "React.js",
-    "Java",
-    "Material UI",
-    "Bootstrap",
-    "Python",
-    "JavaScript",
-    "C#",
-    "PHP",
-    "C/C++",
-    "R",
-    "TypeScript",
-    "Swift",
-    "Objective-C",
-    "jQuary",
-    "Express",
-    "Angular",
-    "Vue.js",
-    "ASP.NET Core",
-    "Flask",
-    "ASP.NET",
-    "Django",
-  ].sort();
+  // let availableSkills = [
+  //   "React.js",
+  //   "Java",
+  //   "Material UI",
+  //   "Bootstrap",
+  //   "Python",
+  //   "JavaScript",
+  //   "C#",
+  //   "PHP",
+  //   "C/C++",
+  //   "R",
+  //   "TypeScript",
+  //   "Swift",
+  //   "Objective-C",
+  //   "jQuary",
+  //   "Express",
+  //   "Angular",
+  //   "Vue.js",
+  //   "ASP.NET Core",
+  //   "Flask",
+  //   "ASP.NET",
+  //   "Django",
+  // ].sort();
 
   const handleSkillsClick = (button) => {
     if (selectedSkills.includes(button)) {
@@ -80,6 +105,10 @@ export default function SignUpMentorPage() {
       setTypedSkill("");
     } else {
       setSelectedSkills([...selectedSkills, button]);
+      // if the new skill not available in skills button group, it will be added
+      if (!availableSkills.includes(button)) {
+        setAvailableSkills([...availableSkills, button]);
+      }
       setTypedSkill("");
     }
   };
