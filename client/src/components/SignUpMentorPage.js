@@ -2,7 +2,7 @@ import "./SignUpMentorPage.css";
 
 import * as React from "react";
 
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, InputAdornment, Tooltip } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { AppContext } from "../contexts/appContext";
@@ -10,8 +10,6 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
-import { Checkbox as CheckboxBtn } from "react-btn-checkbox";
-import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
@@ -39,16 +37,39 @@ export default function SignUpMentorPage() {
   const [language, setLanguage] = React.useState([]);
   const [experience, setExperience] = React.useState("");
   const [website, setWebsite] = React.useState("");
-  const [fee, setFee] = React.useState("");
+  const [fee, setFee] = React.useState([]);
   const [couchingMd, setCouchingMd] = React.useState([]);
   const [skills, setSkills] = React.useState([]);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [volunteer, setVolunteer] = React.useState("");
 
   const [termsAgr, setTermsAgr] = React.useState(false);
 
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
+  const handleSelectVolunteerClick = (e) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+    if (checked) {
+      setVolunteer(value);
+    } else {
+      setVolunteer("");
+    }
+  };
+  // ---- Handle Couching Medium -------
+  let couchingMedium = ["Presence", "Video", "Audio"];
+  const handleCouchingMediumClick = (button) => {
+    if (selectedCouchingMedium.includes(button)) {
+      setSelectedCouchingMedium(
+        selectedCouchingMedium.filter((item) => item !== button)
+      );
+    } else {
+      setSelectedCouchingMedium([...selectedCouchingMedium, button]);
+    }
+  };
+
+  // ---- Handle Skills  -------
   const [availableSkills, setAvailableSkills] = React.useState(
     [
       "React.js",
@@ -74,38 +95,17 @@ export default function SignUpMentorPage() {
       "Django",
     ].sort()
   );
-  // ---- Handle Skills  -------
-  // let availableSkills = [
-  //   "React.js",
-  //   "Java",
-  //   "Material UI",
-  //   "Bootstrap",
-  //   "Python",
-  //   "JavaScript",
-  //   "C#",
-  //   "PHP",
-  //   "C/C++",
-  //   "R",
-  //   "TypeScript",
-  //   "Swift",
-  //   "Objective-C",
-  //   "jQuary",
-  //   "Express",
-  //   "Angular",
-  //   "Vue.js",
-  //   "ASP.NET Core",
-  //   "Flask",
-  //   "ASP.NET",
-  //   "Django",
-  // ].sort();
 
   const handleSkillsClick = (button) => {
+    if (button === "") {
+      return null;
+    }
     if (selectedSkills.includes(button)) {
       setSelectedSkills(selectedSkills.filter((item) => item !== button));
       setTypedSkill("");
     } else {
       setSelectedSkills([...selectedSkills, button]);
-      // if the new skill not available in skills button group, it will be added
+      // if the new skills are not available in skills button group, they will be added/ showing
       if (!availableSkills.includes(button)) {
         setAvailableSkills([...availableSkills, button]);
       }
@@ -113,22 +113,9 @@ export default function SignUpMentorPage() {
     }
   };
   const handleSkillsEnter = (e) => {
-    console.log("e: ", e);
     e.preventDefault();
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
-    }
-  };
-
-  // ---- Handle Couching Medium -------
-  let couchingMedium = ["Presence", "Video", "Audio"];
-  const handleCouchingMediumClick = (button) => {
-    if (selectedCouchingMedium.includes(button)) {
-      setSelectedCouchingMedium(
-        selectedCouchingMedium.filter((item) => item !== button)
-      );
-    } else {
-      setSelectedCouchingMedium([...selectedCouchingMedium, button]);
     }
   };
 
@@ -171,15 +158,15 @@ export default function SignUpMentorPage() {
     }
     /* ---- Password Check ---- ends*/
 
-    console.log("pw1: ", pw1);
+    // console.log("pw1: ", pw1);
   };
 
-  console.log("selectedSkills: ", selectedSkills);
-  console.log("typedSkill: ", typedSkill);
-  console.log("selectedCouchingMedium: ", selectedCouchingMedium);
-  console.log("isEmailValid: ", isEmailValid);
-  console.log("isPwValid: ", isPwValid);
-
+  // console.log("selectedSkills: ", selectedSkills);
+  // console.log("typedSkill: ", typedSkill);
+  // console.log("selectedCouchingMedium: ", selectedCouchingMedium);
+  // console.log("isEmailValid: ", isEmailValid);
+  // console.log("isPwValid: ", isPwValid);
+  // console.log('volunteer', volunteer)
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -295,18 +282,20 @@ export default function SignUpMentorPage() {
                 style={{ width: "5rem" }}
                 size="small"
                 required
-                // fullWidth
                 type="number"
                 id="fee"
                 label="Fee"
+                disabled={volunteer !== ""}
                 name="fee"
                 autoComplete="off"
               />
               <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
               <span style={{ padding: "0 1rem " }}>or</span>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox />}
                 label="Volunteer"
+                value="Volunteer"
+                onClick={(e) => handleSelectVolunteerClick(e)}
               />
             </Grid>
 
@@ -333,7 +322,7 @@ export default function SignUpMentorPage() {
                       <Button
                         key={i}
                         size="small"
-                        id={i}
+                        id={`chouching` + i}
                         className={
                           selectedCouchingMedium.includes(button)
                             ? "checkBtnClicked"
@@ -390,9 +379,16 @@ export default function SignUpMentorPage() {
                   })}
                 </div>
                 <p style={{ margin: "5px" }}>or type it here:</p>
-                <div className="type-skills-input-con">
+                <div
+                  className="type-skills-input-con"
+                  style={{ width: "100%" }}
+                >
                   <TextField
-                    style={{ margin: "0 0 5px 10px" }}
+                    style={{
+                      margin: "0 auto 5px auto",
+                      width: "95%",
+                      display: "flex",
+                    }}
                     size="small"
                     // fullWidth
                     id="skills"
@@ -401,14 +397,21 @@ export default function SignUpMentorPage() {
                     value={typedSkill}
                     onKeyUp={handleSkillsEnter}
                     onChange={(e) => setTypedSkill(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Button
+                            variant="contained"
+                            color="warning"
+                            onClick={() => handleSkillsClick(typedSkill)}
+                          >
+                            Add
+                          </Button>
+                        </InputAdornment>
+                      ),
+                    }}
+                    autoComplete="off"
                   />
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    onClick={() => handleSkillsClick(typedSkill)}
-                  >
-                    Add
-                  </Button>
                 </div>
               </div>
             </Grid>

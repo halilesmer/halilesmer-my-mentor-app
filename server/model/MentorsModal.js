@@ -13,7 +13,7 @@ const mentorSchema = new Schema({
   experience: Number,
   website: String,
   couching_medium: { type: Array, required: true },
-  fee: { type: Number, required: true },
+  fee: { type: String, required: true },
   skills: { type: Array, required: true },
   likes: {type: Number, required: true},
 });
