@@ -2,13 +2,20 @@ import "./SignUpMentorPage.css";
 
 import * as React from "react";
 
-import { IconButton, InputAdornment, Tooltip } from "@mui/material";
+import {
+  Autocomplete,
+  IconButton,
+  InputAdornment,
+  Tooltip,
+} from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { AppContext } from "../contexts/appContext";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -18,8 +25,11 @@ import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import languages from "../languages.js";
 
 const theme = createTheme();
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function SignUpMentorPage() {
   const [selectedSkills, setSelectedSkills] = React.useState([]);
@@ -35,6 +45,20 @@ export default function SignUpMentorPage() {
   const [birthday, setBirthday] = React.useState(Number);
   const [gender, setGender] = React.useState([]);
   const [language, setLanguage] = React.useState([]);
+
+  const handleLanguageOnChange = (e, value) => {
+    setLanguage(value.filter((item) => Object.values(item)));
+    // setLanguage(Object.values(value));
+    // setLanguage(value.map((obj)=> obj.name));
+    // value.map((obj) => setLanguage(obj.name));
+
+    // setLanguage(
+    //   value.map(({ title }) => {
+    //     return title;
+    //   })
+    // );
+  };
+
   const [experience, setExperience] = React.useState("");
   const [website, setWebsite] = React.useState("");
   const [couchingMd, setCouchingMd] = React.useState([]);
@@ -42,7 +66,7 @@ export default function SignUpMentorPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [volunteer, setVolunteer] = React.useState("");
-  const [fee, setFee] = React.useState('');
+  const [fee, setFee] = React.useState("");
   const [fieldsInput, setFieldsInput] = React.useState({
     firstName: "",
     lastName: "",
@@ -62,9 +86,9 @@ export default function SignUpMentorPage() {
     // setVolunteer(value);
     if (checked) {
       setVolunteer(value);
-      setFee('')
+      setFee("");
     } else {
-      setVolunteer('');
+      setVolunteer("");
     }
   };
   // ---- Handle Couching Medium -------
@@ -145,12 +169,24 @@ export default function SignUpMentorPage() {
     const last_name = data.get("lastName").trim();
     const birthday = data.get("birthday").trim();
     const gender = data.get("gender").trim();
-    const language = data.get("language").trim();
+    // const language = data.get("language").trim();
     const experience = data.get("experience").trim();
     const website = data.get("mentor-website").trim();
-    // const fee = data.get("fee").trim();
-    // const volunteer = data.get("volunteer").trim();
-    console.log("inputValues: ", first_name,last_name,birthday,gender,language,experience,website, (fee !== '' ? fee : volunteer));
+    const selectedLanguage = language.map((obj) => obj.title);
+
+    console.log(
+      "inputValues: ",
+      first_name,
+      last_name,
+      birthday,
+      gender,
+      language,
+      experience,
+      website,
+      fee !== "" ? fee : volunteer,
+      language,
+      selectedLanguage
+    );
 
     const email = data.get("email").trim();
     const pw1 = data.get("password-1").trim();
@@ -193,9 +229,9 @@ export default function SignUpMentorPage() {
   // console.log("selectedCouchingMedium: ", selectedCouchingMedium);
   // console.log("isEmailValid: ", isEmailValid);
   // console.log("isPwValid: ", isPwValid);
-  console.log('volunteer', volunteer)
-  console.log("fee: ", fee);
-
+  // console.log('volunteer', volunteer)
+  // console.log("fee: ", fee);
+  console.log("language", language);
 
   return (
     <ThemeProvider theme={theme}>
@@ -278,15 +314,35 @@ export default function SignUpMentorPage() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="text"
-                required
-                fullWidth
-                id="language"
-                label="Language"
+              <Autocomplete
+                value={language}
+                // onInputChange={(e) => setLanguage(e.target.value)}
+                onChange={handleLanguageOnChange}
+                multiple
+                id="language-input"
+                options={languages}
                 name="language"
-                autoComplete="language"
+                disableCloseOnSelect
+                getOptionLabel={(option) => option.title}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option.title}
+                  </li>
+                )}
+                style={{ width: 500 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Language"
+                    placeholder="Language"
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
@@ -329,7 +385,7 @@ export default function SignUpMentorPage() {
                 name="fee"
                 autoComplete="off"
                 // value={fee}
-                value={volunteer !== '' ? volunteer : fee}
+                value={volunteer !== "" ? volunteer : fee}
                 onChange={(e) => setFee(e.target.value)}
               />
               <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
