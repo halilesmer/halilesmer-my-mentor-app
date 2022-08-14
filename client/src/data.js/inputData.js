@@ -227,7 +227,7 @@ const languages = [
     title: "Hebrew",
     nativeTitle: "עברית",
   },
- 
+
   {
     title: "Herero",
     nativeTitle: "Otjiherero",
@@ -473,7 +473,8 @@ const languages = [
     nativeTitle: "ᐊᓂᔑᓈᐯᒧᐎᓐ",
   },
   {
-    title: "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
+    title:
+      "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
     nativeTitle: "ѩзыкъ словѣньскъ",
   },
   {
@@ -729,4 +730,28 @@ const languages = [
     nativeTitle: "Saɯ cueŋƅ, Saw cuengh",
   },
 ];
-export default languages;
+
+const predefinedSkills = [
+  "React.js",
+  "Java",
+  "Material UI",
+  "Bootstrap",
+  "Python",
+  "JavaScript",
+  "C#",
+  "PHP",
+  "C/C++",
+  "R",
+  "TypeScript",
+  "Swift",
+  "Objective-C",
+  "jQuary",
+  "Express",
+  "Angular",
+  "Vue.js",
+  "ASP.NET Core",
+  "Flask",
+  "ASP.NET",
+  "Django",
+].sort();
+export { languages, predefinedSkills};

@@ -44,7 +44,7 @@ const Main = () => {
             element={<RegisterMenteePage />}
           />
 
-          <Route path="login/" element={<LoginPage />} />
+          <Route path="/login-page" element={<LoginPage />} />
           <Route path="profile/" element={<ProfilePage />} />
           <Route
             path="*"

@@ -4,11 +4,16 @@ import * as React from "react";
 
 import {
   Autocomplete,
+  FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
   Tooltip,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { languages, predefinedSkills } from "../data.js/inputData.js";
 
 import { AppContext } from "../contexts/appContext";
 import Avatar from "@mui/material/Avatar";
@@ -21,11 +26,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import InfoIcon from "@mui/icons-material/Info";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import languages from "../languages.js";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -45,7 +49,31 @@ export default function SignUpMentorPage() {
   const [birthday, setBirthday] = React.useState(Number);
   const [gender, setGender] = React.useState([]);
   const [language, setLanguage] = React.useState([]);
+  const [experience, setExperience] = React.useState("");
+  const [website, setWebsite] = React.useState("");
+  const [couchingMd, setCouchingMd] = React.useState([]);
+  const [skills, setSkills] = React.useState([]);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [volunteer, setVolunteer] = React.useState("");
+  const [fee, setFee] = React.useState("");
 
+  const [fieldsInput, setFieldsInput] = React.useState({
+    firstName: "",
+    lastName: "",
+  });
+
+  const [termsAgr, setTermsAgr] = React.useState(false);
+
+  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
+
+  // -------- Handle Gender  -------
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+  console.log("gender: ", gender);
+
+  // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
     setLanguage(value.filter((item) => Object.values(item)));
     // setLanguage(Object.values(value));
@@ -59,27 +87,7 @@ export default function SignUpMentorPage() {
     // );
   };
 
-  const [experience, setExperience] = React.useState("");
-  const [website, setWebsite] = React.useState("");
-  const [couchingMd, setCouchingMd] = React.useState([]);
-  const [skills, setSkills] = React.useState([]);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [volunteer, setVolunteer] = React.useState("");
-  const [fee, setFee] = React.useState("");
-  const [fieldsInput, setFieldsInput] = React.useState({
-    firstName: "",
-    lastName: "",
-  });
-  const { firstName, lastName } = fieldsInput;
-
-  const [termsAgr, setTermsAgr] = React.useState(false);
-
-  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
-
-  // const handleInputChange=(e)=>{
-  //   setFieldsInput({...fieldsInput, [e.target.name]: e.target.value})
-  // }
+  // -------- Handle Volunteer  -------
   const handleSelectVolunteerClick = (e) => {
     const checked = e.target.checked;
     const value = e.target.value;
@@ -104,31 +112,7 @@ export default function SignUpMentorPage() {
   };
 
   // ---- Handle Skills  -------
-  const [availableSkills, setAvailableSkills] = React.useState(
-    [
-      "React.js",
-      "Java",
-      "Material UI",
-      "Bootstrap",
-      "Python",
-      "JavaScript",
-      "C#",
-      "PHP",
-      "C/C++",
-      "R",
-      "TypeScript",
-      "Swift",
-      "Objective-C",
-      "jQuary",
-      "Express",
-      "Angular",
-      "Vue.js",
-      "ASP.NET Core",
-      "Flask",
-      "ASP.NET",
-      "Django",
-    ].sort()
-  );
+  const [availableSkills, setAvailableSkills] = React.useState(predefinedSkills  );
 
   const handleSkillsClick = (button) => {
     if (button === "") {
@@ -168,12 +152,14 @@ export default function SignUpMentorPage() {
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
     const birthday = data.get("birthday").trim();
-    const gender = data.get("gender").trim();
+    // const gender = data.get("gender").trim();
     // const language = data.get("language").trim();
     const experience = data.get("experience").trim();
     const website = data.get("mentor-website").trim();
     const selectedLanguage = language.map((obj) => obj.title);
-
+    const email = data.get("email").trim();
+    const pw1 = data.get("password-1").trim();
+    const pw2 = data.get("password-2").trim();
     console.log(
       "inputValues: ",
       first_name,
@@ -187,10 +173,6 @@ export default function SignUpMentorPage() {
       language,
       selectedLanguage
     );
-
-    const email = data.get("email").trim();
-    const pw1 = data.get("password-1").trim();
-    const pw2 = data.get("password-2").trim();
 
     setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
@@ -224,6 +206,12 @@ export default function SignUpMentorPage() {
     // console.log("pw1: ", pw1);
   };
 
+  //  ------- Handle Terms --------
+  const handleTermsChange = (e) => {
+    const checked = e.target.checked;
+    checked ? setTermsAgr(true) : setTermsAgr(false);
+
+  };
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
   // console.log("selectedCouchingMedium: ", selectedCouchingMedium);
@@ -231,7 +219,8 @@ export default function SignUpMentorPage() {
   // console.log("isPwValid: ", isPwValid);
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
-  console.log("language", language);
+  // console.log("language", language);
+  console.log("termsAgr: ", termsAgr);
 
   return (
     <ThemeProvider theme={theme}>
@@ -302,21 +291,27 @@ export default function SignUpMentorPage() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="text"
-                required
-                fullWidth
-                id="gender"
-                label="Gender"
-                name="gender"
-                autoComplete="gender"
-              />
+              <FormControl sx={{ minWidth: 120 }} size="small">
+                <InputLabel id="gender">Gender</InputLabel>
+                <Select
+                  labelId="gender"
+                  id="gender"
+                  value={gender}
+                  label="Gender"
+                  onChange={handleGenderChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <Autocomplete
-                value={language}
-                // onInputChange={(e) => setLanguage(e.target.value)}
+                size="small"
                 onChange={handleLanguageOnChange}
                 multiple
                 id="language-input"
@@ -460,7 +455,7 @@ export default function SignUpMentorPage() {
                   {availableSkills.map((button, i) => {
                     return (
                       <Button
-                        key={i}
+                        key={`couching`+i}
                         size="small"
                         id={i}
                         className={
@@ -562,6 +557,7 @@ export default function SignUpMentorPage() {
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I agree to the terms and conditions."
+                onClick={(e) => handleTermsChange(e)}
               />
             </Grid>
           </Grid>
@@ -575,8 +571,10 @@ export default function SignUpMentorPage() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="login-page" variant="body2">
-                Already have an account? Sign in
+              <Link to="/login-page">
+                <Typography variant="body2">
+                  Already have an account? Sign in
+                </Typography>
               </Link>
             </Grid>
           </Grid>
