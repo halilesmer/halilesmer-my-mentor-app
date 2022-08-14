@@ -30,31 +30,41 @@ export default function SignUpMentorPage() {
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
   const [isPwValid, setIsPwValid] = React.useState(Boolean);
 
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+  // const [firstName, setFirstName] = React.useState("");
+  // const [lastName, setLastName] = React.useState("");
   const [birthday, setBirthday] = React.useState(Number);
   const [gender, setGender] = React.useState([]);
   const [language, setLanguage] = React.useState([]);
   const [experience, setExperience] = React.useState("");
   const [website, setWebsite] = React.useState("");
-  const [fee, setFee] = React.useState([]);
   const [couchingMd, setCouchingMd] = React.useState([]);
   const [skills, setSkills] = React.useState([]);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [volunteer, setVolunteer] = React.useState("");
+  const [fee, setFee] = React.useState('');
+  const [fieldsInput, setFieldsInput] = React.useState({
+    firstName: "",
+    lastName: "",
+  });
+  const { firstName, lastName } = fieldsInput;
 
   const [termsAgr, setTermsAgr] = React.useState(false);
 
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
+  // const handleInputChange=(e)=>{
+  //   setFieldsInput({...fieldsInput, [e.target.name]: e.target.value})
+  // }
   const handleSelectVolunteerClick = (e) => {
     const checked = e.target.checked;
     const value = e.target.value;
+    // setVolunteer(value);
     if (checked) {
       setVolunteer(value);
+      setFee('')
     } else {
-      setVolunteer("");
+      setVolunteer('');
     }
   };
   // ---- Handle Couching Medium -------
@@ -114,23 +124,40 @@ export default function SignUpMentorPage() {
   };
   const handleSkillsEnter = (e) => {
     e.preventDefault();
+
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
     }
   };
 
   // ---- Send Form Handle ------
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
+
     // console.log({
     //   email: data.get("email"),
     //   password: data.get("password-1"),
     //   password2: data.get("password-2"),
     // });
+    const first_name = data.get("firstName").trim();
+    const last_name = data.get("lastName").trim();
+    const birthday = data.get("birthday").trim();
+    const gender = data.get("gender").trim();
+    const language = data.get("language").trim();
+    const experience = data.get("experience").trim();
+    const website = data.get("mentor-website").trim();
+    // const fee = data.get("fee").trim();
+    // const volunteer = data.get("volunteer").trim();
+    console.log("inputValues: ", first_name,last_name,birthday,gender,language,experience,website, (fee !== '' ? fee : volunteer));
+
     const email = data.get("email").trim();
     const pw1 = data.get("password-1").trim();
     const pw2 = data.get("password-2").trim();
+
+    setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
+
     /* ---- Email Check ---- starts*/
     let re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -166,7 +193,10 @@ export default function SignUpMentorPage() {
   // console.log("selectedCouchingMedium: ", selectedCouchingMedium);
   // console.log("isEmailValid: ", isEmailValid);
   // console.log("isPwValid: ", isPwValid);
-  // console.log('volunteer', volunteer)
+  console.log('volunteer', volunteer)
+  console.log("fee: ", fee);
+
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -199,6 +229,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
+                type="text"
                 autoComplete="given-name"
                 name="firstName"
                 required
@@ -206,11 +237,14 @@ export default function SignUpMentorPage() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                // value={firstName}
+                // onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
+                type="text"
                 required
                 fullWidth
                 id="lastName"
@@ -222,6 +256,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12}>
               <TextField
                 size="small"
+                type="date"
                 required
                 fullWidth
                 id="birthday"
@@ -233,6 +268,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12}>
               <TextField
                 size="small"
+                type="text"
                 required
                 fullWidth
                 id="gender"
@@ -244,6 +280,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12}>
               <TextField
                 size="small"
+                type="text"
                 required
                 fullWidth
                 id="language"
@@ -255,6 +292,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12}>
               <TextField
                 size="small"
+                type="number"
                 fullWidth
                 id="experience"
                 label="Experience"
@@ -265,6 +303,7 @@ export default function SignUpMentorPage() {
             <Grid item xs={12}>
               <TextField
                 size="small"
+                type="text"
                 fullWidth
                 id="mentor-website"
                 label="Website"
@@ -282,12 +321,16 @@ export default function SignUpMentorPage() {
                 style={{ width: "5rem" }}
                 size="small"
                 required
-                type="number"
+                type=""
+                placeholder=""
                 id="fee"
                 label="Fee"
                 disabled={volunteer !== ""}
                 name="fee"
                 autoComplete="off"
+                // value={fee}
+                value={volunteer !== '' ? volunteer : fee}
+                onChange={(e) => setFee(e.target.value)}
               />
               <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
               <span style={{ padding: "0 1rem " }}>or</span>
@@ -421,6 +464,7 @@ export default function SignUpMentorPage() {
                 // color="error"
                 error={!isEmailValid}
                 size="small"
+                type="email"
                 required
                 fullWidth
                 id="email"
