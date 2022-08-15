@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { AppContext } from '../contexts/appContext'
 import useFetch from "../custom_hooks/useFetch.js";
 
 const Mentors = () => {
@@ -8,12 +7,12 @@ const Mentors = () => {
 
   // const {mentorsData} = useContext(AppContext);
   console.log("mentorsData: ", mentorsData && mentorsData);
-  const { get } = useFetch("http://localhost:5001/");
+  const { get } = useFetch("http://localhost:5072");
 
   useEffect(() => {
     let didCancel = false;
    if(!didCancel){
-     get("mentors/")
+      get("/api/users/mentors")
        .then((data) => {
          console.log(data);
          setMentorsData(data);

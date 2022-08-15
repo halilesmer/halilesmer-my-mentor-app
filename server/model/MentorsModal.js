@@ -6,18 +6,18 @@ const mentorSchema = new Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   birthday: { type: Date, required: true },
-  email: { type: String, required: true },
-  pw: { type: String, required: true },
-  gender: { type: Array, required: true },
+  gender: { type: String, required: true },
   language: { type: Array, required: true },
   experience: Number,
   website: String,
-  couching_medium: { type: Array, required: true },
   fee: { type: String, required: true },
+  couching_medium: { type: Array, required: true },
   skills: { type: Array, required: true },
-  likes: {type: Number, required: true},
+  email: { type: String, required: true },
+  pw: { type: String, required: true },
+  likes: { type: Number, required: true },
+  photo: {type: String, required: false},
 });
 
-
-const Mentor = mongoose.model('Mentor', mentorSchema);
+const Mentor = mongoose.model("Mentor", mentorSchema);
 export default Mentor;

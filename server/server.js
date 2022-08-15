@@ -5,13 +5,15 @@ import express from "express";
 import mentorsRoute from "./routes/mentorsRoute.js";
 import mongoose from "mongoose";
 
-dotenv.config();
 const app = express();
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5071;
+dotenv.config();
 
-const addMiddelWare = () => {
+
+
+const addMiddelWare = () => { 
   app.use(express.json());
-  app.use(
+  app.use( 
     express.urlencoded({
       extended: true,
     })
@@ -35,7 +37,8 @@ const mongoDbConnection =  () => {
 // mongoDbConnection();
 
 const loadRoutes = () => {
-  app.use("/mentors", mentorsRoute);
+  // app.use("/api/users", mentorsRoute);
+  app.use("/api/users", mentorsRoute);
 };
 
 (function controller(){

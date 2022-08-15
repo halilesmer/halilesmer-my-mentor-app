@@ -47,7 +47,7 @@ export default function SignUpMentorPage() {
   // const [firstName, setFirstName] = React.useState("");
   // const [lastName, setLastName] = React.useState("");
   const [birthday, setBirthday] = React.useState(Number);
-  const [gender, setGender] = React.useState([]);
+  const [gender, setGender] = React.useState('');
   const [language, setLanguage] = React.useState([]);
   const [experience, setExperience] = React.useState("");
   const [website, setWebsite] = React.useState("");
