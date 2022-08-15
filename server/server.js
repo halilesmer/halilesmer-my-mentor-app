@@ -4,9 +4,10 @@ import cors from "cors";
 import express from "express";
 import mentorsRoute from "./routes/mentorsRoute.js";
 import mongoose from "mongoose";
+const port = process.env.PORT || 5071;
+
 
 const app = express();
-const port = process.env.PORT || 5071;
 dotenv.config();
 
 
