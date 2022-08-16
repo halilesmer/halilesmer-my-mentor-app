@@ -20,3 +20,19 @@
     padding: 4px 5px !important;
     line-height: unset !important;
 }
+
+.avatar-picture-con {
+    width: 150px;
+    height: 150px;
+    border: solid 1px #56568a;
+    margin: auto;
+    text-align: center;
+}
+
+.avatar-picture-con img {
+    z-index: 5;
+}
+
+.avatar-picture-con span {
+    line-height: 50px;
+}

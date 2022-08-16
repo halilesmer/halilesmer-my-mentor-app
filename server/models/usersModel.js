@@ -16,7 +16,7 @@ const mentorSchema = new Schema({
   email: { type: String, required: true },
   pw: { type: String, required: true },
   likes: { type: Number, required: true },
-  photo: { type: String, required: false },
+  avatarPicture: { type: String, required: false },
   registerDate: {type: Date, required: false, default: Date.now},
 });
 

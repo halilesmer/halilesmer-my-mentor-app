@@ -24,6 +24,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormData from "form-data";
 import Grid from "@mui/material/Grid";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
@@ -36,37 +37,30 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function SignUpMentorPage() {
+  // const [firstName, setFirstName] = React.useState("");
+  // const [lastName, setLastName] = React.useState("");
+  // const [birthday, setBirthday] = React.useState(Number);
+  // const [experience, setExperience] = React.useState("");
+  // const [website, setWebsite] = React.useState("");
+  // const [skills, setSkills] = React.useState([]);
   const [selectedSkills, setSelectedSkills] = React.useState([]);
-  const [selectedCouchingMedium, setSelectedCouchingMedium] = React.useState(
-    []
-  );
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
   const [isPwValid, setIsPwValid] = React.useState(Boolean);
 
-  // const [firstName, setFirstName] = React.useState("");
-  // const [lastName, setLastName] = React.useState("");
-  const [birthday, setBirthday] = React.useState(Number);
-  const [gender, setGender] = React.useState('');
+  const [gender, setGender] = React.useState("");
   const [language, setLanguage] = React.useState([]);
-  const [experience, setExperience] = React.useState("");
-  const [website, setWebsite] = React.useState("");
-  const [couchingMd, setCouchingMd] = React.useState([]);
-  const [skills, setSkills] = React.useState([]);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [couchingMedium, setCouchingMedium] = React.useState([]);
+
+  // const [email, setEmail] = React.useState("");
   const [volunteer, setVolunteer] = React.useState("");
   const [fee, setFee] = React.useState("");
+  const [availableSkills, setAvailableSkills] =
+    React.useState(predefinedSkills);
+  const [password, setPassword] = React.useState("");
+  const [selectedImage, setSelectedImage] = React.useState(null);
 
   const [newUser, setNewUser] = React.useState({});
-
-// const handleInput =(e)=>{
-//   setNewUser({...newUser, [e.target.name]: e.target.value})
-// }
-  // const [fieldsInput, setFieldsInput] = React.useState({
-  //   firstName: "",
-  //   lastName: "",
-  // });
 
   const [termsAgr, setTermsAgr] = React.useState(false);
 
@@ -105,19 +99,16 @@ export default function SignUpMentorPage() {
     }
   };
   // ---- Handle Couching Medium -------
-  let couchingMedium = ["Presence", "Video", "Audio"];
+  let couchMd = ["Presence", "Video", "Audio"];
   const handleCouchingMediumClick = (button) => {
-    if (selectedCouchingMedium.includes(button)) {
-      setSelectedCouchingMedium(
-        selectedCouchingMedium.filter((item) => item !== button)
-      );
+    if (couchingMedium.includes(button)) {
+      setCouchingMedium(couchingMedium.filter((item) => item !== button));
     } else {
-      setSelectedCouchingMedium([...selectedCouchingMedium, button]);
+      setCouchingMedium([...couchingMedium, button]);
     }
   };
 
   // ---- Handle Skills  -------
-  const [availableSkills, setAvailableSkills] = React.useState(predefinedSkills  );
 
   const handleSkillsClick = (button) => {
     if (button === "") {
@@ -143,41 +134,54 @@ export default function SignUpMentorPage() {
     }
   };
 
+  //  ------- Handle Terms --------
+  const handleTermsChange = (e) => {
+    const checked = e.target.checked;
+    checked ? setTermsAgr(true) : setTermsAgr(false);
+  };
+
   // ---- Send Form Handle ------
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
 
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password-1"),
-    //   password2: data.get("password-2"),
-    // });
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
-    const birthday = data.get("birthday").trim();
-    // const gender = data.get("gender").trim();
-    // const language = data.get("language").trim();
+
     const experience = data.get("experience").trim();
     const website = data.get("mentor-website").trim();
-    const selectedLanguage = language.map((obj) => obj.title);
     const email = data.get("email").trim();
     const pw1 = data.get("password-1").trim();
     const pw2 = data.get("password-2").trim();
-    console.log(
-      "inputValues: ",
-      first_name,
-      last_name,
-      birthday,
-      gender,
-      language,
-      experience,
-      website,
-      fee !== "" ? fee : volunteer,
-      language,
-      selectedLanguage
-    );
+    setNewUser({
+      ...newUser,
+      firstname: first_name,
+      lastname: last_name,
+      birthday: data.get("birthday").trim(),
+      gender: gender,
+      language: language.map((obj) => obj.title),
+      experience: experience,
+      website: website,
+      fee: fee ? fee : volunteer,
+      couching_medium: couchingMedium,
+      email: email,
+      skills: selectedSkills,
+      pw1: pw1,
+    });
+    // console.log(
+    //   "inputValues: ",
+    //   first_name,
+    //   last_name,
+    //   birthday,
+    //   gender,
+    //   language,
+    //   experience,
+    //   website,
+    //   fee !== "" ? fee : volunteer,
+    //   language,
+    //   selectedLanguage
+    // );
 
     // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
@@ -208,25 +212,41 @@ export default function SignUpMentorPage() {
     }
     /* ---- Password Check ---- ends*/
 
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
+
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/users/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result: ", result);
+
+      setNewUser({ ...newUser, avatarPicture: result.imageUrl });
+    } catch (error) {
+      console.log("error: ", error);
+    }
     // console.log("pw1: ", pw1);
   };
 
-  //  ------- Handle Terms --------
-  const handleTermsChange = (e) => {
-    const checked = e.target.checked;
-    checked ? setTermsAgr(true) : setTermsAgr(false);
-
-  };
+  // console.log("selectedSkills: ", selectedSkills);
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
-  // console.log("selectedCouchingMedium: ", selectedCouchingMedium);
+  // console.log("couchingMedium: ", couchingMedium);
   // console.log("isEmailValid: ", isEmailValid);
   // console.log("isPwValid: ", isPwValid);
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
   // console.log("language", language);
-  console.log("termsAgr: ", termsAgr);
-
+  console.log("selectedFile :>> ", selectedImage);
+  console.log("newUser", newUser);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -256,6 +276,12 @@ export default function SignUpMentorPage() {
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
+            <div className="avatar-picture-con">
+              {newUser.avatarPicture && (
+                <img src={newUser.avatarPicture} alt="avatar" width="300" />
+              )}
+              <span>Please chouse a profile image (optional)</span>
+            </div>
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
@@ -416,14 +442,14 @@ export default function SignUpMentorPage() {
                     margin: "4px auto 4px auto",
                   }}
                 >
-                  {couchingMedium.map((button, i) => {
+                  {couchMd.map((button, i) => {
                     return (
                       <Button
                         key={i}
                         size="small"
                         id={`chouching` + i}
                         className={
-                          selectedCouchingMedium.includes(button)
+                          couchingMedium.includes(button)
                             ? "checkBtnClicked"
                             : "checkBtnUnclicked"
                         }
@@ -460,7 +486,7 @@ export default function SignUpMentorPage() {
                   {availableSkills.map((button, i) => {
                     return (
                       <Button
-                        key={`couching`+i}
+                        key={`couching` + i}
                         size="small"
                         id={i}
                         className={
