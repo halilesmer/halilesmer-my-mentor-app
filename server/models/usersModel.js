@@ -17,7 +17,8 @@ const mentorSchema = new Schema({
   pw: { type: String, required: true },
   likes: { type: Number, required: true },
   photo: { type: String, required: false },
+  registerDate: {type: Date, required: false, default: Date.now},
 });
 
-const Mentor = mongoose.model("Mentor", mentorSchema);
-export default Mentor;
+const UserModel = mongoose.model("user", mentorSchema);
+export default UserModel;

@@ -1,25 +1,26 @@
 import * as dotenv from "dotenv";
 
+import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import cors from "cors";
 import express from "express";
-import mentorsRoute from "./routes/mentorsRoute.js";
+// import mentorsRoute from "./routes/mentorsRoute.js";
 import mongoose from "mongoose";
-const port = process.env.PORT || 5071;
+import usersRoute from "./routes/usersRoute.js";
 
+const port = process.env.PORT || 5001;
 
 const app = express();
 dotenv.config();
 
-
-
-const addMiddelWare = () => { 
+const addMiddelWare = () => {
   app.use(express.json());
-  app.use( 
+  app.use(
     express.urlencoded({
       extended: true,
     })
   );
   app.use(cors());
+  cloudinaryConfig();
 };
 
 const startServer = () => {
@@ -29,22 +30,25 @@ const startServer = () => {
 };
 
 // ---------- connect to mongo db ----------
-const mongoDbConnection =  () => {
-  mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => console.log("Connection to mongo db established!"))
-    .catch((error) => console.log("error", error));
+const mongoDbConnection = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB is connected on port ${port} `);
+  } catch (error) {
+    console.log("Error connecting to MongoDB", error);
+  }
 };
 // mongoDbConnection();
 
 const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
-  app.use("/api/users", mentorsRoute);
+  // app.use("/api/users", mentorsRoute);
+  app.use("/api/users", usersRoute);
 };
 
-(function controller(){
-    addMiddelWare();
-    startServer();
-    mongoDbConnection();
-    loadRoutes();
-})()
+(function controller() {
+  addMiddelWare();
+  startServer();
+  mongoDbConnection();
+  loadRoutes();
+})();

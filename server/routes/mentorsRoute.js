@@ -1,7 +1,10 @@
-import express from "express";
-import { mentorsController } from "../controller/mentorsController.js";
-const router = express.Router();
+// import express from "express";
+// import { mentorsController } from "../controllers/mentorsController.js";
+// const mentorsRoute = express.Router();
+// const router = express.Router();
 
-router.get("/mentors", mentorsController);
+// mentorsRoute.get("/mentors", mentorsController);
 
-export default router;
+// router.get("/mentors", mentorsController);
+
+// export { mentorsRoute };

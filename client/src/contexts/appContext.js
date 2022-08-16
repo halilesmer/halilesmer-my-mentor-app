@@ -20,14 +20,9 @@ const AppProvider = (props) => {
 
   //   return () => (didCancel = true);
   // }, []);
-const handlePwInputFocus = () => setFocused(true);
-const onBlur = () => setFocused(false);
+  const handlePwInputFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
 
-
-  const value = {
-    url,
-    // mentorsData,
-  };
   // console.log("mentorsData: ", mentorsData);
   return (
     <AppContext.Provider value={{ url, onBlur, handlePwInputFocus, focused }}>

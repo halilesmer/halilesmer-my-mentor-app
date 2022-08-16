@@ -60,9 +60,9 @@ export default function SignUpMentorPage() {
 
   const [newUser, setNewUser] = React.useState({});
 
-const handleInput =(e)=>{
-  setNewUser({...newUser, [e.target.name]: e.target.value})
-}
+// const handleInput =(e)=>{
+//   setNewUser({...newUser, [e.target.name]: e.target.value})
+// }
   // const [fieldsInput, setFieldsInput] = React.useState({
   //   firstName: "",
   //   lastName: "",
@@ -179,7 +179,7 @@ const handleInput =(e)=>{
       selectedLanguage
     );
 
-    setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
+    // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
     /* ---- Email Check ---- starts*/
     let re =

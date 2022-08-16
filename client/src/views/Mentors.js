@@ -7,7 +7,7 @@ const Mentors = () => {
 
   // const {mentorsData} = useContext(AppContext);
   console.log("mentorsData: ", mentorsData && mentorsData);
-  const { get } = useFetch("http://localhost:5072");
+  const { get } = useFetch("http://localhost:5001");
 
   useEffect(() => {
     let didCancel = false;
