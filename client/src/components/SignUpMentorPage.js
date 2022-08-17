@@ -53,8 +53,8 @@ export default function SignUpMentorPage() {
   const [couchingMedium, setCouchingMedium] = React.useState([]);
 
   // const [email, setEmail] = React.useState("");
+  const [fee, setFee] = React.useState(Number);
   const [volunteer, setVolunteer] = React.useState("");
-  const [fee, setFee] = React.useState("");
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [password, setPassword] = React.useState("");
@@ -70,7 +70,6 @@ export default function SignUpMentorPage() {
   const handleGenderChange = (e) => {
     setGender(e.target.value);
   };
-  console.log("gender: ", gender);
 
   // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
@@ -93,7 +92,7 @@ export default function SignUpMentorPage() {
     // setVolunteer(value);
     if (checked) {
       setVolunteer(value);
-      setFee("");
+      setFee(0);
     } else {
       setVolunteer("");
     }
@@ -108,7 +107,7 @@ export default function SignUpMentorPage() {
     }
   };
 
-  // ---- Handle Skills  -------
+  // ---- Handle Skills  starts -------
 
   const handleSkillsClick = (button) => {
     if (button === "") {
@@ -132,23 +131,57 @@ export default function SignUpMentorPage() {
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
     }
-  };
+  }; // ---- Handle Skills  ends -------
 
   //  ------- Handle Terms --------
   const handleTermsChange = (e) => {
     const checked = e.target.checked;
     checked ? setTermsAgr(true) : setTermsAgr(false);
   };
+  // ----   Handle ------
+  const handleAttachFileOnchange = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
+
+  // ---- Hndle Avatar Picture ---- starts ----
+  const handleSubmitPictureClick = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
+
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/users/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result: ", result);
+
+      setNewUser({
+        ...newUser,
+        avatarPicture: result.imageUrl,
+      });
+      // setNewUser({ ...newUser, avatarPicture: result.imageUrl });
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }; // ---- Avatar Picture ---- ends ---- //
 
   // ---- Send Form Handle ------
-  const handleFormSubmit = async (e) => {
+  const handleSignUpFormSubmit = async (e) => {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
 
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
-
+    const birthday = data.get("birthday").trim();
     const experience = data.get("experience").trim();
     const website = data.get("mentor-website").trim();
     const email = data.get("email").trim();
@@ -163,25 +196,12 @@ export default function SignUpMentorPage() {
       language: language.map((obj) => obj.title),
       experience: experience,
       website: website,
-      fee: fee ? fee : volunteer,
+      fee: fee,
       couching_medium: couchingMedium,
       email: email,
       skills: selectedSkills,
       pw1: pw1,
     });
-    // console.log(
-    //   "inputValues: ",
-    //   first_name,
-    //   last_name,
-    //   birthday,
-    //   gender,
-    //   language,
-    //   experience,
-    //   website,
-    //   fee !== "" ? fee : volunteer,
-    //   language,
-    //   selectedLanguage
-    // );
 
     // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
@@ -211,29 +231,44 @@ export default function SignUpMentorPage() {
       setPassword(pw1);
     }
     /* ---- Password Check ---- ends*/
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("firstname", first_name);
+    urlencoded.append("lastname", last_name);
+    urlencoded.append("birthday", birthday);
+    urlencoded.append("gender", gender);
+    urlencoded.append(
+      "language",
+      language.map((obj) => obj.title)
+    );
+    urlencoded.append("experience", experience);
+    urlencoded.append("fee", fee);
+    urlencoded.append("couching_medium", couchingMedium);
+    urlencoded.append("email", email);
+    urlencoded.append("skills", selectedSkills);
+    urlencoded.append("pw", pw1);
+    urlencoded.append(
+      "avatarPicture",
+      newUser.avatarPicture
+        ? newUser.avatarPicture
+        : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+    );
 
-    const formData = new FormData();
-    formData.append("image", selectedImage);
-    console.log("formData: ", formData);
-
-    const requestOptions = {
-      method: "Post",
-      body: formData,
+    let requestOptions = {
+      method: "POST",
+      body: urlencoded,
     };
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/users/imageupload",
+        "http://localhost:5001/api/users/signUp",
         requestOptions
       );
-      const result = await response.json();
-      console.log("result: ", result);
+      const results = await response.json()
+      console.log("results: ", results);
 
-      setNewUser({ ...newUser, avatarPicture: result.imageUrl });
     } catch (error) {
-      console.log("error: ", error);
+      console.log("error fetching", error);
     }
-    // console.log("pw1: ", pw1);
   };
 
   // console.log("selectedSkills: ", selectedSkills);
@@ -245,8 +280,8 @@ export default function SignUpMentorPage() {
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
   // console.log("language", language);
-  console.log("selectedFile :>> ", selectedImage);
   console.log("newUser", newUser);
+  // console.log("selectedImage :>> ", selectedImage);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -272,16 +307,24 @@ export default function SignUpMentorPage() {
         <Box
           component="form"
           noValidate
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSignUpFormSubmit}
           sx={{ mt: 3 }}
         >
-          <Grid container spacing={2}>
-            <div className="avatar-picture-con">
+          <div className="avatar-picture-con">
+            <div className="avatar-picture-box">
               {newUser.avatarPicture && (
                 <img src={newUser.avatarPicture} alt="avatar" width="300" />
               )}
-              <span>Please chouse a profile image (optional)</span>
+              {!newUser.avatarPicture && (
+                <span>Please chouse a profile image (optional)</span>
+              )}
             </div>
+            <div className="image-events-con">
+              <input type="file" onChange={handleAttachFileOnchange} />
+              <button onClick={handleSubmitPictureClick}>Upload Picture</button>
+            </div>
+          </div>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
@@ -327,6 +370,7 @@ export default function SignUpMentorPage() {
                 <Select
                   labelId="gender"
                   id="gender"
+                  name="gender"
                   value={gender}
                   label="Gender"
                   onChange={handleGenderChange}
@@ -345,7 +389,7 @@ export default function SignUpMentorPage() {
                 size="small"
                 onChange={handleLanguageOnChange}
                 multiple
-                id="language-input"
+                id="language"
                 options={languages}
                 name="language"
                 disableCloseOnSelect
