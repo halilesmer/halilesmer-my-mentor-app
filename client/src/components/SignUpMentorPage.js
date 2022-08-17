@@ -63,7 +63,12 @@ export default function SignUpMentorPage() {
   const [newUser, setNewUser] = React.useState({});
 
   const [termsAgr, setTermsAgr] = React.useState(false);
+  const inputFile = React.useRef();
 
+  // -------- Onbutton Select Picture  -------
+  const onButtonSelectPictureClick = () => {
+    inputFile.current.click();
+  };
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
@@ -263,9 +268,8 @@ export default function SignUpMentorPage() {
         "http://localhost:5001/api/users/signUp",
         requestOptions
       );
-      const results = await response.json()
+      const results = await response.json();
       console.log("results: ", results);
-
     } catch (error) {
       console.log("error fetching", error);
     }
@@ -310,8 +314,11 @@ export default function SignUpMentorPage() {
           onSubmit={handleSignUpFormSubmit}
           sx={{ mt: 3 }}
         >
-          <div className="avatar-picture-con">
-            <div className="avatar-picture-box">
+          <div className="avatar-picture-con" type="file">
+            <div
+              className="avatar-picture-box"
+              onClick={onButtonSelectPictureClick}
+            >
               {newUser.avatarPicture && (
                 <img src={newUser.avatarPicture} alt="avatar" width="300" />
               )}
@@ -320,10 +327,19 @@ export default function SignUpMentorPage() {
               )}
             </div>
             <div className="image-events-con">
-              <input type="file" onChange={handleAttachFileOnchange} />
+              {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
+              <input
+                type="file"
+                id="file"
+                onChange={handleAttachFileOnchange}
+                ref={inputFile}
+                style={{ display: "none" }}
+              />
+              {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
               <button onClick={handleSubmitPictureClick}>Upload Picture</button>
             </div>
           </div>
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField

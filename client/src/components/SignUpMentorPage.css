@@ -23,15 +23,37 @@
 
 .avatar-picture-con {
     width: 150px;
-    height: 150px;
-    margin: auto auto 4.5rem auto;
+    margin: auto auto 1rem auto;
     text-align: center;
 
 }
 
 .avatar-picture-box {
+    display: flex;
     border: solid 1px #56568a;
+    height: 9rem;
+    width: 9rem;
     margin-bottom: 1rem;
+    cursor: pointer;
+    background-color: #f8f8f8;
+    border-radius: 50%;
+}
+
+.avatar-picture-box span {
+    align-self: center;
+    margin: auto;
+    height: 6rem;
+        width: 7rem;
+        font-size: 13px;
+        line-height: 33px;
+}
+
+.avatar-picture-box:hover {
+    /* background-color: #2de608; */
+    background-color: #75b4f2;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
 }
 
 .avatar-picture-con img {
@@ -39,9 +61,7 @@
     z-index: 5;
 }
 
-.avatar-picture-con span {
-    line-height: 50px;
-}
+
 
 /* .image-events-con {
     margin-top: 2rem;
