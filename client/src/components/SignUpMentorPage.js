@@ -65,14 +65,13 @@ export default function SignUpMentorPage() {
   const [volunteer, setVolunteer] = React.useState("");
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
-  const [password, setPassword] = React.useState("");
   const [selectedImage, setSelectedImage] = React.useState(null);
 
   const [newUser, setNewUser] = React.useState({});
 
   const [termsAgr, setTermsAgr] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [transition, setTransition] = React.useState(undefined);
+  const [snackBarAlert, setSnackBarAlert] = React.useState("");
 
   const inputFile = React.useRef();
 
@@ -191,32 +190,35 @@ export default function SignUpMentorPage() {
   const handleSubmitPictureClick = async (e) => {
     e.preventDefault();
     console.log("selectedImage: ", selectedImage);
-    handleClick();
+    if (!selectedImage) {
+      setSnackBarAlert("Please select a picture first!");
+      handleClick();
+    } else {
+      const formData = new FormData();
+      formData.append("image", selectedImage);
+      console.log("formData: ", formData);
 
-    const formData = new FormData();
-    formData.append("image", selectedImage);
-    console.log("formData: ", formData);
+      const requestOptions = {
+        method: "Post",
+        body: formData,
+      };
 
-    const requestOptions = {
-      method: "Post",
-      body: formData,
-    };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/users/mentors/imageupload",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("result: ", result);
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/users/imageupload",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log("result: ", result);
-
-      setNewUser({
-        ...newUser,
-        avatarPicture: result.imageUrl,
-      });
-      // setNewUser({ ...newUser, avatarPicture: result.imageUrl });
-    } catch (error) {
-      console.log("error: ", error);
+        setNewUser({
+          ...newUser,
+          avatarPicture: result.imageUrl,
+        });
+        // setNewUser({ ...newUser, avatarPicture: result.imageUrl });
+      } catch (error) {
+        console.log("error: ", error);
+      }
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
@@ -275,7 +277,7 @@ export default function SignUpMentorPage() {
       console.log("Password validation is at least 6 character");
       setIsPwValid(false);
     } else {
-      setPassword(pw1);
+      // setPassword(pw1);
     }
     /* ---- Password Check ---- ends*/
     let urlencoded = new URLSearchParams();
@@ -307,13 +309,18 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/users/signUp",
+        "http://localhost:5001/api/users/mentors/signUp",
         requestOptions
       );
       const results = await response.json();
-      console.log("results: ", results);
+      console.log("results: ", results.msg);
+
+      if (results.msg === "user allready exists") {
+        setSnackBarAlert("user allready exists");
+        handleClick()
+      }
     } catch (error) {
-      console.log("error fetching", error);
+      console.log("error fetching", error.msg);
     }
   };
 
@@ -356,14 +363,21 @@ export default function SignUpMentorPage() {
           onClose={handleClose}
           message="Note archived"
           action={action}
-          style={{ width: "200px", bottom: "45vh", margin: "auto" }}
+          style={{
+            width: "fitContent",
+            maxWidth: "70%",
+            bottom: "45vh",
+            margin: "auto",
+            left: "unset",
+            right: "unset",
+          }}
         >
           <Alert
             onClose={handleClose}
             severity="warning"
             sx={{ width: "100%" }}
           >
-            Please select a picture first!
+            {snackBarAlert}
           </Alert>
         </Snackbar>
         <Box

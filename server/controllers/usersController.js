@@ -1,7 +1,6 @@
 import UserModel from "../models/usersModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword } from "../util/encryptPassword.js";
-import usersModel from "../models/usersModel.js";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req.boy", req.boy);

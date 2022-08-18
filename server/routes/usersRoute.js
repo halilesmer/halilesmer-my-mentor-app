@@ -7,8 +7,8 @@ const router = express.Router();
 
 
 
-router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
+router.post("/mentors/imageupload", multerUploads.single("image"), uploadUserPicture);
 
-router.post("/signup", signUp);
+router.post("/mentors/signup", signUp);
 
 export default router;
