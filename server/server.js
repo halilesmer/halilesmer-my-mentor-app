@@ -3,9 +3,9 @@ import * as dotenv from "dotenv";
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import cors from "cors";
 import express from "express";
+import mentorsRoute from "./routes/mentorsRoute.js";
 // import mentorsRoute from "./routes/mentorsRoute.js";
 import mongoose from "mongoose";
-import usersRoute from "./routes/usersRoute.js";
 
 const port = process.env.PORT || 5001;
 
@@ -43,7 +43,7 @@ const mongoDbConnection = async () => {
 const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
   // app.use("/api/users", mentorsRoute);
-  app.use("/api/users", usersRoute);
+  app.use("/api/users", mentorsRoute);
 };
 
 (function controller() {

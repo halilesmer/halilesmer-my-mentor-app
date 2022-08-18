@@ -1,10 +1,14 @@
-// import express from "express";
-// import { mentorsController } from "../controllers/mentorsController.js";
-// const mentorsRoute = express.Router();
-// const router = express.Router();
+import { signUp, uploadUserPicture } from "../controllers/usersController.js";
 
-// mentorsRoute.get("/mentors", mentorsController);
+import express from 'express';
+import { multerUploads } from "../middlewares/multer.js";
 
-// router.get("/mentors", mentorsController);
+const router = express.Router();
 
-// export { mentorsRoute };
+
+
+router.post("/mentors/imageupload", multerUploads.single("image"), uploadUserPicture);
+
+router.post("/mentors/signup", signUp);
+
+export default router;
