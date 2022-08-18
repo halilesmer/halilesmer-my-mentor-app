@@ -16,6 +16,7 @@ const uploadUserPicture = async (req, res) => {
       message: "Image upload succesfull",
       imageUrl: uploadResult.url,
     });
+    console.log("Image upload succesfull");
   } catch (error) {
     res
       .status(500)

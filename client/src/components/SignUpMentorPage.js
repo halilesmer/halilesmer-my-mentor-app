@@ -3,6 +3,7 @@ import "./SignUpMentorPage.css";
 import * as React from "react";
 
 import {
+  Alert,
   Autocomplete,
   FormControl,
   IconButton,
@@ -10,6 +11,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   Tooltip,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -22,6 +24,7 @@ import Button from "@mui/material/Button";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
+import CloseIcon from "@mui/icons-material/Close";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormData from "form-data";
@@ -29,12 +32,17 @@ import Grid from "@mui/material/Grid";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+function SlideTransition(props) {
+  return <Slide {...props} direction="down" />;
+}
 
 export default function SignUpMentorPage() {
   // const [firstName, setFirstName] = React.useState("");
@@ -63,7 +71,38 @@ export default function SignUpMentorPage() {
   const [newUser, setNewUser] = React.useState({});
 
   const [termsAgr, setTermsAgr] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [transition, setTransition] = React.useState(undefined);
+
   const inputFile = React.useRef();
+
+  // -------- Handle  Close   -------
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
@@ -151,6 +190,9 @@ export default function SignUpMentorPage() {
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     e.preventDefault();
+    console.log("selectedImage: ", selectedImage);
+    handleClick();
+
     const formData = new FormData();
     formData.append("image", selectedImage);
     console.log("formData: ", formData);
@@ -308,6 +350,22 @@ export default function SignUpMentorPage() {
         <Typography component="h1" variant="h5">
           Mentor
         </Typography>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Note archived"
+          action={action}
+          style={{ width: "200px", bottom: "45vh", margin: "auto" }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="warning"
+            sx={{ width: "100%" }}
+          >
+            Please select a picture first!
+          </Alert>
+        </Snackbar>
         <Box
           component="form"
           noValidate
