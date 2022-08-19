@@ -26,7 +26,7 @@ const Mentors = () => {
     <div>
       {mentorsData &&
         mentorsData.map((mentor) => {
-          return <h3>{mentor.firstname}</h3>;
+          return <h3>{mentor.first_name}</h3>;
         })}{" "}
     </div>
   );
@@ -40,7 +40,7 @@ export default Mentors
 {mentorsData && mentorsData.map(mentor => {
       console.log("mentor: ", mentor);
         return(
-            <h3>{mentor.firstname}</h3>
+            <h3>{mentor.first_name}</h3>
         )
     })}
     

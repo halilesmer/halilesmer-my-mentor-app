@@ -8,7 +8,7 @@ import Home from "./Home";
 import LoginPage from "./LoginPage";
 import Mentors from "./Mentors";
 import MentorsDetails from "../components/MentorsDetails";
-import ProfilePage from "./ProfilePage";
+import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import RegisterMenteePage from "../components/RegisterMenteePage";
@@ -45,7 +45,7 @@ const Main = () => {
           />
 
           <Route path="/login-page" element={<LoginPage />} />
-          <Route path="profile/" element={<ProfilePage />} />
+          <Route path="mentors-profile/" element={<MentorsProfilePage />} />
           <Route
             path="*"
             element={<ErrorPage errorMsg="Something went wrong ..." />}

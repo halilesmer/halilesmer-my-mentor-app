@@ -43,7 +43,7 @@ const mongoDbConnection = async () => {
 const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
   // app.use("/api/users", mentorsRoute);
-  app.use("/api/users", mentorsRoute);
+  app.use("/api/users/mentors", mentorsRoute);
 };
 
 (function controller() {

@@ -32,7 +32,6 @@ import Grid from "@mui/material/Grid";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
@@ -40,17 +39,9 @@ const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-function SlideTransition(props) {
-  return <Slide {...props} direction="down" />;
-}
 
 export default function SignUpMentorPage() {
-  // const [firstName, setFirstName] = React.useState("");
-  // const [lastName, setLastName] = React.useState("");
-  // const [birthday, setBirthday] = React.useState(Number);
-  // const [experience, setExperience] = React.useState("");
-  // const [website, setWebsite] = React.useState("");
-  // const [skills, setSkills] = React.useState([]);
+  
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
@@ -60,7 +51,6 @@ export default function SignUpMentorPage() {
   const [language, setLanguage] = React.useState([]);
   const [couchingMedium, setCouchingMedium] = React.useState([]);
 
-  // const [email, setEmail] = React.useState("");
   const [fee, setFee] = React.useState(Number);
   const [volunteer, setVolunteer] = React.useState("");
   const [availableSkills, setAvailableSkills] =
@@ -213,9 +203,9 @@ export default function SignUpMentorPage() {
 
         setNewUser({
           ...newUser,
-          avatarPicture: result.imageUrl,
+          avatar_Picture: result.imageUrl,
         });
-        // setNewUser({ ...newUser, avatarPicture: result.imageUrl });
+        // setNewUser({ ...newUser, avatar_Picture: result.imageUrl });
       } catch (error) {
         console.log("error: ", error);
       }
@@ -238,8 +228,8 @@ export default function SignUpMentorPage() {
     const pw2 = data.get("password-2").trim();
     setNewUser({
       ...newUser,
-      firstname: first_name,
-      lastname: last_name,
+      first_name: first_name,
+      last_name: last_name,
       birthday: data.get("birthday").trim(),
       gender: gender,
       language: language.map((obj) => obj.title),
@@ -281,8 +271,8 @@ export default function SignUpMentorPage() {
     }
     /* ---- Password Check ---- ends*/
     let urlencoded = new URLSearchParams();
-    urlencoded.append("firstname", first_name);
-    urlencoded.append("lastname", last_name);
+    urlencoded.append("first_name", first_name);
+    urlencoded.append("last_name", last_name);
     urlencoded.append("birthday", birthday);
     urlencoded.append("gender", gender);
     urlencoded.append(
@@ -296,9 +286,9 @@ export default function SignUpMentorPage() {
     urlencoded.append("skills", selectedSkills);
     urlencoded.append("pw", pw1);
     urlencoded.append(
-      "avatarPicture",
-      newUser.avatarPicture
-        ? newUser.avatarPicture
+      "avatar_Picture",
+      newUser.avatar_Picture
+        ? newUser.avatar_Picture
         : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
     );
 
@@ -309,11 +299,11 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/users/mentors/signUp",
+        "http://localhost:5001/api/users/mentors/signup",
         requestOptions
       );
       const results = await response.json();
-      console.log("results: ", results.msg);
+      console.log("results: ", results);
 
       if (results.msg === "user allready exists") {
         setSnackBarAlert("user allready exists");
@@ -391,10 +381,10 @@ export default function SignUpMentorPage() {
               className="avatar-picture-box"
               onClick={onButtonSelectPictureClick}
             >
-              {newUser.avatarPicture && (
-                <img src={newUser.avatarPicture} alt="avatar" width="300" />
+              {newUser.avatar_Picture && (
+                <img src={newUser.avatar_Picture} alt="avatar" width="300" />
               )}
-              {!newUser.avatarPicture && (
+              {!newUser.avatar_Picture && (
                 <span>Please chouse a profile image (optional)</span>
               )}
             </div>
@@ -493,7 +483,7 @@ export default function SignUpMentorPage() {
                     {option.title}
                   </li>
                 )}
-                style={{ width: 500 }}
+                // style={{ width: 500 }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
