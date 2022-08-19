@@ -80,9 +80,6 @@ export default function MentorsProfilePage() {
 
 
   console.log("users: ", users);
-  users.map(user => {
-    console.log('user.email :>> ', user.email);
-  })
 
   return (
     <Box component="div" sx={{ mt: 0 }}>
@@ -111,19 +108,20 @@ export default function MentorsProfilePage() {
           "& > :not(style)": {
             m: 1,
             width: 128,
-            height: 128,
+            // height: 128,
           },
         }}
       >
-      {users && users.map(user =>{
-        return (
-          <Paper elevation={4}>
-            <span>{Object.keys(user.first_name)}: {user.last_name}</span>
-          </Paper>
-        );
-      })}
-       
-
+        {users &&
+          users.map((user) => {
+            return (
+              <Paper elevation={4}>
+                <span>
+                  {Object.keys(user.first_name)}: {user.last_name}
+                </span>
+              </Paper>
+            );
+          })}
       </Box>
     </Box>
   );

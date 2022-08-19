@@ -139,7 +139,6 @@ export default function SignUpMentorPage() {
   };
 
   // ---- Handle Skills  starts -------
-
   const handleSkillsClick = (button) => {
     if (button === "") {
       return null;
@@ -268,6 +267,10 @@ export default function SignUpMentorPage() {
     }
     /* ---- Password Check ---- ends*/
     let urlencoded = new URLSearchParams();
+    // let urlencoded= {
+
+    // }
+
     urlencoded.append("first_name", first_name);
     urlencoded.append("last_name", last_name);
     urlencoded.append("birthday", birthday);
@@ -277,11 +280,12 @@ export default function SignUpMentorPage() {
       language.map((obj) => obj.title)
     );
     urlencoded.append("experience", experience);
+    urlencoded.append("website", website);
     urlencoded.append("fee", fee);
     urlencoded.append("couching_medium", couchingMedium);
     urlencoded.append("email", email);
     urlencoded.append("skills", selectedSkills);
-    urlencoded.append("pw", pw1);
+    urlencoded.append("password", pw1);
     urlencoded.append(
       "avatar_Picture",
       newUser.avatar_Picture
@@ -291,6 +295,9 @@ export default function SignUpMentorPage() {
 
     let requestOptions = {
       method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
       body: urlencoded,
     };
 
@@ -309,9 +316,9 @@ export default function SignUpMentorPage() {
     } catch (error) {
       console.log("error fetching", error.msg);
     }
+    console.log("urlencoded: ", urlencoded);
   };
 
-  // console.log("selectedSkills: ", selectedSkills);
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
   // console.log("couchingMedium: ", couchingMedium);

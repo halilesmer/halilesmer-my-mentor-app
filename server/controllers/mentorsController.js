@@ -25,6 +25,19 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body: ", req.body);
+  console.log("Here is the backend : ",{first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        birthday: req.body.birthday,
+        gender: req.body.gender,
+        language: req.body.language,
+        experience: req.body.experience,
+        website: req.body.website,
+        fee: req.body.fee,
+        couching_medium: req.body.couching_medium,
+        email: req.body.email,
+        skills: req.body.skills,
+        password: req.body.password,
+        avatar_Picture: req.body.avatar_Picture,});
 
   try {
     const existingUser = await MentorsModel.findOne({ email: req.body.email });
@@ -35,7 +48,7 @@ const signUp = async (req, res) => {
       console.log("user doesn't exist... ");
       //use here express validator
 
-      const hashedPassword = await encryptPassword(req.body.pw);
+      const hashedPassword = await encryptPassword(req.body.password);
 
       const newUser = new MentorsModel({
         first_name: req.body.first_name,
@@ -50,7 +63,7 @@ const signUp = async (req, res) => {
         email: req.body.email,
         skills: req.body.skills,
         password: hashedPassword,
-        avatar_Picture: req.body.avatarPicture,
+        avatar_Picture: req.body.avatar_Picture,
       });
 
       console.log("newUser: ", newUser);
@@ -71,7 +84,7 @@ const signUp = async (req, res) => {
             email: savedUser.email,
             skills: savedUser.skills,
             password: savedUser.password,
-            avatarPicture: savedUser.avatarPicture,
+            avatar_Picture: savedUser.avatar_Picture,
           },
         });
       } catch (error) {
