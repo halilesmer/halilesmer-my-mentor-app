@@ -1,7 +1,6 @@
 import MentorsModel from "../models/mentorsModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword } from "../util/encryptPassword.js";
-import mongoose from "mongoose";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req.boy", req.boy);
@@ -89,8 +88,8 @@ const signUp = async (req, res) => {
 
 const allMentors = async (req, res) => {
   console.log("req.body: ", req.body);
- const response= await MentorsModel.find();
-// const result = await response.json();
-res.status(200).json(response)
+  const response = await MentorsModel.find();
+  // const result = await response.json();
+  res.status(200).json(response);
 };
 export { uploadUserPicture, signUp, allMentors };

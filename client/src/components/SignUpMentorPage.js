@@ -39,9 +39,7 @@ const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
 export default function SignUpMentorPage() {
-  
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
@@ -205,7 +203,6 @@ export default function SignUpMentorPage() {
           ...newUser,
           avatar_Picture: result.imageUrl,
         });
-        // setNewUser({ ...newUser, avatar_Picture: result.imageUrl });
       } catch (error) {
         console.log("error: ", error);
       }
@@ -307,7 +304,7 @@ export default function SignUpMentorPage() {
 
       if (results.msg === "user allready exists") {
         setSnackBarAlert("user allready exists");
-        handleClick()
+        handleClick();
       }
     } catch (error) {
       console.log("error fetching", error.msg);
