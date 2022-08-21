@@ -176,7 +176,6 @@ export default function SignUpMentorPage() {
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     e.preventDefault();
-    console.log("selectedImage: ", selectedImage);
     if (!selectedImage) {
       setSnackBarAlert("Please select a picture first!");
       handleClick();
@@ -235,7 +234,7 @@ export default function SignUpMentorPage() {
       couching_medium: couchingMedium,
       email: email,
       skills: selectedSkills,
-      pw1: pw1,
+      password: pw1,
     });
 
     // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
@@ -266,39 +265,41 @@ export default function SignUpMentorPage() {
       // setPassword(pw1);
     }
     /* ---- Password Check ---- ends*/
-    let urlencoded = new URLSearchParams();
+    // let urlencoded = new URLSearchParams();
     // let urlencoded= {
 
     // }
 
-    urlencoded.append("first_name", first_name);
-    urlencoded.append("last_name", last_name);
-    urlencoded.append("birthday", birthday);
-    urlencoded.append("gender", gender);
-    urlencoded.append(
-      "language",
-      language.map((obj) => obj.title)
-    );
-    urlencoded.append("experience", experience);
-    urlencoded.append("website", website);
-    urlencoded.append("fee", fee);
-    urlencoded.append("couching_medium", couchingMedium);
-    urlencoded.append("email", email);
-    urlencoded.append("skills", selectedSkills);
-    urlencoded.append("password", pw1);
-    urlencoded.append(
-      "avatar_Picture",
-      newUser.avatar_Picture
-        ? newUser.avatar_Picture
-        : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-    );
+    // urlencoded.append("first_name", first_name);
+    // urlencoded.append("last_name", last_name);
+    // urlencoded.append("birthday", birthday);
+    // urlencoded.append("gender", gender);
+    // urlencoded.append(
+    //   "language",
+    //   language.map((obj) => obj.title)
+    // );
+    // urlencoded.append("experience", experience);
+    // urlencoded.append("website", website);
+    // urlencoded.append("fee", fee);
+    // urlencoded.append("couching_medium", couchingMedium);
+    // urlencoded.append("email", email);
+    // urlencoded.append("skills", selectedSkills);
+    // urlencoded.append("password", pw1);
+    // urlencoded.append(
+    //   "avatar_Picture",
+    //   newUser.avatar_Picture
+    //     ? newUser.avatar_Picture
+    //     : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+    // );
 
+  console.log("newUser", newUser);
+    
     let requestOptions = {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      body: urlencoded,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
     };
 
     try {
@@ -316,7 +317,6 @@ export default function SignUpMentorPage() {
     } catch (error) {
       console.log("error fetching", error.msg);
     }
-    console.log("urlencoded: ", urlencoded);
   };
 
   // console.log("selectedSkills: ", selectedSkills);
@@ -327,7 +327,6 @@ export default function SignUpMentorPage() {
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
   // console.log("language", language);
-  console.log("newUser", newUser);
   // console.log("selectedImage :>> ", selectedImage);
   return (
     <ThemeProvider theme={theme}>
@@ -359,11 +358,15 @@ export default function SignUpMentorPage() {
           action={action}
           style={{
             width: "fitContent",
+            height: "5rem",
             maxWidth: "70%",
             bottom: "45vh",
             margin: "auto",
             left: "unset",
             right: "unset",
+            border: "dotted red 2px",
+            borderRadius: "5px",
+            background: "rgb(255, 244, 229)",
           }}
         >
           <Alert

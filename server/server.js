@@ -1,11 +1,12 @@
 import * as dotenv from "dotenv";
 
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
+import { connectMDB } from "./util/connectMDB.js";
 import cors from "cors";
 import express from "express";
 import mentorsRoute from "./routes/mentorsRoute.js";
+
 // import mentorsRoute from "./routes/mentorsRoute.js";
-import mongoose from "mongoose";
 
 const port = process.env.PORT || 5001;
 
@@ -30,14 +31,6 @@ const startServer = () => {
 };
 
 // ---------- connect to mongo db ----------
-const mongoDbConnection = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB is connected on port ${port} `);
-  } catch (error) {
-    console.log("Error connecting to MongoDB", error);
-  }
-};
 // mongoDbConnection();
 
 const loadRoutes = () => {
@@ -49,6 +42,6 @@ const loadRoutes = () => {
 (function controller() {
   addMiddelWare();
   startServer();
-  mongoDbConnection();
+  connectMDB();
   loadRoutes();
 })();
