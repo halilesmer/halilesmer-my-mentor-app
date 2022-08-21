@@ -36,7 +36,7 @@ const startServer = () => {
 const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
   // app.use("/api/users", mentorsRoute);
-  app.use("/api/users/mentors", mentorsRoute);
+  app.use("/api/mentors", mentorsRoute);
 };
 
 (function controller() {

@@ -191,7 +191,7 @@ export default function SignUpMentorPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/users/mentors/imageupload",
+          "http://localhost:5001/api/mentors/imageupload",
           requestOptions
         );
         const result = await response.json();
@@ -304,7 +304,7 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/users/mentors/signup",
+        "http://localhost:5001/api/mentors/signup",
         requestOptions
       );
       const results = await response.json();
