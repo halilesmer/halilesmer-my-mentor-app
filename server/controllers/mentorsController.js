@@ -1,6 +1,10 @@
+import { encryptPassword, verifyPassword } from "../util/encryptPassword.js";
+
 import MentorsModel from "../models/mentorsModel.js";
 import { v2 as cloudinary } from "cloudinary";
-import { encryptPassword } from "../util/encryptPassword.js";
+import { issueToken } from "../util/jwt.js";
+import mongoose from "mongoose";
+import signInModel from "../models/signInModel.js";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req.boy", req.boy);
@@ -25,19 +29,21 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body: ", req.body);
-  console.log("Here is the backend : ",{first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        birthday: req.body.birthday,
-        gender: req.body.gender,
-        language: req.body.language,
-        experience: req.body.experience,
-        website: req.body.website,
-        fee: req.body.fee,
-        couching_medium: req.body.couching_medium,
-        email: req.body.email,
-        skills: req.body.skills,
-        password: req.body.password,
-        avatar_Picture: req.body.avatar_Picture,});
+  console.log("Here is the backend : ", {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    birthday: req.body.birthday,
+    gender: req.body.gender,
+    language: req.body.language,
+    experience: req.body.experience,
+    website: req.body.website,
+    fee: req.body.fee,
+    couching_medium: req.body.couching_medium,
+    email: req.body.email,
+    skills: req.body.skills,
+    password: req.body.password,
+    avatar_picture: req.body.avatar_picture,
+  });
 
   try {
     const existingUser = await MentorsModel.findOne({ email: req.body.email });
@@ -63,7 +69,7 @@ const signUp = async (req, res) => {
         email: req.body.email,
         skills: req.body.skills,
         password: hashedPassword,
-        avatar_Picture: req.body.avatar_Picture,
+        avatar_picture: req.body.avatar_picture,
       });
 
       console.log("newUser: ", newUser);
@@ -84,7 +90,7 @@ const signUp = async (req, res) => {
             email: savedUser.email,
             skills: savedUser.skills,
             password: savedUser.password,
-            avatar_Picture: savedUser.avatar_Picture,
+            avatar_picture: savedUser.avatar_picture,
           },
         });
       } catch (error) {
@@ -105,4 +111,36 @@ const allMentors = async (req, res) => {
   // const result = await response.json();
   res.status(200).json(response);
 };
-export { uploadUserPicture, signUp, allMentors };
+
+const mentorsSignIn = async (req, res) => {
+  const user = await MentorsModel.findOne({ email: req.body.email });
+  console.log("user: ", user);
+  if (!user) {
+    res.status(409).json({
+      msg: "User not found.",
+    });
+  } else {
+    const verifiedPassword = await verifyPassword(
+      req.body.password,
+      user.password
+    );
+    if (!verifiedPassword) {
+      res.status(409).json({
+        msg: "Password is incorrect!",
+      });
+    } else {
+      console.log("You are logged in!");
+      const token = issueToken(user._id);
+      res.status(201).json({
+        msg: "You are logged in!",
+        user: {
+          email: user.email,
+          picture: user?.avatar_picture,
+          id: user._id
+        },
+        token,
+      });
+    }
+  }
+};
+export { uploadUserPicture, signUp, allMentors, mentorsSignIn };

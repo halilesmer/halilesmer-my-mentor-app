@@ -44,7 +44,7 @@ const Main = () => {
             element={<RegisterMenteePage />}
           />
 
-          <Route path="/login-page" element={<LoginPage />} />
+          <Route path="/mentors/signin" element={<LoginPage />} />
           <Route path="mentors-profile/" element={<MentorsProfilePage />} />
           <Route
             path="*"

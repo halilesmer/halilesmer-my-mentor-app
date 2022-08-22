@@ -77,7 +77,10 @@ export default function NavBar() {
         zIndex: "5",
       }}
     >
-      <AppBar position="static" sx={{ margin: "auto", height: "2.5rem", justifyContent:'center' }}>
+      <AppBar
+        position="static"
+        sx={{ margin: "auto", height: "2.5rem", justifyContent: "center" }}
+      >
         <Toolbar>
           {/* {user && ( */}
           <IconButton
@@ -137,7 +140,7 @@ export default function NavBar() {
                     </ListItemIcon>
 
                     <NavLink
-                      to="login/"
+                      to="/mentors/signin"
                       style={({ isActive }) =>
                         isActive ? activeStyle : noActive
                       }

@@ -199,7 +199,7 @@ export default function SignUpMentorPage() {
 
         setNewUser({
           ...newUser,
-          avatar_Picture: result.imageUrl,
+          avatar_picture: result.imageUrl,
         });
       } catch (error) {
         console.log("error: ", error);
