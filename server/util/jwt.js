@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
 dotenv.config();
-console.log("jsonwebtoken: ", jsonwebtoken);
 
 const issueToken = (userId) => {
     const payload = {

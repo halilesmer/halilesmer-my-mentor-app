@@ -120,6 +120,7 @@ const mentorsSignIn = async (req, res) => {
       msg: "User not found.",
     });
   } else {
+    console.log("req.body: ", req.body);
     const verifiedPassword = await verifyPassword(
       req.body.password,
       user.password
@@ -130,14 +131,17 @@ const mentorsSignIn = async (req, res) => {
       });
     } else {
       console.log("You are logged in!");
+      console.log("user.id: ", user._id);
       const token = issueToken(user._id);
       res.status(201).json({
         msg: "You are logged in!",
-        user: {
-          email: user.email,
-          picture: user?.avatar_picture,
-          id: user._id
-        },
+        successful: true,
+        // user: {
+        //   email: user.email,
+        //   avatar_picture: user?.avatar_picture,
+        //   id: user._id,
+        // },
+        user: user,
         token,
       });
     }
