@@ -77,7 +77,7 @@ export default function LoginPage() {
         // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
-        navigate("");
+        navigate("/mentors/mentors-profile-page");
         console.log("login succesfull: ", result);
       }
     } catch (error) {

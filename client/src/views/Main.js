@@ -23,27 +23,27 @@ const Main = () => {
           <Route path="/" element={<Home />} />
 
           <Route
-            path="chat/"
+            path="/chat"
             element={
               <ProtectedRoute>
                 <Chat />
               </ProtectedRoute>
             }
           />
-          <Route path="mentors/" element={<Mentors />} />
-          <Route path="favorit-mentor/" element={<FavoritMentorsPage />} />
-          <Route path="register-page/" element={<SignUpPage />} />
+          <Route path="/mentors" element={<Mentors />} />
+          <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
+          <Route path="/register-page" element={<SignUpPage />} />
           <Route
-            path="register-page/mentor/"
+            path="/register-page/mentor"
             element={<SignUpMentorPage />}
           />
           <Route
-            path="register-page/mentee/"
+            path="/register-page/mentee"
             element={<RegisterMenteePage />}
           />
 
           <Route path="/mentors/signin" element={<LoginPage />} />
-          <Route path="mentors-profile/" element={<MentorsProfilePage />} />
+          <Route path="/mentors/mentors-profile-page" element={<MentorsProfilePage />} />
           <Route
             path="*"
             element={<ErrorPage errorMsg="Something went wrong ..." />}

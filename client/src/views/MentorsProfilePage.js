@@ -4,18 +4,15 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip } from "@mui/material";
 
-import { AppContext } from "../contexts/appContext";
 import { getToken } from "../utils/getToken";
 
 export default function MentorsProfilePage() {
   // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
   const [mentorsProfile, setMentorsProfile] = React.useState(null);
-const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState(null);
 
   const getProfile = async () => {
     const token = getToken();
-    // const token = localStorage.getItem("token");
-    console.log("token: ", token);
     if (token) {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -36,7 +33,20 @@ const [error, setError] = React.useState(null);
           last_name: result.last_name,
           email: result.email,
           id: result.id,
+          birthday: result.birthday,
+          gender: result.gender,
+          language: result.language,
+          experience: result.experience,
+          website: result.website,
+          fee: result.fee,
+          couching_medium: result.couching_medium,
+          skills: result.skills,
+          password: "",
+          user_type: result.user_type,
+          register_Date: result.register_Date,
           avatar_picture: result.avatar_picture,
+
+
         });
         // setMentorsProfile(result)
       } catch (error) {
@@ -50,12 +60,17 @@ const [error, setError] = React.useState(null);
 
   const handleSubmitPictureClick = (e) => {};
 
+  // const convertDateNow= new Date(mentorsProfile.register_Date);
+  // console.log("convertDateNow: ", convertDateNow.toDateString());
+
+  
+
   console.log("mentorsProfile: ", mentorsProfile);
 
   return (
     <>
       {mentorsProfile && (
-        <Box component="div" sx={{ mt: 0 }}>
+        <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           {/* ------------ Avatar Picture ---------- */}
           <div className="avatar-picture-con" type="file">
             <div className="avatar-picture-box">
@@ -75,23 +90,67 @@ const [error, setError] = React.useState(null);
               {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
               <Button onClick={handleSubmitPictureClick}>Upload Picture</Button>
             </div>
+            <Box
+              className=""
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  // height: 128,
+                },
+              }}
+            ></Box>
           </div>
-          <Box
-            className="user-info-con"
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                // height: 128,
-              },
-            }}
-          ></Box>
 
-          {/* <Paper elevation={4}>
-            <h3>{mentorsProfile.last_name}</h3>
-          </Paper> */}
+          <Box className="profile-info-box">
+            <Paper elevation={4}>
+              <span>First Name: {mentorsProfile.first_name}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Last Name: {mentorsProfile.last_name}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Birthday{mentorsProfile.birthday}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Gender: {mentorsProfile.gender}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Languages: {mentorsProfile.language}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Experience in Years: {mentorsProfile.experience}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Website: {mentorsProfile.website}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Fee for one houer: {mentorsProfile.fee}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Couching Medium: {mentorsProfile.couching_medium}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Skills: {mentorsProfile.skills}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Email: {mentorsProfile.email}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>Password: {mentorsProfile.password}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>{mentorsProfile.user_type}</span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>
+                Register Date:{" "}
+                {formatDate(new Date(mentorsProfile.register_Date), "dd.mm.yy")}
+              </span>
+            </Paper>
+          </Box>
         </Box>
       )}
     </>

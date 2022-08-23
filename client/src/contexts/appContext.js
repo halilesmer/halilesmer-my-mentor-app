@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 
-import { getToken } from "../utils/getToken";
-
 const AppContext = createContext();
 
 const AppProvider = (props) => {

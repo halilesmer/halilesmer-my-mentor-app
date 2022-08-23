@@ -299,7 +299,21 @@ export default function SignUpMentorPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newUser),
+      body: JSON.stringify({
+        ...newUser,
+        first_name: first_name,
+        last_name: last_name,
+        birthday: data.get("birthday").trim(),
+        gender: gender,
+        language: language.map((obj) => obj.title),
+        experience: experience,
+        website: website,
+        fee: fee,
+        couching_medium: couchingMedium,
+        email: email,
+        skills: selectedSkills,
+        password: pw1,
+      }),
     };
 
     try {
