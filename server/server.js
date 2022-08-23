@@ -5,6 +5,8 @@ import { connectMDB } from "./util/connectMDB.js";
 import cors from "cors";
 import express from "express";
 import mentorsRoute from "./routes/mentorsRoute.js";
+import passport from "passport";
+import { passportConfig } from "./config/passport.js";
 
 const port = process.env.PORT || 5001;
 
@@ -20,6 +22,8 @@ const addMiddelWare = () => {
   );
   app.use(cors());
   cloudinaryConfig();
+  app.use(passport.initialize());
+  passportConfig(passport);
 };
 
 const startServer = () => {

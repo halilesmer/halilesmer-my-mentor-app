@@ -141,10 +141,28 @@ const mentorsSignIn = async (req, res) => {
         //   avatar_picture: user?.avatar_picture,
         //   id: user._id,
         // },
-        user: user,
+        // user: user,
+        user: {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          id: user._id,
+          avatar_picture: user.avatar_picture,
+        },
+
         token,
       });
     }
   }
 };
-export { uploadUserPicture, signUp, allMentors, mentorsSignIn };
+const getProfile = (req, res) => {
+  console.log("req, res: ", req, res);
+  res.status(200).json({
+    first_name: req.user.first_name,
+    last_name: req.user.last_name,
+    email: req.user.email,
+    // id: req.user.id,
+    avatar_picture: req.user?.avatar_picture,
+  });
+};
+export { uploadUserPicture, signUp, allMentors, mentorsSignIn, getProfile };

@@ -16,6 +16,7 @@ import {
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import { AppContext } from "../contexts/appContext";
 import Drawer from "../components/Drawer";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LoginIcon from "@mui/icons-material/Login";
@@ -32,18 +33,7 @@ export default function NavBar() {
   const pathname = useLocation();
   const navigateTo = useNavigate();
 
-  const logout = (e) => {
-    // setIsLoading(true);
-    // handleClose();
-    // signOut(auth)
-    //   .then(() => {
-    //     navigateTo("/");
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //     console.log("sign out error: ", error);
-    //   });
-  };
+  const { handleLogoutClick } = React.useContext(AppContext);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -206,7 +196,7 @@ export default function NavBar() {
               display: "inline-flex",
               cursor: "pointer",
             }}
-            onClick={logout}
+            onClick={handleLogoutClick}
           >
             <LogoutIcon fontSize="small" />
           </Box>

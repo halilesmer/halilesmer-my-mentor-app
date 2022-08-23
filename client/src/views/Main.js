@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 
-import { AppProvider } from "../contexts/appContext";
 import Chat from "./Chat";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
@@ -20,7 +19,6 @@ import SignUpPage from "./SignUpPage";
 const Main = () => {
   return (
     <main id="mainCon" style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
-      <AppProvider>
         <Routes>
           <Route path="/" element={<Home />} />
 
@@ -51,7 +49,6 @@ const Main = () => {
             element={<ErrorPage errorMsg="Something went wrong ..." />}
           />
         </Routes>
-      </AppProvider>
     </main>
   );
 };

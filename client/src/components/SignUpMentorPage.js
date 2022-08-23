@@ -286,9 +286,9 @@ export default function SignUpMentorPage() {
     // urlencoded.append("skills", selectedSkills);
     // urlencoded.append("password", pw1);
     // urlencoded.append(
-    //   "avatar_Picture",
-    //   newUser.avatar_Picture
-    //     ? newUser.avatar_Picture
+    //   "avatar_picture",
+    //   newUser.avatar_picture
+    //     ? newUser.avatar_picture
     //     : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
     // );
 
@@ -388,10 +388,10 @@ export default function SignUpMentorPage() {
               className="avatar-picture-box"
               onClick={onButtonSelectPictureClick}
             >
-              {newUser.avatar_Picture && (
-                <img src={newUser.avatar_Picture} alt="avatar" width="300" />
+              {newUser.avatar_picture && (
+                <img src={newUser.avatar_picture} alt="avatar" width="300" />
               )}
-              {!newUser.avatar_Picture && (
+              {!newUser.avatar_picture && (
                 <span>Please chouse a profile image (optional)</span>
               )}
             </div>
@@ -506,7 +506,7 @@ export default function SignUpMentorPage() {
                 type="number"
                 fullWidth
                 id="experience"
-                label="Experience"
+                label="Year of Experience"
                 name="experience"
                 autoComplete="off"
               />

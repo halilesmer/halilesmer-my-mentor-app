@@ -2,128 +2,109 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import {
-  Alert,
-  Autocomplete,
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Snackbar,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, Paper, Tooltip } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext";
+import { getToken } from "../utils/getToken";
 
 export default function MentorsProfilePage() {
-  const { userLogIn, setUserLogIn } = React.useContext(AppContext);
-  console.log("userLogIn: ", userLogIn);
-  // const [users, setUsers] = React.useState("d");
+  // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
+  const [mentorsProfile, setMentorsProfile] = React.useState(null);
+const [error, setError] = React.useState(null);
 
-  // ---- Hndle Avatar Picture ---- starts ----
-  const handleSubmitPictureClick = async (e) => {
-    // e.preventDefault();
-    // console.log("selectedImage: ", selectedImage);
-    // if (!selectedImage) {
-    //   setSnackBarAlert("Please select a picture first!");
-    //   handleClick();
-    // } else {
-    //   const formData = new FormData();
-    //   formData.append("image", selectedImage);
-    //   console.log("formData: ", formData);
-    //   const requestOptions = {
-    //     method: "Post",
-    //     body: formData,
-    //   };
-    //   try {
-    //     const response = await fetch(
-    //       "http://localhost:5001/api/users/mentors/imageupload",
-    //       requestOptions
-    //     );
-    //     const result = await response.json();
-    //     console.log("result: ", result);
-    //     setNewUser({
-    //       ...newUser,
-    //       avatarPicture: result.imageUrl,
-    //     });
-    //     // setNewUser({ ...newUser, avatarPicture: result.imageUrl });
-    //   } catch (error) {
-    //     console.log("error: ", error);
-    //   }
-    // }
-  }; // ---- Avatar Picture ---- ends ---- //
+  const getProfile = async () => {
+    const token = getToken();
+    // const token = localStorage.getItem("token");
+    console.log("token: ", token);
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
-  // ---- get Mentors ---- starts ----
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentors/mentorsprofile/",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("result: ", result);
+        setMentorsProfile({
+          first_name: result.first_name,
+          last_name: result.last_name,
+          email: result.email,
+          id: result.id,
+          avatar_picture: result.avatar_picture,
+        });
+        // setMentorsProfile(result)
+      } catch (error) {
+        console.log("error getting prifile data: ", error);
+      }
+    }
+  };
+  React.useEffect(() => {
+    getProfile();
+  }, []);
 
-  // const getAllMentors = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:5001/api/users/mentors/allmentors"
-  //     );
-  //     const result = await response.json();
-  //     setUsers(result);
-  //     console.log("result: ", result);
-  //   } catch (error) {
-  //     console.log("error: ", error);
-  //   }
-  // };
-  // ---- Avatar Picture ---- ends ---- //
+  const handleSubmitPictureClick = (e) => {};
 
-  // React.useEffect(() => {
-  //   getAllMentors();
-  // }, []);
-
-  console.log("userLogIn: ", userLogIn);
+  console.log("mentorsProfile: ", mentorsProfile);
 
   return (
-    <Box component="div" sx={{ mt: 0 }}>
-      {/* ------------ Avatar Picture ---------- */}
-      <div className="avatar-picture-con" type="file">
-        <div className="avatar-picture-box">
-          {userLogIn && userLogIn?.avatar_picture ?(
-            <img src={userLogIn?.avatar_picture} alt="avatar" width="300" />
-          )
-          :
-           (
-            <span>Please chouse a profile image (optional)</span>
-          )}
-        </div>
-        <div className="image-events-con">
-          {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
-          <input type="file" id="file" style={{ display: "none" }} />
-          {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-          <Button onClick={handleSubmitPictureClick}>Upload Picture</Button>
-        </div>
-      </div>
-      <Box
-        className="user-info-con"
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            m: 1,
-            width: 128,
-            // height: 128,
-          },
-        }}
-      >
-        {userLogIn &&
-          userLogIn.map((user) => {
+    <>
+      {mentorsProfile && (
+        <Box component="div" sx={{ mt: 0 }}>
+          {/* ------------ Avatar Picture ---------- */}
+          <div className="avatar-picture-con" type="file">
+            <div className="avatar-picture-box">
+              {mentorsProfile.avatar_picture ? (
+                <img
+                  src={mentorsProfile?.avatar_picture}
+                  alt="avatar"
+                  width="300"
+                />
+              ) : (
+                <span>Please chouse a profile image (optional)</span>
+              )}
+            </div>
+            <div className="image-events-con">
+              {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
+              <input type="file" id="file" style={{ display: "none" }} />
+              {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
+              <Button onClick={handleSubmitPictureClick}>Upload Picture</Button>
+            </div>
+          </div>
+          <Box
+            className="user-info-con"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              "& > :not(style)": {
+                m: 1,
+                width: 128,
+                // height: 128,
+              },
+            }}
+          ></Box>
+
+          {/* <Paper elevation={4}>
+            <h3>{mentorsProfile.last_name}</h3>
+          </Paper> */}
+        </Box>
+      )}
+    </>
+  );
+}
+
+/*  {mentorsProfile &&
+          mentorsProfile.map((user) => {
             return (
               <Paper elevation={4}>
                 <span>
-                  {/* {Object.keys(user.first_name)}: {user.last_name} */}
                   {user.last_name}
                 </span>
               </Paper>
             );
-          })}
-      </Box>
-    </Box>
-  );
-}
+          })} */

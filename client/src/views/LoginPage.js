@@ -39,10 +39,10 @@ const theme = createTheme();
 export default function LoginPage() {
   const navigate = useNavigate();
   // const [password2, setPassword2] = React.useState('')
-  
-  const { isUserLoggedIn, setIsUserLoggedIn, userLogIn, setUserLogIn } =
+
+  const { setIsUserLoggedIn, userLogIn, setUserLogIn } =
     React.useContext(AppContext);
-  
+
   // const [password2, setPassword2] = React.useState("");
   // console.log("password2: ", password2);
 
@@ -74,9 +74,10 @@ export default function LoginPage() {
       const { token, user } = result;
       if (token) {
         localStorage.setItem("token", token);
-        setIsUserLoggedIn(true);
+        // setIsUserLoggedIn(true);
         setUserLogIn(user);
-        navigate('')
+        setIsUserLoggedIn(true);
+        navigate("");
         console.log("login succesfull: ", result);
       }
     } catch (error) {
