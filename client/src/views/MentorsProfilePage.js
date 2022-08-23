@@ -4,7 +4,8 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip } from "@mui/material";
 
-import { getToken } from "../utils/getToken";
+import { formatDate } from "../utils/formatData.js";
+import { getToken } from "../utils/getToken.js";
 
 export default function MentorsProfilePage() {
   // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
@@ -45,8 +46,6 @@ export default function MentorsProfilePage() {
           user_type: result.user_type,
           register_Date: result.register_Date,
           avatar_picture: result.avatar_picture,
-
-
         });
         // setMentorsProfile(result)
       } catch (error) {
@@ -60,10 +59,7 @@ export default function MentorsProfilePage() {
 
   const handleSubmitPictureClick = (e) => {};
 
-  // const convertDateNow= new Date(mentorsProfile.register_Date);
-  // console.log("convertDateNow: ", convertDateNow.toDateString());
 
-  
 
   console.log("mentorsProfile: ", mentorsProfile);
 
@@ -112,7 +108,7 @@ export default function MentorsProfilePage() {
               <span>Last Name: {mentorsProfile.last_name}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Birthday{mentorsProfile.birthday}</span>
+              <span>Birthday: {formatDate(mentorsProfile.birthday)}</span>
             </Paper>
             <Paper elevation={4}>
               <span>Gender: {mentorsProfile.gender}</span>
@@ -145,10 +141,7 @@ export default function MentorsProfilePage() {
               <span>{mentorsProfile.user_type}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>
-                Register Date:{" "}
-                {formatDate(new Date(mentorsProfile.register_Date), "dd.mm.yy")}
-              </span>
+              <span>Register Date: {formatDate(mentorsProfile.register_Date)}</span>
             </Paper>
           </Box>
         </Box>
