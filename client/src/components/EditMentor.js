@@ -15,7 +15,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { formatDataYyMmDd, formatDate } from "../utils/formatData";
+import { formatDataYyMmDd, formatDateDdMmYyyy } from "../utils/formatData.js";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
 import { AppContext } from "../contexts/appContext";
@@ -35,6 +35,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { emailCheck } from "../utils/validations.js";
 import { getToken } from "../utils/getToken";
 
 const theme = createTheme();
@@ -218,59 +219,57 @@ export default function EditMentor() {
   const handleSignUpFormSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
+    // const data = new FormData(e.currentTarget);
 
-    const first_name = data.get("firstName").trim();
-    const last_name = data.get("lastName").trim();
-    const birthday = data.get("birthday").trim();
-    const experience = data.get("experience").trim();
-    const website = data.get("mentor-website").trim();
-    const email = data.get("email").trim();
-    const pw1 = data.get("password-1").trim();
-    const pw2 = data.get("password-2").trim();
-    setEditedUserData({
-      ...editedUserData,
-      first_name: first_name,
-      last_name: last_name,
-      birthday: data.get("birthday").trim(),
-      gender: gender,
-      language: language.map((obj) => obj.title),
-      experience: experience,
-      website: website,
-      fee: fee,
-      couching_medium: couchingMedium,
-      email: email,
-      skills: selectedSkills,
-      password: pw1,
-    });
+    // const first_name = data.get("firstName").trim();
+    // const last_name = data.get("lastName").trim();
+    // const birthday = data.get("birthday").trim();
+    // const experience = data.get("experience").trim();
+    // const website = data.get("mentor-website").trim();
+    // const email = data.get("email").trim();
+    // const pw1 = data.get("password-1").trim();
+    // const pw2 = data.get("password-2").trim();
+    // setEditedUserData({
+    //   ...editedUserData,
+    //   first_name: first_name,
+    //   last_name: last_name,
+    //   birthday: data.get("birthday").trim(),
+    //   gender: gender,
+    //   language: language.map((obj) => obj.title),
+    //   experience: experience,
+    //   website: website,
+    //   fee: fee,
+    //   couching_medium: couchingMedium,
+    //   email: email,
+    //   skills: selectedSkills,
+    //   password: pw1,
+    // });
 
     // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
     /* ---- Email Check ---- starts*/
-    let re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if (re.test(email)) {
+    const checkEmail = emailCheck(editedUserData.email);
+    if (checkEmail) {
       console.log("valid email :>> ");
       setIsEmailValid(true);
     } else {
       console.log("invalid email");
       setIsEmailValid(false);
     }
+
     /* ---- Email Check ---- ends*/
     /* ---- Password Check ---- starts*/
 
-    if (pw1 !== pw2) {
-      console.log(
-        "You first Passwords is not similar with 2nd password. Please enter same password in both"
-      );
-      setIsPwValid(false);
-    } else if (pw1.length < 5) {
-      console.log("Password validation is at least 6 character");
-      setIsPwValid(false);
-    } else {
-      // setPassword(pw1);
-    }
+    // if (pw1 !== pw2) {
+    //   console.log(
+    //     "You first Passwords is not similar with 2nd password. Please enter same password in both"
+    //   );
+    //   setIsPwValid(false);
+    // } else if (pw1.length < 5) {
+    //   console.log("Password validation is at least 6 character");
+    //   setIsPwValid(false);
+    // } else {
+    // }
     /* ---- Password Check ---- ends*/
 
     console.log("editedUserData", editedUserData);
@@ -280,21 +279,7 @@ export default function EditMentor() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        ...editedUserData,
-        first_name: first_name,
-        last_name: last_name,
-        birthday: data.get("birthday").trim(),
-        gender: gender,
-        language: language.map((obj) => obj.title),
-        experience: experience,
-        website: website,
-        fee: fee,
-        couching_medium: couchingMedium,
-        email: email,
-        skills: selectedSkills,
-        password: pw1,
-      }),
+      body: JSON.stringify(editedUserData),
     };
 
     try {
@@ -350,7 +335,7 @@ export default function EditMentor() {
           avatar_picture: result.avatar_picture,
         };
         setMentorsProfile(profileData);
-        setEditedUserData(profileData)
+        setEditedUserData(profileData);
 
         // set new state for autocomplete input
         const lang = [];
