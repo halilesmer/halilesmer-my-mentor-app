@@ -45,12 +45,13 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 export default function EditMentor() {
   const [test2, setTest2] = React.useState([]);
 
-  const [mentorsProfile, setMentorsProfile] = React.useState({});
+  const [mtrsCurrData, setMtrsCurrData] = React.useState({});
   const [editedUserData, setEditedUserData] = React.useState({});
 
   const handleInputValueChange = (e) => {
-    setMentorsProfile({
-      ...mentorsProfile,
+    console.log("e: ", e.target.value);
+    setEditedUserData({
+      ...editedUserData,
       [e.target.name]: e.target.value,
     });
   };
@@ -113,17 +114,17 @@ export default function EditMentor() {
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
-  const handleGenderChange = (e) => {
-    setGender(e.target.value);
-  };
+  // const handleGenderChange = (e) => {
+  //   setGender(e.target.value);
+  // };
 
   // -------- Handle Language  -------
-  const handleLanguageOnChange = (e, value) => {
-    setLanguage(value.filter((item) => Object.values(item)));
-    // setLanguage({
-    //   ...mentorsProfile,
-    //   value.filter((item) => Object.values(item))
-    // });
+  const handleLanguageOnChange = (e, value) => {    
+    const languageArray= value.map((obj) => obj.title);
+setEditedUserData({
+  ...editedUserData, language: languageArray
+})
+
   };
 
   // -------- Handle Volunteer  -------
@@ -216,7 +217,7 @@ export default function EditMentor() {
   }; // ---- Avatar Picture ---- ends ---- //
 
   // ---- Send Form Handle ------
-  const handleSignUpFormSubmit = async (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
 
     // const data = new FormData(e.currentTarget);
@@ -272,8 +273,6 @@ export default function EditMentor() {
     // }
     /* ---- Password Check ---- ends*/
 
-    console.log("editedUserData", editedUserData);
-
     let requestOptions = {
       method: "POST",
       headers: {
@@ -299,6 +298,7 @@ export default function EditMentor() {
     }
   };
 
+  // ------ Get profile data  ----------- starts--
   const getProfile = async () => {
     const token = getToken();
     if (token) {
@@ -334,17 +334,17 @@ export default function EditMentor() {
           register_Date: result.register_Date,
           avatar_picture: result.avatar_picture,
         };
-        setMentorsProfile(profileData);
+        setMtrsCurrData(profileData);
         setEditedUserData(profileData);
 
         // set new state for autocomplete input
         const lang = [];
         result.language.map((lng) => {
-          lang.push({ title: lng });
+         return lang.push({ title: lng });
         });
         setTest2(lang);
 
-        // setMentorsProfile(result)
+        // setMtrsCurrData(result)
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }
@@ -353,6 +353,10 @@ export default function EditMentor() {
   React.useEffect(() => {
     getProfile();
   }, []);
+  // ------ Get profile data  ----------- ends--
+
+
+
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
   // console.log("couchingMedium: ", couchingMedium);
@@ -362,12 +366,10 @@ export default function EditMentor() {
   // console.log("fee: ", fee);
   console.log("language", language);
   // console.log("selectedImage :>> ", selectedImage);
-  console.log("MentorsProfile: ", mentorsProfile);
-  console.log("editedUserData: ", editedUserData);
+  console.log("editedUserData", editedUserData);
   console.log("test2: ", test2);
 
   //   console.log("test1: ", test2);
-  // console.log("Test Language", mentorsProfile &&  mentorsProfile.language.map(lng =>  {return { title: lng };}) );
   const obj = [
     {
       title: "Afar",
@@ -382,9 +384,9 @@ export default function EditMentor() {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {mentorsProfile === null ||
-        mentorsProfile === undefined ||
-        mentorsProfile === "" ? (
+        {mtrsCurrData === null ||
+        mtrsCurrData === undefined ||
+        mtrsCurrData === "" ? (
           <ErrorPage error="Loading Profile page..." />
         ) : (
           <Box
@@ -436,7 +438,7 @@ export default function EditMentor() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSignUpFormSubmit}
+              onSubmit={handleEditSubmit}
               sx={{ mt: 3 }}
             >
               <div className="avatar-picture-con" type="file">
@@ -444,14 +446,14 @@ export default function EditMentor() {
                   className="avatar-picture-box"
                   onClick={onButtonSelectPictureClick}
                 >
-                  {mentorsProfile.avatar_picture && (
+                  {mtrsCurrData.avatar_picture && (
                     <img
-                      src={mentorsProfile.avatar_picture}
+                      src={mtrsCurrData.avatar_picture}
                       alt="avatar"
                       width="300"
                     />
                   )}
-                  {!mentorsProfile.avatar_picture && (
+                  {!mtrsCurrData.avatar_picture && (
                     <span>Please chouse a profile image (optional)</span>
                   )}
                 </div>
@@ -482,10 +484,10 @@ export default function EditMentor() {
                     fullWidth
                     id="first_name"
                     // label="First Name"
-                    // defaultValue={mentorsProfile.first_name}
+                    // defaultValue={mtrsCurrData.first_name}
                     // autoFocus
                     value={
-                      mentorsProfile.first_name ? mentorsProfile.first_name : ""
+                      editedUserData.first_name ? editedUserData.first_name : ""
                     }
                     onChange={handleInputValueChange}
                   />
@@ -498,9 +500,7 @@ export default function EditMentor() {
                     fullWidth
                     id="last_name"
                     name="last_name"
-                    value={
-                      mentorsProfile.last_name ? mentorsProfile.last_name : ""
-                    }
+                    value={editedUserData.last_name ? editedUserData.last_name : ""}
                     onChange={handleInputValueChange}
                   />
                 </Grid>
@@ -514,8 +514,8 @@ export default function EditMentor() {
                     label="Birthday"
                     name="birthday"
                     value={
-                      mentorsProfile.birthday
-                        ? formatDataYyMmDd(mentorsProfile.birthday)
+                      editedUserData.birthday
+                        ? formatDataYyMmDd(mtrsCurrData.birthday)
                         : ""
                     }
                     onChange={handleInputValueChange}
@@ -529,7 +529,7 @@ export default function EditMentor() {
                       id="gender"
                       name="gender"
                       // value={gender}
-                      value={mentorsProfile.gender ? mentorsProfile.gender : ""}
+                      value={editedUserData.gender ? editedUserData.gender : ""}
                       label="Gender"
                       // onChange={handleGenderChange}
                       onChange={handleInputValueChange}
@@ -550,12 +550,12 @@ export default function EditMentor() {
                     options={languages}
                     // value={test2 !== null ? test2 : language}
                     onChange={handleLanguageOnChange}
-                    autoSelect={true}
+                    // autoSelect={true}
                     defaultValue={[languages[13], languages[12], languages[11]]}
                     // defaultValue={[obj[0], obj[1], ]}
 
                     id="language"
-                    // defaultValue={mentorsProfile && mentorsProfile.language.map(
+                    // defaultValue={editedUserData && editedUserData.language.map(
                     //   (lng) => {
                     //     return { title: lng };
                     //   }
