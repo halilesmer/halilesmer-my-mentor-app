@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip } from "@mui/material";
 
-import { formatDate } from "../utils/formatData.js";
+import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 
 export default function MentorsProfilePage() {
@@ -57,8 +57,6 @@ export default function MentorsProfilePage() {
     getProfile();
   }, []);
 
-  const handleSubmitPictureClick = (e) => {};
-
 
 
   console.log("mentorsProfile: ", mentorsProfile);
@@ -68,7 +66,7 @@ export default function MentorsProfilePage() {
       {mentorsProfile && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           {/* ------------ Avatar Picture ---------- */}
-          <div className="avatar-picture-con" type="file">
+          <div className="avatar-picture-con">
             <div className="avatar-picture-box">
               {mentorsProfile.avatar_picture ? (
                 <img
@@ -84,7 +82,6 @@ export default function MentorsProfilePage() {
               {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
               <input type="file" id="file" style={{ display: "none" }} />
               {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-              <Button onClick={handleSubmitPictureClick}>Upload Picture</Button>
             </div>
             <Box
               className=""
@@ -108,7 +105,7 @@ export default function MentorsProfilePage() {
               <span>Last Name: {mentorsProfile.last_name}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Birthday: {formatDate(mentorsProfile.birthday)}</span>
+              <span>Birthday: {formatDateDdMmYyyy(mentorsProfile.birthday)}</span>
             </Paper>
             <Paper elevation={4}>
               <span>Gender: {mentorsProfile.gender}</span>
@@ -141,8 +138,13 @@ export default function MentorsProfilePage() {
               <span>{mentorsProfile.user_type}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Register Date: {formatDate(mentorsProfile.register_Date)}</span>
+              <span>
+                Register Date: {formatDateDdMmYyyy(mentorsProfile.register_Date)}
+              </span>
             </Paper>
+            <Button href='/mentors/edit-mentor' className="edit-profile-btn" variant="contained" fullWidth>
+              Edit
+            </Button>
           </Box>
         </Box>
       )}

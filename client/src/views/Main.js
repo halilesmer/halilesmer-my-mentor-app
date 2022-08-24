@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Chat from "./Chat";
+import EditMentor from "../components/EditMentor";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
 import Home from "./Home";
@@ -38,6 +39,7 @@ const Main = () => {
 
         <Route path="/mentors/signin" element={<LoginPage />} />
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
+        <Route path="/mentors/edit-mentor" element={<EditMentor />} />
         <Route
           path="*"
           element={<ErrorPage errorMsg="Something went wrong ..." />}
