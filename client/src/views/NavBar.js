@@ -175,7 +175,7 @@ export default function NavBar() {
                     </ListItemIcon>
 
                     <NavLink
-                      to="/mentors-profile"
+                      to="/mentors/profile"
                       style={({ isActive }) =>
                         isActive ? activeStyle : noActive
                       }

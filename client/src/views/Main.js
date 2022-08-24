@@ -19,36 +19,30 @@ import SignUpPage from "./SignUpPage";
 const Main = () => {
   return (
     <main id="mainCon" style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute>
-                <Chat />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/mentors" element={<Mentors />} />
-          <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route
-            path="/mentor/signup"
-            element={<SignUpMentorPage />}
-          />
-          <Route
-            path="/register-page/mentee"
-            element={<RegisterMenteePage />}
-          />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/mentors" element={<Mentors />} />
+        <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/mentor/signup" element={<SignUpMentorPage />} />
+        <Route path="/register-page/mentee" element={<RegisterMenteePage />} />
 
-          <Route path="/mentors/signin" element={<LoginPage />} />
-          <Route path="/mentors/mentors-profile-page" element={<MentorsProfilePage />} />
-          <Route
-            path="*"
-            element={<ErrorPage errorMsg="Something went wrong ..." />}
-          />
-        </Routes>
+        <Route path="/mentors/signin" element={<LoginPage />} />
+        <Route path="/mentors/profile" element={<MentorsProfilePage />} />
+        <Route
+          path="*"
+          element={<ErrorPage errorMsg="Something went wrong ..." />}
+        />
+      </Routes>
     </main>
   );
 };
