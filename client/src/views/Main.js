@@ -32,9 +32,9 @@ const Main = () => {
           />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
-          <Route path="/register-page" element={<SignUpPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route
-            path="/register-page/mentor"
+            path="/mentor/signup"
             element={<SignUpMentorPage />}
           />
           <Route

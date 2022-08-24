@@ -142,7 +142,7 @@ export default function NavBar() {
               </List>
               {/* )} */}
 
-              {/* ----------------- register Page Link  --------------------- */}
+              {/* ----------------- Sign Up Page Link  --------------------- */}
 
               {/* {!user && ( */}
               <List onClick={handleClose}>
@@ -153,12 +153,12 @@ export default function NavBar() {
                     </ListItemIcon>
 
                     <NavLink
-                      to="register-page/"
+                      to="/signup"
                       style={({ isActive }) =>
                         isActive ? activeStyle : noActive
                       }
                     >
-                      <ListItemText primary="Register" />
+                      <ListItemText primary="Sign up" />
                     </NavLink>
                   </ListItemButton>
                 </ListItem>

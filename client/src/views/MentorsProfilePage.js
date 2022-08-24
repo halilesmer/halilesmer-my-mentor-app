@@ -24,7 +24,7 @@ export default function MentorsProfilePage() {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile/",
+          "http://localhost:5001/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();

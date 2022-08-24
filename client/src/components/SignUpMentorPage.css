@@ -58,7 +58,7 @@
 
 .avatar-picture-con img {
     width: -webkit-fill-available;
-    z-index: 5;
+    /* z-index: 5; */
 }
 
 
