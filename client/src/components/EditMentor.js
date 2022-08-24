@@ -43,31 +43,21 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentor() {
-  const [test2, setTest2] = React.useState([]);
-
   const [mtrsCurrData, setMtrsCurrData] = React.useState({});
   const [editedUserData, setEditedUserData] = React.useState({});
 
-  const handleInputValueChange = (e) => {
-    console.log("e: ", e.target.value);
-    setEditedUserData({
-      ...editedUserData,
-      [e.target.name]: e.target.value,
-    });
-  };
   const [error, setError] = React.useState(null);
 
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
-  const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
-  const [isPwValid, setIsPwValid] = React.useState(Boolean);
+  const [isEmailValid, setIsEmailValid] = React.useState(true);
+  const [password1, setPassword1] = React.useState('')
+  const [password2, setPassword2] = React.useState("");
+  const [isPwValid, setIsPwValid] = React.useState(true);
 
-  const [gender, setGender] = React.useState("");
-  const [language, setLanguage] = React.useState([]);
   const [couchingMedium, setCouchingMedium] = React.useState([]);
 
-  const [fee, setFee] = React.useState(Number);
-  const [volunteer, setVolunteer] = React.useState("");
+  const [volunteer, setVolunteer] = React.useState(false);
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
@@ -113,33 +103,36 @@ export default function EditMentor() {
   };
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
-  // -------- Handle Gender  -------
-  // const handleGenderChange = (e) => {
-  //   setGender(e.target.value);
-  // };
+  // -------- Handle Input Value   ends -------
+  const handleInputValueChange = (e) => {
+    setEditedUserData({
+      ...editedUserData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  // -------- Handle Input Value   ends -------
 
   // -------- Handle Language  -------
-  const handleLanguageOnChange = (e, value) => {    
-    const languageArray= value.map((obj) => obj.title);
-setEditedUserData({
-  ...editedUserData, language: languageArray
-})
-
+  const handleLanguageOnChange = (e, value) => {
+    const languageArray = value.map((obj) => obj.title);
+    setEditedUserData({
+      ...editedUserData,
+      language: languageArray,
+    });
   };
 
   // -------- Handle Volunteer  -------
   const handleSelectVolunteerClick = (e) => {
     const checked = e.target.checked;
-    const value = e.target.value;
-    // setVolunteer(value);
-    if (checked) {
-      setVolunteer(value);
-      setFee(0);
-    } else {
-      setVolunteer("");
-    }
+    checked ? setVolunteer(true) : setVolunteer(false);
+
+    setEditedUserData({
+      ...editedUserData,
+      fee: Number.parseInt(0, 10),
+    });
   };
-  // ---- Handle Couching Medium -------
+
+  // ---- Handle Couching Medium  / starts -------
   let couchMd = ["Presence", "Video", "Audio"];
   const handleCouchingMediumClick = (button) => {
     if (couchingMedium.includes(button)) {
@@ -148,6 +141,11 @@ setEditedUserData({
       setCouchingMedium([...couchingMedium, button]);
     }
   };
+
+  React.useEffect(() => {
+    setEditedUserData({ ...editedUserData, couching_medium: couchingMedium });
+  }, [couchingMedium]);
+  // ---- Handle Couching Medium  / ends -------
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
@@ -166,13 +164,19 @@ setEditedUserData({
       setTypedSkill("");
     }
   };
+
   const handleSkillsEnter = (e) => {
     e.preventDefault();
 
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
     }
-  }; // ---- Handle Skills  ends -------
+  };
+
+  React.useEffect(() => {
+    setEditedUserData({ ...editedUserData, skills: selectedSkills });
+  }, [selectedSkills]);
+  // ---- Handle Skills  ends -------
 
   // ----   Handle ------
   const handleAttachFileOnchange = (e) => {
@@ -220,34 +224,6 @@ setEditedUserData({
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
-    // const data = new FormData(e.currentTarget);
-
-    // const first_name = data.get("firstName").trim();
-    // const last_name = data.get("lastName").trim();
-    // const birthday = data.get("birthday").trim();
-    // const experience = data.get("experience").trim();
-    // const website = data.get("mentor-website").trim();
-    // const email = data.get("email").trim();
-    // const pw1 = data.get("password-1").trim();
-    // const pw2 = data.get("password-2").trim();
-    // setEditedUserData({
-    //   ...editedUserData,
-    //   first_name: first_name,
-    //   last_name: last_name,
-    //   birthday: data.get("birthday").trim(),
-    //   gender: gender,
-    //   language: language.map((obj) => obj.title),
-    //   experience: experience,
-    //   website: website,
-    //   fee: fee,
-    //   couching_medium: couchingMedium,
-    //   email: email,
-    //   skills: selectedSkills,
-    //   password: pw1,
-    // });
-
-    // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
-
     /* ---- Email Check ---- starts*/
     const checkEmail = emailCheck(editedUserData.email);
     if (checkEmail) {
@@ -256,21 +232,27 @@ setEditedUserData({
     } else {
       console.log("invalid email");
       setIsEmailValid(false);
+
+      return false;
     }
-
     /* ---- Email Check ---- ends*/
-    /* ---- Password Check ---- starts*/
 
-    // if (pw1 !== pw2) {
-    //   console.log(
-    //     "You first Passwords is not similar with 2nd password. Please enter same password in both"
-    //   );
-    //   setIsPwValid(false);
-    // } else if (pw1.length < 5) {
-    //   console.log("Password validation is at least 6 character");
-    //   setIsPwValid(false);
-    // } else {
-    // }
+    /* ---- Password Check ---- starts*/
+    if (editedUserData.password !== password2) {
+      console.log(
+        "Your first Password is not similar with 2nd password. Please enter same password in both fields."
+      );
+      setIsPwValid(false);
+      return false;
+    } else if (editedUserData.password.length < 5) {
+      console.log("Password validation is at least 6 character");
+      setIsPwValid(false);
+      return false;
+    } else {
+      setEditedUserData({
+        ...editedUserData, password: password1
+      })
+    }
     /* ---- Password Check ---- ends*/
 
     let requestOptions = {
@@ -337,13 +319,6 @@ setEditedUserData({
         setMtrsCurrData(profileData);
         setEditedUserData(profileData);
 
-        // set new state for autocomplete input
-        const lang = [];
-        result.language.map((lng) => {
-         return lang.push({ title: lng });
-        });
-        setTest2(lang);
-
         // setMtrsCurrData(result)
       } catch (error) {
         console.log("error getting prifile data: ", error);
@@ -355,19 +330,19 @@ setEditedUserData({
   }, []);
   // ------ Get profile data  ----------- ends--
 
-
-
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
-  // console.log("couchingMedium: ", couchingMedium);
   // console.log("isEmailValid: ", isEmailValid);
   // console.log("isPwValid: ", isPwValid);
+  // console.log("couchingMedium: ", couchingMedium);
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
-  console.log("language", language);
+  // console.log("language", language);
   // console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
-  console.log("test2: ", test2);
+  // console.log("mtrsCurrData: ", mtrsCurrData);
+  console.log("password1: ", password1);
+  console.log("password2: ", password2);
 
   //   console.log("test1: ", test2);
   const obj = [
@@ -478,10 +453,10 @@ setEditedUserData({
                   <TextField
                     size="small"
                     type="text"
-                    // autoComplete="given-name"
                     name="first_name"
                     required
                     fullWidth
+                    autoComplete="off"
                     id="first_name"
                     // label="First Name"
                     // defaultValue={mtrsCurrData.first_name}
@@ -498,9 +473,12 @@ setEditedUserData({
                     type="text"
                     required
                     fullWidth
+                    autoComplete="off"
                     id="last_name"
                     name="last_name"
-                    value={editedUserData.last_name ? editedUserData.last_name : ""}
+                    value={
+                      editedUserData.last_name ? editedUserData.last_name : ""
+                    }
                     onChange={handleInputValueChange}
                   />
                 </Grid>
@@ -510,6 +488,7 @@ setEditedUserData({
                     type="date"
                     required
                     fullWidth
+                    autoComplete="off"
                     id="birthday"
                     label="Birthday"
                     name="birthday"
@@ -529,9 +508,8 @@ setEditedUserData({
                       id="gender"
                       name="gender"
                       // value={gender}
-                      value={editedUserData.gender ? editedUserData.gender : ""}
                       label="Gender"
-                      // onChange={handleGenderChange}
+                      value={editedUserData.gender ? editedUserData.gender : ""}
                       onChange={handleInputValueChange}
                     >
                       <MenuItem value="">
@@ -595,6 +573,10 @@ setEditedUserData({
                     label="Year of Experience"
                     name="experience"
                     autoComplete="off"
+                    value={
+                      editedUserData.experience ? editedUserData.experience : ""
+                    }
+                    onChange={handleInputValueChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -604,8 +586,10 @@ setEditedUserData({
                     fullWidth
                     id="mentor-website"
                     label="Website"
-                    name="mentor-website"
-                    autoComplete="website"
+                    name="website"
+                    autoComplete="off"
+                    value={editedUserData.website ? editedUserData.website : ""}
+                    onChange={handleInputValueChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -618,23 +602,24 @@ setEditedUserData({
                     style={{ width: "5rem" }}
                     size="small"
                     required
-                    type=""
+                    type="number"
+                    min="0"
+                    max="1000"
                     placeholder=""
                     id="fee"
                     label="Fee"
-                    disabled={volunteer !== ""}
+                    disabled={volunteer}
                     name="fee"
                     autoComplete="off"
-                    // value={fee}
-                    value={volunteer !== "" ? volunteer : fee}
-                    onChange={(e) => setFee(e.target.value)}
+                    value={editedUserData.fee ? editedUserData.fee : ""}
+                    onChange={handleInputValueChange}
                   />
                   <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
                   <span style={{ padding: "0 1rem " }}>or</span>
                   <FormControlLabel
                     control={<Checkbox />}
                     label="Volunteer"
-                    value="Volunteer"
+                    value="0"
                     onClick={(e) => handleSelectVolunteerClick(e)}
                   />
                 </Grid>
@@ -664,7 +649,8 @@ setEditedUserData({
                             size="small"
                             id={`chouching` + i}
                             className={
-                              couchingMedium.includes(button)
+                              editedUserData &&
+                              editedUserData?.couching_medium?.includes(button)
                                 ? "checkBtnClicked"
                                 : "checkBtnUnclicked"
                             }
@@ -705,7 +691,8 @@ setEditedUserData({
                             size="small"
                             id={i}
                             className={
-                              selectedSkills.includes(button)
+                              editedUserData &&
+                              editedUserData?.skills?.includes(button)
                                 ? "checkBtnClicked"
                                 : "checkBtnUnclicked"
                             }
@@ -768,8 +755,10 @@ setEditedUserData({
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    onFocus={handlePwInputFocus}
-                    onBlur={onBlur}
+                    value={editedUserData.email ? editedUserData.email : ""}
+                    onChange={handleInputValueChange}
+                    // onFocus={handlePwInputFocus}
+                    // onBlur={onBlur}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -778,15 +767,20 @@ setEditedUserData({
                     size="small"
                     required
                     fullWidth
-                    name="password-1"
+                    name="password"
                     label="Password"
                     type="password"
                     id="password-1"
                     autoComplete="new-password"
+                    value={editedUserData.password ? editedUserData.password : ""}
+                    onChange={handleInputValueChange}
+                     // value={password1}
+                    // onChange={(e) => setPassword1(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={!isPwValid}
                     size="small"
                     required
                     fullWidth
@@ -795,8 +789,10 @@ setEditedUserData({
                     type="password"
                     id="password-2"
                     autoComplete="new-password"
-                    onFocus={handlePwInputFocus}
-                    onBlur={onBlur}
+                    value={password2}
+                    onChange={(e) => setPassword2(e.target.value)}
+                    // onFocus={handlePwInputFocus}
+                    // onBlur={onBlur}
                   />
                 </Grid>
               </Grid>
