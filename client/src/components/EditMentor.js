@@ -494,7 +494,7 @@ export default function EditMentor() {
                     name="birthday"
                     value={
                       editedUserData.birthday
-                        ? formatDataYyMmDd(mtrsCurrData.birthday)
+                        ? formatDataYyMmDd(editedUserData.birthday)
                         : ""
                     }
                     onChange={handleInputValueChange}
