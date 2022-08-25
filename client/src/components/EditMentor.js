@@ -359,9 +359,9 @@ export default function EditMentor() {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {mtrsCurrData === null ||
-        mtrsCurrData === undefined ||
-        mtrsCurrData === "" ? (
+        {editedUserData === null ||
+        editedUserData === undefined ||
+        editedUserData === "" ? (
           <ErrorPage error="Loading Profile page..." />
         ) : (
           <Box
@@ -421,14 +421,14 @@ export default function EditMentor() {
                   className="avatar-picture-box"
                   onClick={onButtonSelectPictureClick}
                 >
-                  {mtrsCurrData.avatar_picture && (
+                  {editedUserData.avatar_picture && (
                     <img
-                      src={mtrsCurrData.avatar_picture}
+                      src={editedUserData.avatar_picture}
                       alt="avatar"
                       width="300"
                     />
                   )}
-                  {!mtrsCurrData.avatar_picture && (
+                  {!editedUserData.avatar_picture && (
                     <span>Please chouse a profile image (optional)</span>
                   )}
                 </div>
