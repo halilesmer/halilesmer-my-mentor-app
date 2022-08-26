@@ -19,7 +19,7 @@ const MentorsCard = ({ mentorsData }) => {
             <Paper
               key={mentorsData._id}
               elevation={10}
-              className="mentor-cards-con"
+              className="mentor-card-con"
             >
               <div
                 className="mentor-cards-header"
