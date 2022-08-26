@@ -1,7 +1,36 @@
+.mentor-card-con {
+    margin: 1rem 0 !important;
+    border: solid 1px orange !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.mentor-card-body {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 .mentor-card-texts-con {
-    margin: 1px 1px 1px 10px;
+    margin: 1px 1px 1px 10px !important;
+    width: 70% !important;
 }
 
 .mentor-card-texts-con p {
     margin: 0.3rem !important;
+}
+
+.mentor-card-texts-con p span {
+    font-size: 0.9rem !important;
+}
+
+.mentor-cards-img-con {
+    width: 25% !important;
+    text-align-last: center !important;
+}
+
+.mentor-img {
+    width: 90% !important;
+    text-align: center !important;
+    border-radius: 50% !important;
 }

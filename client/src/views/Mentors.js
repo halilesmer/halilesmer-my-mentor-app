@@ -35,7 +35,7 @@ const Mentors = () => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
+          "http://localhost:5001/api/mentors/allmentors",
           requestOptions
         );
         const result = await response.json();
@@ -72,7 +72,7 @@ const Mentors = () => {
     }
     return () => (didCancel = true);
   }, []);
-  return <MentorsCard mentorsData={mentorsData}/>;
+  return <MentorsCard  mentorsData={mentorsData}/>;
 };
 
 export default Mentors;
