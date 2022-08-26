@@ -37,6 +37,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
 import { getToken } from "../utils/getToken";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -51,7 +52,7 @@ export default function EditMentor() {
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(true);
-  const [password1, setPassword1] = React.useState('')
+  const [password1, setPassword1] = React.useState("");
   const [password2, setPassword2] = React.useState("");
   const [isPwValid, setIsPwValid] = React.useState(true);
 
@@ -67,6 +68,8 @@ export default function EditMentor() {
   const [open, setOpen] = React.useState(false);
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const [spinner, setSpinner] = React.useState(true);
+  const token = getToken();
+
   const inputFile = React.useRef();
 
   // -------- Handle  Close   -------
@@ -182,7 +185,6 @@ export default function EditMentor() {
   const handleAttachFileOnchange = (e) => {
     setSelectedImage(e.target.files[0]);
   };
-
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     e.preventDefault();
@@ -250,8 +252,9 @@ export default function EditMentor() {
       return false;
     } else {
       setEditedUserData({
-        ...editedUserData, password: password1
-      })
+        ...editedUserData,
+        password: password1,
+      });
     }
     /* ---- Password Check ---- ends*/
 
@@ -259,22 +262,18 @@ export default function EditMentor() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(editedUserData),
     };
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/signup",
+        "http://localhost:5001/api/mentors/editmentor",
         requestOptions
       );
       const results = await response.json();
       console.log("results: ", results);
-
-      if (results.msg === "user allready exists") {
-        setSnackBarAlert("user allready exists");
-        handleClick();
-      }
     } catch (error) {
       console.log("error fetching", error.msg);
     }
@@ -282,7 +281,6 @@ export default function EditMentor() {
 
   // ------ Get profile data  ----------- starts--
   const getProfile = async () => {
-    const token = getToken();
     if (token) {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -341,8 +339,9 @@ export default function EditMentor() {
   // console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
   // console.log("mtrsCurrData: ", mtrsCurrData);
-  console.log("password1: ", password1);
-  console.log("password2: ", password2);
+  // console.log("password1: ", password1);
+  // console.log("password2: ", password2);
+  console.log("token :>> ", token);
 
   //   console.log("test1: ", test2);
   const obj = [
@@ -772,9 +771,11 @@ export default function EditMentor() {
                     type="password"
                     id="password-1"
                     autoComplete="new-password"
-                    value={editedUserData.password ? editedUserData.password : ""}
+                    value={
+                      editedUserData.password ? editedUserData.password : ""
+                    }
                     onChange={handleInputValueChange}
-                     // value={password1}
+                    // value={password1}
                     // onChange={(e) => setPassword1(e.target.value)}
                   />
                 </Grid>

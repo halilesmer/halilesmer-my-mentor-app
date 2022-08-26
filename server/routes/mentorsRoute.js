@@ -1,5 +1,6 @@
 import {
   allMentors,
+  editMentor,
   getProfile,
   mentorsSignIn,
   signUp,
@@ -14,9 +15,11 @@ const router = express.Router();
 
 router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 
+
 router.post("/signup", signUp);
 router.post("/signin", mentorsSignIn);
 router.get("/allmentors", allMentors);
 router.get("/mentorsprofile", jwtAuth, getProfile);
+router.post("/editmentor", jwtAuth, editMentor);
 
 export default router;

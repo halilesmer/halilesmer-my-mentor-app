@@ -43,7 +43,7 @@ export default function NavBar() {
     setAnchorEl(null);
   };
 
-  const handleOpenDrawerClick = (event) => {
+  const handleOpenDrawerClick = () => {
     setDrawerKey(!drawerKey);
   };
 

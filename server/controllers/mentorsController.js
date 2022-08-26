@@ -112,7 +112,6 @@ const allMentors = async (req, res) => {
 
 const mentorsSignIn = async (req, res) => {
   const user = await MentorsModel.findOne({ email: req.body.email });
-  console.log("user: ", user);
   if (!user) {
     res.status(409).json({
       msg: "User not found.",
@@ -135,10 +134,10 @@ const mentorsSignIn = async (req, res) => {
         msg: "You are logged in!",
         successful: true,
         user: {
+          id: user._id,
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
-          id: user._id,
           avatar_picture: user.avatar_picture,
         },
 
@@ -150,6 +149,7 @@ const mentorsSignIn = async (req, res) => {
 const getProfile = (req, res) => {
   console.log("req, res in getProfile: ", req, res);
   res.status(200).json({
+    id: req.user.id,
     first_name: req.user.first_name,
     last_name: req.user.last_name,
     email: req.user.email,
@@ -167,4 +167,79 @@ const getProfile = (req, res) => {
     avatar_picture: req.user?.avatar_picture,
   });
 };
-export { uploadUserPicture, signUp, allMentors, mentorsSignIn, getProfile };
+
+const editMentor = async (req, res) => {
+  // console.log("edit Mentor: req,res: ", req, res);
+  console.log("request body:>> ", req.body);
+  console.log('req.user', req.user)
+  const hashedPassword = await encryptPassword(req.body.password);
+  const filter = { email: "test@mail.de" };
+  const update = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.email,
+    birthday: req.body.birthday,
+    gender: req.body.gender,
+    language: req.body.language,
+    experience: req.body.experience,
+    website: req.body.website,
+    fee: req.body.fee,
+    couching_medium: req.body.couching_medium,
+    skills: req.body.skills,
+    password: hashedPassword,
+    user_type: req.body.user_type,
+    register_Date: req.body.register_Date,
+    avatar_picture: req.body?.avatar_picture,
+  };
+
+  try {
+    // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
+    console.log("req.user.id: ", req.user.id);
+
+    
+    const doc = await MentorsModel.findByIdAndUpdate(req.user.id,
+      update,
+      {new: true}
+    );
+    
+    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
+    //   { _id: req.body.id },
+    //   {
+    //     first_name: "jason bourne",
+    //   }
+    // );
+    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
+    //   req.body.id,
+    //   { first_name: "jason bourne" },
+    //   function (err, result) {
+    //     if (err) {
+    //       res.send(err);
+    //     } else {
+    //       res.send(result);
+    //       // res.status(200).json(result);
+    //       res.status(200).json({ msg: "Update Succesfull" });
+    //     }
+    //   }
+    // );
+    // await doc.save();
+
+    console.log("doc: ", doc);
+    res.status(200).json({
+      msg: "Mentor update successfull",
+    });
+  } catch (error) {
+    console.log("error update mentor: ", error);
+    res.status(400).json({
+      msg: "Can not update mentor!",
+    });
+  }
+};
+
+export {
+  uploadUserPicture,
+  signUp,
+  allMentors,
+  mentorsSignIn,
+  getProfile,
+  editMentor,
+};
