@@ -15,12 +15,12 @@ const AppProvider = (props) => {
 
   const handlePwInputFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
-
+  const token = localStorage.getItem("token");
+  const [likes, setLikes] = useState("");
   // console.log("mentorsData: ", mentorsData);
 
   // -------- Check is User logged in starts ----------
   const isUsrLoggIn = () => {
-    const token = localStorage.getItem("token");
     if (token) {
       setIsUserLoggedIn(true);
     } else {
@@ -36,12 +36,40 @@ const AppProvider = (props) => {
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     setIsUserLoggedIn(false);
-    setUserType('');
+    setUserType("");
     navigate("/");
   };
   // -------- Log out in ends ----------
-  console.log("isUserLoggedIn: ", isUserLoggedIn);
 
+  // ------- like a mentor -------- starts --
+  const handleLikeClick = async (id) => {
+    setLikes([...likes, id]);
+
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        likes: likes,
+      }),
+      // redirect: "follow",
+    };
+
+    const response = await fetch(
+      "http://localhost:5001/api/mentees/postLikes",
+      requestOptions
+    );
+    const result = await response.json();
+    console.log("result likes: ", result);
+    setLikes([]);
+  };
+  // ------- like a mentor -------- ends --
+
+  console.log("isUserLoggedIn: ", isUserLoggedIn);
+  console.log("likes", likes);
   return (
     <AppContext.Provider
       value={{
@@ -56,6 +84,7 @@ const AppProvider = (props) => {
         handleLogoutClick,
         userType,
         setUserType,
+        handleLikeClick,
       }}
     >
       {props.children}

@@ -1,12 +1,15 @@
 import "./MentorsCard.css";
 
 import { Card, CardMedia, IconButton, Paper } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Box } from "@mui/system";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import { AppContext } from "../contexts/appContext";
 
 const MentorsCard = ({ mentorsData }) => {
+  const {handleLikeClick} = useContext(AppContext);
+
   console.log("mentorsData: ", mentorsData);
   return (
     <>
@@ -89,7 +92,10 @@ const MentorsCard = ({ mentorsData }) => {
               </Box>
               <div className="mentor-cards-footer" style={{ width: "100%" }}>
                 <div className="mentor-cards-like-con">
-                  <IconButton aria-label="Example">
+                  <IconButton
+                    aria-label="Like Button"
+                    onClick={() => handleLikeClick(mentor._id)}
+                  >
                     <ThumbUpOffAltIcon fontSize="small" />
                   </IconButton>
                 </div>

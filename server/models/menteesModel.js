@@ -25,7 +25,7 @@ const menteesSchema = new Schema(
       required: [true, "Password are is required"],
       minLength: [4, 'At least 4 charactars please.']
     },
-    user_type: { type: String, default: "mentor" },
+    user_type: { type: String, default: "mentee" },
     likes: { type: Array, required: false },
     avatar_picture: { type: String, required: false },
   },

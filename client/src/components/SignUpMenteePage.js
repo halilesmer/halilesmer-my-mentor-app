@@ -288,7 +288,7 @@ export default function SignUpMenteePage() {
         setSnackBarAlert("User allready exists");
         handleClick();
       } else {
-        // navigate("/mentees/profile");
+        navigate("/mentees/signin");
       }
     } catch (error) {
       console.log("error fetching", error.msg);

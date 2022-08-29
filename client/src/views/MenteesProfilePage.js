@@ -42,6 +42,7 @@ export default function MenteesProfilePage() {
          email: result.email,
          password: "",
          user_type: result.user_type,
+         likes: result.likes,
          avatar_picture: result.avatar_picture,
        });
 

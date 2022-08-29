@@ -328,7 +328,7 @@ export default function SignUpMentorPage() {
         setSnackBarAlert("user allready exists");
         handleClick();
       } else {
-        navigate("/mentors/profile");
+        navigate("/mentors/signin");
       }
     } catch (error) {
       console.log("error fetching", error.msg);

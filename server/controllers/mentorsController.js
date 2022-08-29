@@ -146,10 +146,11 @@ const mentorsSignIn = async (req, res) => {
     }
   }
 };
+
 const getProfile = (req, res) => {
   console.log("req, res in getProfile: ", req, res);
-  console.log('req.user', req.user)
-  
+  console.log("req.user", req.user);
+
   res.status(200).json({
     id: req.user.id,
     first_name: req.user.first_name,
@@ -173,7 +174,7 @@ const getProfile = (req, res) => {
 const editMentor = async (req, res) => {
   // console.log("edit Mentor: req,res: ", req, res);
   console.log("request body:>> ", req.body);
-  console.log('req.user', req.user)
+  console.log("req.user", req.user);
   const hashedPassword = await encryptPassword(req.body.password);
   // const filter = { email: "test@mail.de" };
   const update = {
@@ -198,12 +199,10 @@ const editMentor = async (req, res) => {
     // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
     console.log("req.user.id: ", req.user.id);
 
-    
-    const doc = await MentorsModel.findByIdAndUpdate(req.user.id,
-      update,
-      {new: true}
-    );
-    
+    const doc = await MentorsModel.findByIdAndUpdate(req.user.id, update, {
+      new: true,
+    });
+
     // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
     //   { _id: req.body.id },
     //   {
