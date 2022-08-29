@@ -20,7 +20,7 @@ const styleMentorMenteesBox = {
 const Home = () => {
   return (
     <div className="home">
-      <Typography variant="h5" component="p" align="center">
+      <Typography variant="h5" component="p" align="center" style={{fontSize:'2vh'}}>
         We move the world forward by making it better, one person at a time,
         through coaching and mentoring. Trust, integrity, and respect are very
         important to us. Our coaches are trained professionals ready to assist

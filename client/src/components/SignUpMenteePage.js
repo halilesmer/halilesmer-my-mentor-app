@@ -14,7 +14,7 @@ import {
   Snackbar,
   Tooltip,
 } from "@mui/material";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
@@ -39,7 +39,7 @@ const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function SignUpMentorPage() {
+export default function SignUpMenteePage() {
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
@@ -191,7 +191,7 @@ export default function SignUpMentorPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/imageupload",
+          "http://localhost:5001/api/mentees/imageupload",
           requestOptions
         );
         const result = await response.json();
@@ -216,8 +216,6 @@ export default function SignUpMentorPage() {
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
     const birthday = data.get("birthday").trim();
-    const experience = data.get("experience").trim();
-    const website = data.get("mentor-website").trim();
     const email = data.get("email").trim();
     const pw1 = data.get("password-1").trim();
     const pw2 = data.get("password-2").trim();
@@ -225,13 +223,7 @@ export default function SignUpMentorPage() {
       ...newUser,
       first_name: first_name,
       last_name: last_name,
-      birthday: data.get("birthday").trim(),
-      gender: gender,
-      language: language.map((obj) => obj.title),
-      experience: experience,
-      website: website,
-      fee: fee,
-      couching_medium: couchingMedium,
+      birthday: birthday,
       email: email,
       skills: selectedSkills,
       password: pw1,
@@ -265,34 +257,8 @@ export default function SignUpMentorPage() {
       // setPassword(pw1);
     }
     /* ---- Password Check ---- ends*/
-    // let urlencoded = new URLSearchParams();
-    // let urlencoded= {
 
-    // }
 
-    // urlencoded.append("first_name", first_name);
-    // urlencoded.append("last_name", last_name);
-    // urlencoded.append("birthday", birthday);
-    // urlencoded.append("gender", gender);
-    // urlencoded.append(
-    //   "language",
-    //   language.map((obj) => obj.title)
-    // );
-    // urlencoded.append("experience", experience);
-    // urlencoded.append("website", website);
-    // urlencoded.append("fee", fee);
-    // urlencoded.append("couching_medium", couchingMedium);
-    // urlencoded.append("email", email);
-    // urlencoded.append("skills", selectedSkills);
-    // urlencoded.append("password", pw1);
-    // urlencoded.append(
-    //   "avatar_picture",
-    //   newUser.avatar_picture
-    //     ? newUser.avatar_picture
-    //     : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-    // );
-
-    console.log("newUser", newUser);
 
     let requestOptions = {
       method: "POST",
@@ -304,12 +270,6 @@ export default function SignUpMentorPage() {
         first_name: first_name,
         last_name: last_name,
         birthday: data.get("birthday").trim(),
-        gender: gender,
-        language: language.map((obj) => obj.title),
-        experience: experience,
-        website: website,
-        fee: fee,
-        couching_medium: couchingMedium,
         email: email,
         skills: selectedSkills,
         password: pw1,
@@ -318,17 +278,17 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/signup",
+        "http://localhost:5001/api/mentees/signup",
         requestOptions
       );
       const results = await response.json();
       console.log("results: ", results);
 
       if (results.msg === "user allready exists") {
-        setSnackBarAlert("user allready exists");
+        setSnackBarAlert("User allready exists");
         handleClick();
       } else {
-        navigate("/mentors/profile");
+        // navigate("/mentees/profile");
       }
     } catch (error) {
       console.log("error fetching", error.msg);
@@ -343,7 +303,7 @@ export default function SignUpMentorPage() {
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
   // console.log("language", language);
-  // console.log("selectedImage :>> ", selectedImage);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -364,7 +324,7 @@ export default function SignUpMentorPage() {
           Sign up
         </Typography>
         <Typography component="h1" variant="h5">
-          Mentor
+          Mentee
         </Typography>
         <Snackbar
           open={open}
@@ -465,150 +425,10 @@ export default function SignUpMentorPage() {
                 autoComplete="birthday"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControl sx={{ minWidth: 120 }} size="small">
-                <InputLabel id="gender">Gender</InputLabel>
-                <Select
-                  labelId="gender"
-                  id="gender"
-                  name="gender"
-                  value={gender}
-                  label="Gender"
-                  onChange={handleGenderChange}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"Female"}>Female</MenuItem>
-                  <MenuItem value={"Male"}>Male</MenuItem>
-                  <MenuItem value={"Other"}>Other</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Autocomplete
-                size="small"
-                onChange={handleLanguageOnChange}
-                multiple
-                id="language"
-                options={languages}
-                name="language"
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.title}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.title}
-                  </li>
-                )}
-                // style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Language"
-                    placeholder="Language"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="number"
-                fullWidth
-                id="experience"
-                label="Year of Experience"
-                name="experience"
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="text"
-                fullWidth
-                id="mentor-website"
-                label="Website"
-                name="mentor-website"
-                autoComplete="website"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Tooltip disableFocusListener title="Please choise your fee">
-                <IconButton>
-                  <InfoIcon size="10px" />
-                </IconButton>
-              </Tooltip>
-              <TextField
-                style={{ width: "5rem" }}
-                size="small"
-                required
-                type=""
-                placeholder=""
-                id="fee"
-                label="Fee"
-                disabled={volunteer !== ""}
-                name="fee"
-                autoComplete="off"
-                // value={fee}
-                value={volunteer !== "" ? volunteer : fee}
-                onChange={(e) => setFee(e.target.value)}
-              />
-              <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
-              <span style={{ padding: "0 1rem " }}>or</span>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Volunteer"
-                value="Volunteer"
-                onClick={(e) => handleSelectVolunteerClick(e)}
-              />
-            </Grid>
-
-            <Grid item xs={12} className="couchingMedium-con">
-              <div>Select Your Couching Medium:</div>
-              <div
-                className=""
-                style={{
-                  width: "100%",
-                  border: "solid 1px #d1d1d1",
-                  borderRadius: "4px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "95%",
-                    border: "solid 1px #d1d1d1",
-                    borderRadius: "4px",
-                    margin: "4px auto 4px auto",
-                  }}
-                >
-                  {couchMd.map((button, i) => {
-                    return (
-                      <Button
-                        key={i}
-                        size="small"
-                        id={`chouching` + i}
-                        className={
-                          couchingMedium.includes(button)
-                            ? "checkBtnClicked"
-                            : "checkBtnUnclicked"
-                        }
-                        // styles={styles.checkBtn}
-                        variant="contained"
-                        onClick={() => handleCouchingMediumClick(button)}
-                      >
-                        {button}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </div>
-            </Grid>
+            
+            
+          
+            
 
             <Grid item xs={12} className="skillsInput">
               <div>Select Your Skills:</div>

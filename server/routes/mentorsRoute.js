@@ -16,9 +16,10 @@ const router = express.Router();
 router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 
 
-router.post("/signup", signUp);
+// router.post("/signup", signUp);
+router.route("/signup").post(signUp);
 router.post("/signin", mentorsSignIn);
-router.get("/allmentors", allMentors);
+router.get("/allmentors",allMentors);
 router.get("/mentorsprofile", jwtAuth, getProfile);
 router.post("/editmentor", jwtAuth, editMentor);
 

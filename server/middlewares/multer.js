@@ -10,7 +10,8 @@ const multerUploads = multer({
       extension !== ".jpeg" &&
       extension !== ".png" &&
       extension !== ".webp" &&
-      extension !== ".svg" 
+      extension !== ".svg"  &&
+      extension !== ".HEIC" 
 
     ) {
       cb(new Error("File extension not supported"), false);

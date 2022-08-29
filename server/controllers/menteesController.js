@@ -1,10 +1,12 @@
 import { encryptPassword, verifyPassword } from "../util/encryptPassword.js";
 
-import MentorsModel from "../models/mentorsModel.js";
+import MenteesModel from "../models/menteesModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { issueToken } from "../util/jwt.js";
-import mongoose from "mongoose";
-import signInModel from "../models/signInModel.js";
+
+// import { issueToken } from "../util/jwt.js";
+// import mongoose from "mongoose";
+// import signInModel from "../models/signInModel.js";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req.boy", req.boy);
@@ -12,7 +14,7 @@ const uploadUserPicture = async (req, res) => {
   try {
     console.log("req.file :>> ", req.file); //Multer is storing the file in that property(objec) of the request object
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-      folder: "my-it-mentor/mentors",
+      folder: "my-it-mentor/mentees",
     });
     console.log("uploadResult", uploadResult); //this show us the object with all the information about the upload, including the public URL in result.url
     res.status(200).json({
@@ -29,24 +31,22 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body: ", req.body);
-  console.log("Here is the backend : ", {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    birthday: req.body.birthday,
-    gender: req.body.gender,
-    language: req.body.language,
-    experience: req.body.experience,
-    website: req.body.website,
-    fee: req.body.fee,
-    couching_medium: req.body.couching_medium,
-    email: req.body.email,
-    skills: req.body.skills,
-    password: req.body.password,
-    avatar_picture: req.body.avatar_picture,
-  });
+  // console.log("Here is the backend : ", {
+  //   first_name: req.body.first_name,
+  //   last_name: req.body.last_name,
+  //   birthday: req.body.birthday,
+  //   gender: req.body.gender,
+  //   language: req.body.language,
+  //   website: req.body.website,
+  //   couching_medium: req.body.couching_medium,
+  //   email: req.body.email,
+  //   skills: req.body.skills,
+  //   password: req.body.password,
+  //   avatar_picture: req.body.avatar_picture,
+  // });
 
   try {
-    const existingUser = await MentorsModel.findOne({ email: req.body.email });
+    const existingUser = await MenteesModel.findOne({ email: req.body.email });
     if (existingUser) {
       res.status(409).json({ msg: "user allready exists" });
       console.log("user allready exists: ");
@@ -56,15 +56,12 @@ const signUp = async (req, res) => {
 
       const hashedPassword = await encryptPassword(req.body.password);
 
-      const newUser = new MentorsModel({
+      const newUser = new MenteesModel({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         birthday: req.body.birthday,
         gender: req.body.gender,
         language: req.body.language,
-        experience: req.body.experience,
-        website: req.body.website,
-        fee: req.body.fee,
         couching_medium: req.body.couching_medium,
         email: req.body.email,
         skills: req.body.skills,
@@ -81,9 +78,7 @@ const signUp = async (req, res) => {
             birthday: savedUser.birthday,
             gender: savedUser.gender,
             language: savedUser.language,
-            experience: savedUser.experience,
             website: savedUser.website,
-            fee: savedUser.fee,
             couching_medium: savedUser.couching_medium,
             email: savedUser.email,
             skills: savedUser.skills,
@@ -93,6 +88,7 @@ const signUp = async (req, res) => {
         });
       } catch (error) {
         console.log("SavedUser error: ", error);
+        if(error.code)
         res
           .status(401)
           .json({ msg: "registration not possible", error: error });
@@ -103,16 +99,8 @@ const signUp = async (req, res) => {
   }
 };
 
-const allMentors = async (req, res) => {
-  console.log("req.body: ", req.body);
-
-  const response = await MentorsModel.find();
-  // const result = await response.json();
-  res.status(200).json(response);
-};
-
-const mentorsSignIn = async (req, res) => {
-  const user = await MentorsModel.findOne({ email: req.body.email });
+const menteesSignIn = async (req, res) => {
+  const user = await MenteesModel.findOne({ email: req.body.email });
   if (!user) {
     res.status(409).json({
       msg: "User not found.",
@@ -138,6 +126,7 @@ const mentorsSignIn = async (req, res) => {
           id: user._id,
           first_name: user.first_name,
           last_name: user.last_name,
+          user_type:user.user_type,
           email: user.email,
           avatar_picture: user.avatar_picture,
         },
@@ -147,102 +136,27 @@ const mentorsSignIn = async (req, res) => {
     }
   }
 };
+
 const getProfile = (req, res) => {
   console.log("req, res in getProfile: ", req, res);
-  console.log('req.user', req.user)
-  
+  console.log("req.user", req.user);
+
   res.status(200).json({
     id: req.user.id,
     first_name: req.user.first_name,
     last_name: req.user.last_name,
-    email: req.user.email,
     birthday: req.user.birthday,
     gender: req.user.gender,
     language: req.user.language,
-    experience: req.user.experience,
-    website: req.user.website,
-    fee: req.user.fee,
     couching_medium: req.user.couching_medium,
     skills: req.user.skills,
+    about: req.user.about,
+    email: req.user.email,
     password: "",
     user_type: req.user.user_type,
-    register_Date: req.user.register_Date,
+    likes: req.user.likes,
     avatar_picture: req.user?.avatar_picture,
   });
 };
 
-const editMentor = async (req, res) => {
-  // console.log("edit Mentor: req,res: ", req, res);
-  console.log("request body:>> ", req.body);
-  console.log('req.user', req.user)
-  const hashedPassword = await encryptPassword(req.body.password);
-  // const filter = { email: "test@mail.de" };
-  const update = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    birthday: req.body.birthday,
-    gender: req.body.gender,
-    language: req.body.language,
-    experience: req.body.experience,
-    website: req.body.website,
-    fee: req.body.fee,
-    couching_medium: req.body.couching_medium,
-    skills: req.body.skills,
-    password: hashedPassword,
-    user_type: req.body.user_type,
-    register_Date: req.body.register_Date,
-    avatar_picture: req.body?.avatar_picture,
-  };
-
-  try {
-    // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
-    console.log("req.user.id: ", req.user.id);
-
-    
-    const doc = await MentorsModel.findByIdAndUpdate(req.user.id,
-      update,
-      {new: true}
-    );
-    
-    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
-    //   { _id: req.body.id },
-    //   {
-    //     first_name: "jason bourne",
-    //   }
-    // );
-    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
-    //   req.body.id,
-    //   { first_name: "jason bourne" },
-    //   function (err, result) {
-    //     if (err) {
-    //       res.send(err);
-    //     } else {
-    //       res.send(result);
-    //       // res.status(200).json(result);
-    //       res.status(200).json({ msg: "Update Succesfull" });
-    //     }
-    //   }
-    // );
-    // await doc.save();
-
-    console.log("doc: ", doc);
-    res.status(200).json({
-      msg: "Mentor update successfull",
-    });
-  } catch (error) {
-    console.log("error update mentor: ", error);
-    res.status(400).json({
-      msg: "Can not update mentor!",
-    });
-  }
-};
-
-export {
-  uploadUserPicture,
-  signUp,
-  allMentors,
-  mentorsSignIn,
-  getProfile,
-  editMentor,
-};
+export { uploadUserPicture, signUp, getProfile, menteesSignIn };

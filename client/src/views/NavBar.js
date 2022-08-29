@@ -130,7 +130,7 @@ export default function NavBar() {
                     </ListItemIcon>
 
                     <NavLink
-                      to="/mentors/signin"
+                      to="/signin"
                       style={({ isActive }) =>
                         isActive ? activeStyle : noActive
                       }

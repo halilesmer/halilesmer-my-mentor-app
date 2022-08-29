@@ -14,7 +14,11 @@ const mentorSchema = new Schema({
   couching_medium: { type: Array, required: true },
   skills: { type: Array, required: true },
   about: { type: String, required: false },
-  email: { type: String, required: true, unique: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: { type: String, required: true },
   user_type: { type: String, default: "mentor" },
   likes: { type: Number, required: false },

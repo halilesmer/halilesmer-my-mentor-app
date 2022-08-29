@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
 
@@ -8,6 +9,8 @@ const AppProvider = (props) => {
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
+
+  const navigate = useNavigate();
 
   const handlePwInputFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
@@ -27,11 +30,12 @@ const AppProvider = (props) => {
     isUsrLoggIn();
   }, [isUserLoggedIn]);
   // -------- Check is User logged in ends ----------
-  
+
   // -------- Log out in starts ----------
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     setIsUserLoggedIn(false);
+    navigate("/");
   };
   // -------- Log out in ends ----------
   console.log("isUserLoggedIn: ", isUserLoggedIn);

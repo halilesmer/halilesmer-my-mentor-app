@@ -36,7 +36,7 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-export default function LoginPage() {
+export default function SignInMenteePage() {
   const navigate = useNavigate();
   // const [password2, setPassword2] = React.useState('')
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/signin/",
+        "http://localhost:5001/api/mentees/signin/",
         requestOptions
       );
       const result = await response.json();
@@ -77,7 +77,7 @@ export default function LoginPage() {
         // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
-        navigate("/mentors/profile");
+        navigate("/mentees/profile");
         console.log("login succesfull: ", result);
       }
     } catch (error) {
@@ -103,6 +103,9 @@ export default function LoginPage() {
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
+          </Typography>
+          <Typography component="h1" variant="h5">
+            Mentee
           </Typography>
           <Box
             component="form"

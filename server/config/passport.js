@@ -1,10 +1,7 @@
-import * as dotenv from "dotenv";
-
-import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
-
-import MentorsModel from "../models/mentorsModel.js";
 import passport from "passport";
-
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import * as dotenv from "dotenv";
+import MentorsModel from "../models/mentorsModel.js";
 dotenv.config();
 
 const jwtOptions = {

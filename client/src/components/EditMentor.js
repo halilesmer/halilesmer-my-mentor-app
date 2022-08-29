@@ -69,7 +69,7 @@ export default function EditMentor() {
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const [spinner, setSpinner] = React.useState(true);
   const token = getToken();
-
+  const navigate = useNavigate();
   const inputFile = React.useRef();
 
   // -------- Handle  Close   -------
@@ -274,6 +274,7 @@ export default function EditMentor() {
       );
       const results = await response.json();
       console.log("results: ", results);
+      navigate("/mentors/profile");
     } catch (error) {
       console.log("error fetching", error.msg);
     }
