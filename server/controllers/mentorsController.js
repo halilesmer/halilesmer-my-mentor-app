@@ -29,21 +29,21 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body: ", req.body);
-  console.log("Here is the backend : ", {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    birthday: req.body.birthday,
-    gender: req.body.gender,
-    language: req.body.language,
-    experience: req.body.experience,
-    website: req.body.website,
-    fee: req.body.fee,
-    couching_medium: req.body.couching_medium,
-    email: req.body.email,
-    skills: req.body.skills,
-    password: req.body.password,
-    avatar_picture: req.body.avatar_picture,
-  });
+  // console.log("Here is the backend : ", {
+  //   first_name: req.body.first_name,
+  //   last_name: req.body.last_name,
+  //   birthday: req.body.birthday,
+  //   gender: req.body.gender,
+  //   language: req.body.language,
+  //   experience: req.body.experience,
+  //   website: req.body.website,
+  //   fee: req.body.fee,
+  //   couching_medium: req.body.couching_medium,
+  //   email: req.body.email,
+  //   skills: req.body.skills,
+  //   password: req.body.password,
+  //   avatar_picture: req.body.avatar_picture,
+  // });
 
   try {
     const existingUser = await MentorsModel.findOne({ email: req.body.email });
@@ -139,6 +139,7 @@ const mentorsSignIn = async (req, res) => {
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
+          user_type: user.user_type,
           avatar_picture: user.avatar_picture,
         },
 

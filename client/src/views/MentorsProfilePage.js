@@ -28,12 +28,12 @@ export default function MentorsProfilePage() {
           requestOptions
         );
         const result = await response.json();
-        console.log("result: ", result);
+          console.log("result: ", result);
         setMentorsProfile({
+          id: result.id,
           first_name: result.first_name,
           last_name: result.last_name,
           email: result.email,
-          id: result.id,
           birthday: result.birthday,
           gender: result.gender,
           language: result.language,

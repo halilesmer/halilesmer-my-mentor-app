@@ -6,6 +6,7 @@ const AppContext = createContext();
 const AppProvider = (props) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userLogIn, setUserLogIn] = useState("");
+  const [userType, setUserType] = useState("");
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -35,6 +36,7 @@ const AppProvider = (props) => {
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     setIsUserLoggedIn(false);
+    setUserType('');
     navigate("/");
   };
   // -------- Log out in ends ----------
@@ -52,6 +54,8 @@ const AppProvider = (props) => {
         userLogIn,
         setUserLogIn,
         handleLogoutClick,
+        userType,
+        setUserType,
       }}
     >
       {props.children}

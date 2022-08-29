@@ -40,7 +40,7 @@ export default function SignInMenteePage() {
   const navigate = useNavigate();
   // const [password2, setPassword2] = React.useState('')
 
-  const { setIsUserLoggedIn, userLogIn, setUserLogIn } =
+  const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
 
   // const [password2, setPassword2] = React.useState("");
@@ -67,7 +67,7 @@ export default function SignInMenteePage() {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentees/signin/",
+        "http://localhost:5001/api/mentees/signin",
         requestOptions
       );
       const result = await response.json();
@@ -77,8 +77,9 @@ export default function SignInMenteePage() {
         // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
-        navigate("/mentees/profile");
+        setUserType('mentee');
         console.log("login succesfull: ", result);
+        navigate("/mentees/profile");
       }
     } catch (error) {
       console.log("error during signIn: ", error);

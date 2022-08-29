@@ -23,6 +23,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
+import { getToken } from "../utils/getToken";
 
 // import { signOut } from "firebase/auth";
 
@@ -33,7 +34,9 @@ export default function NavBar() {
   const pathname = useLocation();
   const navigateTo = useNavigate();
 
-  const { handleLogoutClick } = React.useContext(AppContext);
+  const { handleLogoutClick, userType, setUserType } =
+    React.useContext(AppContext);
+  const token = getToken();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,6 +57,8 @@ export default function NavBar() {
     textDecoration: "none",
   };
 
+  // console.log("userType: ", userType);
+  // console.log("token: ", token);
   // console.log("drawerKey: ", drawerKey);
   return (
     <Box
@@ -174,14 +179,21 @@ export default function NavBar() {
                       <ManageAccountsIcon />
                     </ListItemIcon>
 
-                    <NavLink
-                      to="/mentors/profile"
-                      style={({ isActive }) =>
-                        isActive ? activeStyle : noActive
-                      }
-                    >
-                      <ListItemText primary="Profile" />
-                    </NavLink>
+                    {token !== "" && (
+                      <NavLink
+                        to={
+                          userType === "mentor"
+                            ? "/mentors/profile"
+                            : "/mentees/profile"
+                        }
+                        // to="/mentors/profile"
+                        style={({ isActive }) =>
+                          isActive ? activeStyle : noActive
+                        }
+                      >
+                        <ListItemText primary="Profile" />
+                      </NavLink>
+                    )}
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -198,7 +210,7 @@ export default function NavBar() {
             }}
             onClick={handleLogoutClick}
           >
-            <LogoutIcon fontSize="small" />
+            {(token || token !== false)  && <LogoutIcon fontSize="small" />}
           </Box>
           {/* ) : ( */}
           {/* "" */}

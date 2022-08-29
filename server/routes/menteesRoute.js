@@ -17,7 +17,7 @@ router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 router.post("/signup", signUp);
 router.post("/signin", menteesSignIn);
 
- router.get("/menteeprofile", jwtAuth, getProfile);
+ router.get("/menteesprofile", jwtAuth, getProfile);
 // router.post("/editmentee", jwtAuth, editMentor);
 
 export default router;

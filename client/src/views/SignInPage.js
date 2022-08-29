@@ -14,7 +14,7 @@ const SignInPage = () => {
           Sing in as <strong>mentor,</strong> please click here!
         </p>
         <Link to="/mentors/signin">
-          <LoginRegisterBtn text="Register" />
+          <LoginRegisterBtn text="Sign In" />
         </Link>
       </div>
       <div className="_register-page__mentee-con">
@@ -22,7 +22,7 @@ const SignInPage = () => {
           Sing in as <strong>mentee,</strong> please click here!
         </p>
         <Link to="/mentees/signin/">
-          <LoginRegisterBtn text="Register" />
+          <LoginRegisterBtn text="Sign In" />
         </Link>
       </div>
     </div>

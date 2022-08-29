@@ -34,3 +34,9 @@
     text-align: center !important;
     border-radius: 50% !important;
 }
+
+.mentor-cards-like-con {
+    display: flex !important;
+    justify-content: end !important;
+    margin-right: 0.5rem !important;
+}

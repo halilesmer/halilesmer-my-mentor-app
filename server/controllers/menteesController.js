@@ -30,7 +30,7 @@ const uploadUserPicture = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
-  console.log("req.body: ", req.body);
+  console.log("req.body-signUp: ", req.body);
   // console.log("Here is the backend : ", {
   //   first_name: req.body.first_name,
   //   last_name: req.body.last_name,
@@ -88,10 +88,10 @@ const signUp = async (req, res) => {
         });
       } catch (error) {
         console.log("SavedUser error: ", error);
-        if(error.code)
-        res
-          .status(401)
-          .json({ msg: "registration not possible", error: error });
+        if (error.code)
+          res
+            .status(401)
+            .json({ msg: "registration not possible", error: error });
       }
     }
   } catch (error) {
@@ -106,7 +106,7 @@ const menteesSignIn = async (req, res) => {
       msg: "User not found.",
     });
   } else {
-    console.log("req.body: ", req.body);
+    console.log("req.body-Mentee Sing In: ", req.body);
     const verifiedPassword = await verifyPassword(
       req.body.password,
       user.password
@@ -117,7 +117,8 @@ const menteesSignIn = async (req, res) => {
       });
     } else {
       console.log("You are logged in!");
-      console.log("user.id: ", user._id);
+      console.log("user.id -menteesSignIn: ", user._id);
+      console.log("user-menteesSignIn: ", user);
       const token = issueToken(user._id, user.user_type);
       res.status(201).json({
         msg: "You are logged in!",
@@ -126,7 +127,7 @@ const menteesSignIn = async (req, res) => {
           id: user._id,
           first_name: user.first_name,
           last_name: user.last_name,
-          user_type:user.user_type,
+          user_type: user.user_type,
           email: user.email,
           avatar_picture: user.avatar_picture,
         },

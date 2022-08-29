@@ -1,20 +1,17 @@
-import './MentorsCard.css';
+import "./MentorsCard.css";
 
-import { Card, CardMedia, Paper } from "@mui/material";
+import { Card, CardMedia, IconButton, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import { Box } from "@mui/system";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 const MentorsCard = ({ mentorsData }) => {
-    
-    
-    
-    console.log("mentorsData: ", mentorsData);
+  console.log("mentorsData: ", mentorsData);
   return (
     <>
       {mentorsData &&
         mentorsData.map((mentor) => {
-           
           return (
             <Paper
               key={mentorsData._id}
@@ -91,7 +88,11 @@ const MentorsCard = ({ mentorsData }) => {
                 </Paper>
               </Box>
               <div className="mentor-cards-footer" style={{ width: "100%" }}>
-                footer
+                <div className="mentor-cards-like-con">
+                  <IconButton aria-label="Example">
+                    <ThumbUpOffAltIcon fontSize="small" />
+                  </IconButton>
+                </div>
               </div>
             </Paper>
           );

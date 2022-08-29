@@ -40,7 +40,7 @@ export default function SignInMentorPage() {
   const navigate = useNavigate();
   // const [password2, setPassword2] = React.useState('')
 
-  const { setIsUserLoggedIn, userLogIn, setUserLogIn } =
+  const { setIsUserLoggedIn, userLogIn, setUserLogIn, userType, setUserType } =
     React.useContext(AppContext);
 
   // const [password2, setPassword2] = React.useState("");
@@ -77,6 +77,7 @@ export default function SignInMentorPage() {
         // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
+        setUserType('mentor');
         navigate("/mentors/profile");
         console.log("login succesfull: ", result);
       }

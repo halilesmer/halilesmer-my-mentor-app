@@ -12,51 +12,52 @@ export default function MenteesProfilePage() {
   const [menteesData, setMenteesData] = React.useState(null);
   const [error, setError] = React.useState(null);
 
-  const getProfile = async () => {
-    const token = getToken();
-    if (token) {
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+ const getProfile = async () => {
+   const token = getToken();
+   if (token) {
+     const myHeaders = new Headers();
+     myHeaders.append("Authorization", `Bearer ${token}`);
 
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/mentees/menteesprofile",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result: ", result);
-        setMenteesData({
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          birthday: result.birthday,
-          gender: result.gender,
-          language: result.language,
-          couching_medium: result.couching_medium,
-          skills: result.skills,
-          about: result.about,
-          email: result.email,
-          password: "",
-          user_type: result.user_type,
-          avatar_picture: result.avatar_picture,
-        });
-        // setMenteesData(result)
-      } catch (error) {
-        console.log("error getting prifile data: ", error);
-      }
-    }
-  };
+     const requestOptions = {
+       method: "GET",
+       headers: myHeaders,
+     };
+     try {
+       const response = await fetch(
+         "http://localhost:5001/api/mentees/menteesprofile",
+         requestOptions
+       );
+       const result = await response.json();
+       console.log("result: ", result);
+       setMenteesData({
+         id: result.id,
+         first_name: result.first_name,
+         last_name: result.last_name,
+         birthday: result.birthday,
+         gender: result?.gender,
+         language: result.language,
+         couching_medium: result.couching_medium,
+         skills: result.skills,
+         about: result.about,
+         email: result.email,
+         password: "",
+         user_type: result.user_type,
+         avatar_picture: result.avatar_picture,
+       });
+
+       // setMenteesData(result)
+     } catch (error) {
+       console.log("error getting prifile data: ", error);
+     }
+   }
+ };
   React.useEffect(() => {
     getProfile();
   }, []);
 
 
 
-  console.log("menteesData: ", menteesData);
+  console.log("menteesData: ",menteesData && menteesData);
 
   return (
     <>
