@@ -3,8 +3,6 @@ import { encryptPassword, verifyPassword } from "../util/encryptPassword.js";
 import MentorsModel from "../models/mentorsModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { issueToken } from "../util/jwt.js";
-import mongoose from "mongoose";
-import signInModel from "../models/signInModel.js";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req.boy", req.boy);

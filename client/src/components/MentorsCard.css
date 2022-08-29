@@ -38,5 +38,6 @@
 .mentor-cards-like-con {
     display: flex !important;
     justify-content: end !important;
+    /* margin-top: 1px !important; */
     margin-right: 0.5rem !important;
 }

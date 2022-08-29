@@ -6,6 +6,7 @@ import cors from "cors";
 import express from "express";
 import menteesRoute from "./routes/menteesRoute.js";
 import mentorsRoute from "./routes/mentorsRoute.js";
+import likesRoute from "./routes/likesRoute.js";
 import passport from "passport";
 import { passportConfig } from "./config/passport.js";
 
@@ -41,6 +42,7 @@ const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
   app.use("/api/mentors", mentorsRoute);
   app.use("/api/mentees", menteesRoute);
+  app.use("/api/likes", likesRoute);
 };
 
 (function controller() {
