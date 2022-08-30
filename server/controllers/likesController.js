@@ -37,6 +37,10 @@ const postLikes = async (req, res) => {
         mentee.likes.push(req.body.mentorId);
       }
       await mentee.save();
+      res.status(200).json({
+        mentee,
+        msg: "Mentee like update successfull",
+      });
       //   ----- Mentee update -------- ends ---
     } else {
       //   ----- Mentor update -------- starts ---
@@ -47,12 +51,13 @@ const postLikes = async (req, res) => {
       }
       await mentor.save();
 
+      res.status(200).json({
+        mentor,
+        msg: "Mentee like update successfull",
+      });
       //   ----- Mentor update -------- ends ---
     }
     console.log("mentee-postLikes: ", mentee);
-    res.status(200).json({
-      msg: "Mentee like update successfull",
-    });
   } catch (error) {
     console.log("error update mentee like: ", error);
     res.status(400).json({

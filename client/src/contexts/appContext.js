@@ -58,23 +58,24 @@ const AppProvider = (props) => {
           requestOptions
         );
         const result = await response.json();
+        setMenteesData(result);
         console.log("result: ", result);
-        setMenteesData({
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          birthday: result.birthday,
-          gender: result?.gender,
-          language: result.language,
-          couching_medium: result.couching_medium,
-          skills: result.skills,
-          about: result.about,
-          email: result.email,
-          password: "",
-          user_type: result.user_type,
-          likes: result.likes,
-          avatar_picture: result.avatar_picture,
-        });
+        // setMenteesData({
+        //   id: result.id,
+        //   first_name: result.first_name,
+        //   last_name: result.last_name,
+        //   birthday: result.birthday,
+        //   gender: result?.gender,
+        //   language: result.language,
+        //   couching_medium: result.couching_medium,
+        //   skills: result.skills,
+        //   about: result.about,
+        //   email: result.email,
+        //   password: "",
+        //   user_type: result.user_type,
+        //   likes: result.likes,
+        //   avatar_picture: result.avatar_picture,
+        // });
 
         // setMenteesData(result)
       } catch (error) {
@@ -89,26 +90,6 @@ const AppProvider = (props) => {
 
   // ------- like a mentor -------- starts --
   const handleLikeClick = async (id) => {
-
-    console.log("Mentor id: ", id);
-    setLikes([...menteesData.likes, { mentor_id: id }]);
-
-    // const previousLikes =
-    // menteesData.likes &&
-    // menteesData.likes.filter((prev) => {
-    //   console.log("prev.id: ", prev.id);
-    //   console.log("likes: ", likes);
-    //   console.log("prev.id !== id: ", prev.id !== id);
-    //     return prev.id !== id && filter.push(id);
-    //   });
-    // console.log("previousLikes: ", previousLikes);
-    // // const addRemoveLikes = previousLikes.filter(prev => prev !== id )
-    // // console.log("addRemoveLikes: ", addRemoveLikes);
-    // setLikes([...likes, { mentor_id: id }]);
-    // setLikes(previousLikes);
-    console.log("likes", likes);
-
-    console.log("mentor_id: id : ", id);
     let requestOptions = {
       method: "POST",
       headers: {
@@ -117,20 +98,26 @@ const AppProvider = (props) => {
       },
       // body: JSON.stringify( {filter}),
       body: JSON.stringify({
-        mentorId:id,
+        mentorId: id,
 
         // likes: { mentor_id: id },
       }),
     };
 
-    const response = await fetch(
-      "http://localhost:5001/api/mentees/postLikes",
-      requestOptions
-    );
-    const result = await response.json();
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentees/postLikes",
+        requestOptions
+      );
+      const result = await response.json();
+      setMenteesData(result.mentee);
 
-    console.log("result likes: ", result);
-    // setLikes([]);
+      console.log("result likes: ", result);
+      // getMenteeData();
+      // setLikes(!true)
+    } catch (error) {
+      console.log("error like mentor: ", error);
+    }
   };
   // ------- like a mentor -------- ends --
 
@@ -154,6 +141,7 @@ const AppProvider = (props) => {
         handleLikeClick,
         getMenteeData,
         menteesData,
+        likes,
       }}
     >
       {props.children}

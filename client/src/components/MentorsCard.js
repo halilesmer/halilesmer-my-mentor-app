@@ -8,20 +8,24 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { AppContext } from "../contexts/appContext";
 
-const MentorsCard = ({  mentor }) => {
-  const { handleLikeClick, userLogIn, setUserLogIn, menteesData, getProfile } =
+const MentorsCard = ({ mentor }) => {
+  const { handleLikeClick, userLogIn, likes, menteesData, getMenteeData } =
     useContext(AppContext);
-  const [likedIconColor, setLikedIconColor] = useState([]);
-  
 
-  let menteesLikedId = menteesData &&
-    menteesData.likes.filter((id) => id=== mentor._id );
-    // setLikedIconColor(menteesLikedId)
-  // const mentorsId =
-  // mentor &&
-  // mentor.filter((mentor) => {
-  //   console.log("mentorsId-:>> ", mentor._id);
-  // });
+  const [likedIconColor, setLikedIconColor] = useState(null);
+
+  // const menteesLikedId = ["6304ddef48c5f4b1ec2b6af"].includes(
+  //   "6304ddef48c5f4b1ec2b65af"
+  // );
+
+  useEffect(() => {
+    setLikedIconColor(null)
+     menteesData && menteesData.likes.filter((id) => id.includes(mentor._id) && setLikedIconColor(true));
+    // if (menteesLikedId && menteesLikedId.length > 0) {
+    //   setLikedIconColor(true);
+    // }
+  }, [menteesData]);
+ 
 
   //   const getLikes =
   //     mentor &&
@@ -31,10 +35,10 @@ const MentorsCard = ({  mentor }) => {
 
   /* menteesData && menteesData.likes.filter(mntrId => {
       return mntrId.includes(mntr) */
-  console.log("menteesLikedId: ", menteesLikedId);
   console.log("likedIconColor: ", likedIconColor);
-  // console.log("getLikes: ", getLikes);
-  // console.log("menteesData: ", menteesData && menteesData);
+   console.log("likes: ", likes);
+
+  console.log("menteesData: ", menteesData && menteesData);
   return (
     <>
       <Paper key={mentor._id} elevation={10} className="mentor-card-con">
@@ -91,7 +95,7 @@ const MentorsCard = ({  mentor }) => {
             </p>
             <p>
               {" "}
-              {mentor.skills.map((skill,i) => (
+              {mentor.skills.map((skill, i) => (
                 <span key={i}>{skill}, </span>
               ))}
             </p>
