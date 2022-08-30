@@ -6,59 +6,19 @@ import { Box, Button, Paper, Tooltip } from "@mui/material";
 
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
+import { AppContext } from "../contexts/appContext";
 
 export default function MenteesProfilePage() {
-  // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
-  const [menteesData, setMenteesData] = React.useState(null);
+  const { userLogIn, setUserLogIn, menteesData, getMenteeData } =
+    React.useContext(AppContext);
+
   const [error, setError] = React.useState(null);
 
- const getProfile = async () => {
-   const token = getToken();
-   if (token) {
-     const myHeaders = new Headers();
-     myHeaders.append("Authorization", `Bearer ${token}`);
-
-     const requestOptions = {
-       method: "GET",
-       headers: myHeaders,
-     };
-     try {
-       const response = await fetch(
-         "http://localhost:5001/api/mentees/menteesprofile",
-         requestOptions
-       );
-       const result = await response.json();
-       console.log("result: ", result);
-       setMenteesData({
-         id: result.id,
-         first_name: result.first_name,
-         last_name: result.last_name,
-         birthday: result.birthday,
-         gender: result?.gender,
-         language: result.language,
-         couching_medium: result.couching_medium,
-         skills: result.skills,
-         about: result.about,
-         email: result.email,
-         password: "",
-         user_type: result.user_type,
-         likes: result.likes,
-         avatar_picture: result.avatar_picture,
-       });
-
-       // setMenteesData(result)
-     } catch (error) {
-       console.log("error getting prifile data: ", error);
-     }
-   }
- };
   React.useEffect(() => {
-    getProfile();
+    getMenteeData();
   }, []);
 
-
-
-  console.log("menteesData: ",menteesData && menteesData);
+  console.log("menteesData: ", menteesData && menteesData);
 
   return (
     <>
@@ -141,7 +101,12 @@ export default function MenteesProfilePage() {
                 Register Date: {formatDateDdMmYyyy(menteesData.register_Date)}
               </span>
             </Paper>
-            <Button href='/mentees/edit-mentees' className="edit-profile-btn" variant="contained" fullWidth>
+            <Button
+              href="/mentees/edit-mentees"
+              className="edit-profile-btn"
+              variant="contained"
+              fullWidth
+            >
               Edit
             </Button>
           </Box>

@@ -21,7 +21,7 @@ const mentorSchema = new Schema({
   },
   password: { type: String, required: true },
   user_type: { type: String, default: "mentor" },
-  likes: { type: Number, required: false },
+  likes: { type: Array, required: false },
   avatar_picture: { type: String, required: false },
   register_Date: { type: Date, default: Date.now },
 });

@@ -533,12 +533,7 @@ export default function EditMentor() {
                     // defaultValue={[obj[0], obj[1], ]}
 
                     id="language"
-                    // defaultValue={editedUserData && editedUserData.language.map(
-                    //   (lng) => {
-                    //     return { title: lng };
-                    //   }
-                    // )}
-                    // value={test2.length >0 && test2}
+                   
                     name="language"
                     // disableCloseOnSelect
                     getOptionLabel={(option) => option.title}

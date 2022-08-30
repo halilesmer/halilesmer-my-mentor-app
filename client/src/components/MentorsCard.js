@@ -8,9 +8,12 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { AppContext } from "../contexts/appContext";
 
 const MentorsCard = ({ mentorsData }) => {
-  const {handleLikeClick} = useContext(AppContext);
+  const { handleLikeClick, userLogIn, setUserLogIn, menteesData, getProfile } =
+  useContext(AppContext);
 
-  console.log("mentorsData: ", mentorsData);
+
+  // console.log("mentorsData: ", mentorsData);
+  // console.log("menteesLikes: ", menteesData && menteesData);
   return (
     <>
       {mentorsData &&

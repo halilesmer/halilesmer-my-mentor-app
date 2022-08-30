@@ -172,14 +172,14 @@ export default function NavBar() {
 
               {/* ----------------- Profile Page Link  --------------------- */}
 
-              <List onClick={handleClose}>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon style={{ minWidth: "2.5rem" }}>
-                      <ManageAccountsIcon />
-                    </ListItemIcon>
+              {token && (
+                <List onClick={handleClose}>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                        <ManageAccountsIcon />
+                      </ListItemIcon>
 
-                    {token !== "" && (
                       <NavLink
                         to={
                           userType === "mentor"
@@ -193,10 +193,10 @@ export default function NavBar() {
                       >
                         <ListItemText primary="Profile" />
                       </NavLink>
-                    )}
-                  </ListItemButton>
-                </ListItem>
-              </List>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              )}
             </Menu>
           </div>
 
@@ -210,7 +210,7 @@ export default function NavBar() {
             }}
             onClick={handleLogoutClick}
           >
-            {(token || token !== false)  && <LogoutIcon fontSize="small" />}
+            {(token || token !== false) && <LogoutIcon fontSize="small" />}
           </Box>
           {/* ) : ( */}
           {/* "" */}

@@ -3,37 +3,53 @@ import { encryptPassword, verifyPassword } from "../util/encryptPassword.js";
 
 import { issueToken } from "../util/jwt.js";
 
-
 const postLikes = async (req, res) => {
-  // console.log("edit Mentor: req,res: ", req, res);
-  console.log("request body-postLikes:>> ", req.body);
-  console.log("req.user-postLikes", req.body.likes);
-  // const filter = { email: "test@mail.de" };
-//   const update = {
-//     likes: '11111',
-//     // likes: req.body.likes,
-//   };
+  console.log("res: postLikes ", res);
+  console.log("request body- postLikes:>> ", req.body);
+  console.log("req.body.likes- postLikes", req.body.likes);
 
+  //   try {
+  //       console.log("req.user.id- postLikes: ", req.user.id);
+
+  //       const mentee = await MenteesModel.findById(req.user.id);
+
+  //       //   ----- Mentee update -------- starts ---
+  //     if(user_type === 'mentee'){
+  // if (mentee.likes.includes(req.body.mentorId)) {
+  //       mentee.likes.pull(req.body.mentorId);
+  //     } else {
+  //       mentee.likes.push(req.body.mentorId);
+  //     }
+  //     await mentee.save();
+  //     //   ----- Mentee update -------- ends ---
+  //     }
+
+  //   ----- Mentee update -------- starts ---
   try {
-    // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
-    console.log("req.user.id-postLikes: ", req.user.id);
+    console.log("req.user.id- postLikes: ", req.user.id);
 
-    const doc = await MenteesModel.findById(req.user.id);
-    doc.likes = req.body.likes;
-    await doc.save();
+    const mentee = await MenteesModel.findById(req.user.id);
+    const mentor = await MenteesModel.findById(req.user.id);
+    if (mentee.user_type === "mentee") {
+      if (mentee.likes.includes(req.body.mentorId)) {
+        mentee.likes.pull(req.body.mentorId);
+      } else {
+        mentee.likes.push(req.body.mentorId);
+      }
+      await mentee.save();
+      //   ----- Mentee update -------- ends ---
+    } else {
+      //   ----- Mentor update -------- starts ---
+      if (mentor.likes.includes(req.body.mentorId)) {
+        mentor.likes.pull(req.body.mentorId);
+      } else {
+        mentor.likes.push(req.body.mentorId);
+      }
+      await mentor.save();
 
-    // const doc = await MenteesModel.findByIdAndUpdate(req.user.id, update, {
-    //   new: true,
-    // });
-
-
-    // const doc = await MenteesModel.updateOne(
-    //   { _id: req.user.id },
-    //   { likes: req.user.likes }
-    // );
-
-   
-    console.log("doc-postLikes: ", doc);
+      //   ----- Mentor update -------- ends ---
+    }
+    console.log("mentee-postLikes: ", mentee);
     res.status(200).json({
       msg: "Mentee like update successfull",
     });
