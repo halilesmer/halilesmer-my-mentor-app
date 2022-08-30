@@ -135,8 +135,8 @@ const AppProvider = (props) => {
   // ------- like a mentor -------- ends --
 
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
-  console.log("likes", likes);
-  console.log("menteesData", menteesData && menteesData);
+  // console.log("likes", likes);
+  // console.log("menteesData", menteesData && menteesData);
   return (
     <AppContext.Provider
       value={{

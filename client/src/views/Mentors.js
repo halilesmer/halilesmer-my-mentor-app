@@ -23,7 +23,7 @@ const Mentors = () => {
 
   //   return () => (didCancel = true);
   // }, []);
-  const getProfile = async () => {
+  const getMentorsProfile = async () => {
     // const token = getToken();
     // if (token) {
     //   const myHeaders = new Headers();
@@ -33,7 +33,7 @@ const Mentors = () => {
     //     method: "GET",
     //     headers: myHeaders,
     //   };
-      
+
     // }
     try {
       const response = await fetch(
@@ -67,12 +67,25 @@ const Mentors = () => {
   };
   React.useEffect(() => {
     let didCancel = false;
-    if(!didCancel){
-      getProfile();
+    if (!didCancel) {
+      getMentorsProfile();
     }
     return () => (didCancel = true);
   }, []);
-  return <MentorsCard  mentorsData={mentorsData}/>;
+
+  return (
+    <>
+      {mentorsData &&
+        mentorsData.map((mentor) => {
+          return (
+            <MentorsCard
+            key={mentor._id}
+              mentor={mentor}
+            />
+          );
+        })}
+    </>
+  );
 };
 
 export default Mentors;
