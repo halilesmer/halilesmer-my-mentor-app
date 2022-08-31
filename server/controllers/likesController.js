@@ -1,70 +1,105 @@
 import MenteesModel from "../models/menteesModel.js";
-import { encryptPassword, verifyPassword } from "../util/encryptPassword.js";
-
-import { issueToken } from "../util/jwt.js";
+import MentorsModel from "../models/mentorsModel.js";
 
 const postLikes = async (req, res) => {
-  console.log("res: postLikes ", res);
-  console.log("request body- postLikes:>> ", req.body);
-  console.log("req.body.likes- postLikes", req.body.likes);
-
-  //   try {
-  //       console.log("req.user.id- postLikes: ", req.user.id);
-
-  //       const mentee = await MenteesModel.findById(req.user.id);
-
-  //       //   ----- Mentee update -------- starts ---
-  //     if(user_type === 'mentee'){
-  // if (mentee.likes.includes(req.body.mentorId)) {
-  //       mentee.likes.pull(req.body.mentorId);
-  //     } else {
-  //       mentee.likes.push(req.body.mentorId);
-  //     }
-  //     await mentee.save();
-  //     //   ----- Mentee update -------- ends ---
-  //     }
-
-  //   ----- Mentee update -------- starts ---
+    console.log('req.user>>', req.user)
+    console.log('req.body>>', req.body)
+  //   ----- Mentee likes -------- starts ---
   try {
-    console.log("req.user.id- postLikes: ", req.user.id);
-
+//    Rouls code
+    //   const mentee = await MenteesModel.findByIdAndUpdate(
+    //     req.user.id,
+    //     { $push: { likes: req.body.mentorId }},
+    //     { new: true, overwrite: false
+    //    }
+    //   );
+    //   const mentor = await MentorsModel.findByIdAndUpdate(
+    //     req.body.mentorId,
+    //     { $push: { likes: req.user.id } },
+    //     { new: true, overwrite: false }
+    //   );
+   
     const mentee = await MenteesModel.findById(req.user.id);
-    const mentor = await MenteesModel.findById(req.user.id);
-    if (mentee.user_type === "mentee") {
+    const mentor = await MentorsModel.findById(req.body.mentorId);
+
+
       if (mentee.likes.includes(req.body.mentorId)) {
         mentee.likes.pull(req.body.mentorId);
+        if (res.headersSent !== true) {
+          res.status(200).json({
+            mentee,
+            msg: "Mentee like update successfull",
+          });
+         
+        }
       } else {
         mentee.likes.push(req.body.mentorId);
+        //    res.status(200).json({
+        //      mentee,
+        //      msg: "Mentee like update successfull",
+        //    });
+        if (res.headersSent !== true) {
+           res.status(200).json({
+             mentee,
+             msg: "Mentee like update successfull",
+           });
+        }
       }
-      await mentee.save();
-      res.status(200).json({
-        mentee,
-        msg: "Mentee like update successfull",
-      });
-      //   ----- Mentee update -------- ends ---
-    } else {
-      //   ----- Mentor update -------- starts ---
-      if (mentor.likes.includes(req.body.mentorId)) {
-        mentor.likes.pull(req.body.mentorId);
-      } else {
-        mentor.likes.push(req.body.mentorId);
-      }
-      await mentor.save();
 
-      res.status(200).json({
-        mentor,
-        msg: "Mentee like update successfull",
-      });
-      //   ----- Mentor update -------- ends ---
+      if (mentor.likes.includes(req.user.id)) {
+      mentor.likes.pull(req.user.id);
+    //   res.status(200).json({
+    //     mentor,
+    //     msg: "Mentee deleted mentor like successfull (in MentorModel)",
+    //   });
+      if (res.headersSent !== true) {
+        res.status(200).json({
+          mentor,
+          msg: "Mentee deleted mentor like successfull (in MentorModel)",
+        });
+      }
+      console.log("Mentee ID deleted from mentors likes");
+    //   return;
+    } else {
+      mentor.likes.push(req.user.id);
+    //   res.status(200).json({
+    //     mentor,
+    //     msg: "Mentee liked mentor successfull (in MentorModel)",
+    //   });
+     if (res.headersSent !== true) {
+       res.status(200).json({
+         mentor,
+         msg: "Mentee liked mentor successfull (in MentorModel)",
+       });
+     }
     }
+
+      await mentee.save();
+      await mentor.save();
+    
+
+  
     console.log("mentee-postLikes: ", mentee);
+    // return;
+
+
+  
   } catch (error) {
     console.log("error update mentee like: ", error);
     res.status(400).json({
       msg: "Can not update mentee likes!",
     });
   }
-};
+
+
+  //   ----- Mentee likes -------- ends ---
+
+  //   ----- Mentor likes -------- starts ---
+  console.log("request body- postLikes:>> ", req.body);
+  console.log("req.body.mentor ID- postLikes", req.body.mentorId);
+  console.log("req.user.id- postLikes: ", req.user.id);
+
+}
 
 const getLikes = (req, res) => {
   console.log("req, res in getProfile: ", req, res);
@@ -89,5 +124,136 @@ const getLikes = (req, res) => {
     avatar_picture: req.user?.avatar_picture,
   });
 };
-
 export { getLikes, postLikes };
+
+/* 
+only mentee like works 
+
+const postLikes = async (req, res) => {
+
+
+  //   ----- Mentee likes -------- starts ---
+  try {
+
+    const mentee = await MenteesModel.findById(req.user.id);
+    // const mentor = await MentorsModel.findById(req.body.mentorId);
+    // console.log("mentor: ", mentor);
+
+    if (mentee.likes.includes(req.body.mentorId)) {
+      mentee.likes.pull(req.body.mentorId);
+      console.log("Mentor ID deleted from mentees likes");
+    //   return;
+    } else {
+      mentee.likes.push(req.body.mentorId);
+      console.log("Mentor ID added to mentees likes ");
+
+    }
+    await mentee.save();
+    res.status(200).json({
+      mentee,
+      msg: "Mentee liked mentor successfull",
+    });
+    console.log("mentee-postLikes: ", mentee);
+    // return;
+
+} catch (error) {
+    console.log("error update mentee like: ", error);
+    res.status(400).json({
+        msg: "Can not update mentee likes!",
+    });
+}
+//   ----- Mentee likes -------- ends ---
+
+  //   ----- Mentor likes -------- starts ---
+  console.log("request body- postLikes:>> ", req.body);
+  console.log("req.body.mentor ID- postLikes", req.body.mentorId);
+  console.log("req.user.id- postLikes: ", req.user.id);
+
+//   try {
+//     const mentor = await MentorsModel.findById(req.body.mentorId);
+
+//     if (mentor.likes.includes(req.user.id)) {
+//       mentor.likes.pull(req.user.id);
+//       res.status(200).json({
+//       mentor,
+//       msg: "Mentee deleted mentor like successfull (in MentorModel)",
+//     });
+//     console.log("Mentee ID deleted from mentors likes");
+//     return;
+// } else {
+//     mentor.likes.push(req.user.id);
+//     res.status(200).json({
+//       mentor,
+//       msg: "Mentee liked mentor successfull (in MentorModel)",
+//     });
+//     console.log("Mentee ID added to mentors likes ");
+//     return;
+// }
+// console.log("mentor-postLikes: ", mentor);
+
+// } catch (error) {
+//     console.log("error update mentor like: ", error);
+//     res.status(400).json({
+//         msg: "Can not update mentor likes!",
+//     });
+// }
+//     await mentor.save();
+
+//   ----- Mentor likes -------- ends ---
+};
+
+// const postLikesMentor = async (req, res) => {
+  
+
+//   //   ----- Mentor likes -------- starts ---
+//   console.log("request body- postLikes:>> ", req.body);
+//   console.log("req.body.mentor ID- postLikes", req.body.mentorId);
+//   console.log("req.user.id- postLikes: ", req.user.id);
+
+//   try {
+//     const mentor = await MentorsModel.findById(req.body.mentorId);
+
+//     if (mentor.likes.includes(req.user.id)) {
+//       mentor.likes.pull(req.user.id);
+//       console.log("Mentee ID deleted from mentors likes");
+//     } else {
+//       mentor.likes.push(req.user.id);
+//       console.log("Mentee ID added to mentors likes ");
+//     }
+//     await mentor.save();
+
+//     res.status(200).json({
+//       mentor,
+//       msg: "Mentee liked mentor successfull (in MentorModel)",
+//     });
+//     console.log("mentor-postLikes: ", mentor);
+//     // return;
+//   } catch (error) {
+//     console.log("error update mentor like: ", error);
+//     res.status(400).json({
+//       msg: "Can not update mentor likes!",
+//     });
+//   }
+//   //   ----- Mentor likes -------- ends ---
+// };
+*/
+
+
+
+// What Roul did! only insert data but not deleting
+
+
+//  const mentee = await MenteesModel.findByIdAndUpdate(
+//       req.user.id,
+//       { $push: { likes: req.body.mentorId }},
+//       { new: true, overwrite: false
+//      }
+//     );
+//     const mentor = await MentorsModel.findByIdAndUpdate(
+//       req.body.mentorId,
+//       { $push: { likes: req.user.id } },
+//       { new: true, overwrite: false }
+
+
+
+
