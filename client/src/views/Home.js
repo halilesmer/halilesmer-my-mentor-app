@@ -20,7 +20,13 @@ const styleMentorMenteesBox = {
 const Home = () => {
   return (
     <div className="home">
-      <Typography variant="h5" component="p" align="center" style={{fontSize:'2vh'}}>
+      <Typography
+        variant="h5"
+        component="p"
+        align="center"
+        style={{ fontSize: "2vh" }}
+        mt={2}
+      >
         We move the world forward by making it better, one person at a time,
         through coaching and mentoring. Trust, integrity, and respect are very
         important to us. Our coaches are trained professionals ready to assist
@@ -36,15 +42,14 @@ const Home = () => {
         component="div"
       >
         <p> Hire a Coach</p>
-        <Link to="mentors/" className="link">
           <Button
+          href="/mentors"
             variant="outlined"
             startIcon={<ReadMoreIcon />}
             style={{ width: "10rem", margin: "auto" }}
           >
             More Info
           </Button>
-        </Link>
       </Typography>
 
       {/* Click for Register as Mentor */}
@@ -55,15 +60,16 @@ const Home = () => {
         component="div"
       >
         <p> Become a Coach</p>
-        <Link to="register-mentor/" className="link">
+
           <Button
+            href="/mentors/signup"
             style={{ width: "10rem", margin: "auto" }}
             variant="outlined"
             startIcon={<ReadMoreIcon />}
           >
             More Info
           </Button>
-        </Link>
+
       </Typography>
     </div>
   );

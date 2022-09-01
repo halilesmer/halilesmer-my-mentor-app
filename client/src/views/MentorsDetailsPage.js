@@ -4,13 +4,14 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
+import { AppContext } from "../contexts/appContext";
 import Chat from "../components/Chat";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 import { useParams } from "react-router-dom";
 
 export default function MentorsDetailsPage() {
-  // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
+  const { userLogIn, setUserLogIn, setUserType } = React.useContext(AppContext);
   const [mentor, setMentor] = React.useState(null);
   // const { mentor && mentor } = mentor;
   const [error, setError] = React.useState(null);
@@ -49,6 +50,7 @@ export default function MentorsDetailsPage() {
         const result = await response.json();
         console.log("result.mentor: ", result.mentor);
         setMentor(result.mentor);
+        setUserType("mentor");
       } catch (error) {
         setError(true);
         console.log("error getting prifile data: ", error);

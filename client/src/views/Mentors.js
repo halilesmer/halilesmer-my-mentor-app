@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { AppContext } from "../contexts/appContext.js";
 import MentorsCard from "../components/MentorsCard.js";
 import { getToken } from "../utils/getToken.js";
 import useFetch from "../custom_hooks/useFetch.js";
@@ -7,8 +8,8 @@ import useFetch from "../custom_hooks/useFetch.js";
 const Mentors = () => {
   const [mentorsData, setMentorsData] = useState(null);
 
-  // const {mentorsData} = useContext(AppContext);
-  const { get } = useFetch("http://localhost:5001");
+  const {  setUserType } = React.useContext(AppContext);
+  // const { get } = useFetch("http://localhost:5001");
 
   // useEffect(() => {
   //   let didCancel = false;
@@ -24,7 +25,6 @@ const Mentors = () => {
   //   return () => (didCancel = true);
   // }, []);
   const getAllMentorsProfile = async () => {
-
     try {
       const response = await fetch(
         "http://localhost:5001/api/mentors/allmentors"
@@ -51,6 +51,7 @@ const Mentors = () => {
       // });
       // setMentorsProfile(result)
       setMentorsData(result);
+      setUserType('mentor');
     } catch (error) {
       console.log("error getting prifile data: ", error);
     }
@@ -63,22 +64,16 @@ const Mentors = () => {
     return () => (didCancel = true);
   }, []);
 
-
   // console.log("mentorsData: ", mentorsData);
   return (
     <>
       {mentorsData &&
         mentorsData.map((mentor) => {
-          return (
-            <MentorsCard
-            key={mentor._id}
-              mentor={mentor}
-            />
-          );
+          return <MentorsCard key={mentor._id} mentor={mentor} />;
         })}
     </>
   );
-};
+};;
 
 export default Mentors;
 

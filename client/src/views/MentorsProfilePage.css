@@ -39,12 +39,12 @@
     border-radius: 50%;
 }
 
-/* .profile-info-box >p {
-    margin: 2.5px auto 2.5px auto !important;
+.profile-info-box h5 {
+    margin: 0 auto 1.2rem auto !important;
     width: 80% !important;
-    height: 2rem !important;
-        line-height: 2rem;
-} */
+    /* height: 2rem !important;
+        line-height: 2rem; */
+}
 .profile-info-box div {
     margin: 3px auto 3px auto;
     border: solid 1px #adf;
