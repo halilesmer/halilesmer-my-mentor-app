@@ -1,7 +1,7 @@
 import {
   allMentors,
   editMentor,
-  getProfile,
+  getMentorsProfile,
   mentorsSignIn,
   signUp,
   uploadUserPicture,
@@ -20,7 +20,7 @@ router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 router.route("/signup").post(signUp);
 router.post("/signin", mentorsSignIn);
 router.get("/allmentors",allMentors);
-router.get("/mentorsprofile", jwtAuth, getProfile);
+router.get("/mentorsprofile", jwtAuth, getMentorsProfile);
 router.post("/editmentor", jwtAuth, editMentor);
 
 export default router;

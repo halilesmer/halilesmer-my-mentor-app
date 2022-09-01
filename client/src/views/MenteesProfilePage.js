@@ -85,7 +85,12 @@ export default function MenteesProfilePage() {
               <span>Couching Medium: {menteesData.couching_medium}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Skills: {menteesData.skills}</span>
+              <span>
+                Interests: 
+                {menteesData.skills.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}{" "}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Email: {menteesData.email}</span>

@@ -127,30 +127,32 @@ export default function NavBar() {
             >
               {/* ----------------- login Page Link  --------------------- */}
               {/* {!user && pathname.pathname !== "/login" && ( */}
-              <List onClick={handleClose}>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon style={{ minWidth: "2.5rem" }}>
-                      <LoginIcon />
-                    </ListItemIcon>
+              {!token && (
+                <List onClick={handleClose}>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                        <LoginIcon />
+                      </ListItemIcon>
 
-                    <NavLink
-                      to="/signin"
-                      style={({ isActive }) =>
-                        isActive ? activeStyle : noActive
-                      }
-                    >
-                      <ListItemText primary="Login" />
-                    </NavLink>
-                  </ListItemButton>
-                </ListItem>
-              </List>
+                      <NavLink
+                        to="/signin"
+                        style={({ isActive }) =>
+                          isActive ? activeStyle : noActive
+                        }
+                      >
+                        <ListItemText primary="Login" />
+                      </NavLink>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              )}
               {/* )} */}
 
               {/* ----------------- Sign Up Page Link  --------------------- */}
 
               {/* {!user && ( */}
-              <List onClick={handleClose}>
+             {!token && ( <List onClick={handleClose}>
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon style={{ minWidth: "2.5rem" }}>
@@ -167,7 +169,7 @@ export default function NavBar() {
                     </NavLink>
                   </ListItemButton>
                 </ListItem>
-              </List>
+              </List>)}
               {/* )} */}
 
               {/* ----------------- Profile Page Link  --------------------- */}

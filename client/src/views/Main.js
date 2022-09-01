@@ -17,6 +17,7 @@ import SignUpPage from "./SignUpPage";
 import SignInMenteePage from "./SignInMenteePage";
 import SignInPage from "./SignInPage";
 import MenteesProfilePage from "./MenteesProfilePage";
+import MentorsDetailsPage from "./MentorsDetailsPage";
 
 // import Grid from "@mui/material/Grid";
 
@@ -34,11 +35,12 @@ const Main = () => {
           }
         />
         <Route path="/mentors" element={<Mentors />} />
+        <Route path="/mentors/details-page/:name" element={<MentorsDetailsPage />} />
+
         <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/mentors/signup" element={<SignUpMentorPage />} />
         <Route path="/mentees/signup" element={<SignUpMenteePage />} />
-
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/mentors/signin" element={<SignInMentorPage />} />
         <Route path="/mentees/signin" element={<SignInMenteePage />} />

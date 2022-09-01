@@ -281,7 +281,7 @@ export default function EditMentor() {
   };
 
   // ------ Get profile data  ----------- starts--
-  const getProfile = async () => {
+  const getMentorsProfile = async () => {
     if (token) {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -325,7 +325,7 @@ export default function EditMentor() {
     }
   };
   React.useEffect(() => {
-    getProfile();
+    getMentorsProfile();
   }, []);
   // ------ Get profile data  ----------- ends--
 

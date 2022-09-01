@@ -102,7 +102,7 @@ const postLikes = async (req, res) => {
 }
 
 const getLikes = (req, res) => {
-  console.log("req, res in getProfile: ", req, res);
+  console.log("req, res in getLikes: ", req, res);
   console.log("req.user", req.user);
 
   res.status(200).json({

@@ -7,7 +7,7 @@ import { Box, Button, Paper, Tooltip } from "@mui/material";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 
-export default function MentorsProfilePage() {
+export default function MentorsDetailsPage() {
   // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
   const [mentorsProfile, setMentorsProfile] = React.useState(null);
   const [error, setError] = React.useState(null);
@@ -28,11 +28,12 @@ export default function MentorsProfilePage() {
           requestOptions
         );
         const result = await response.json();
-          console.log("result: ", result);
+        console.log("result: ", result);
         setMentorsProfile({
           id: result.id,
           first_name: result.first_name,
           last_name: result.last_name,
+          email: result.email,
           birthday: result.birthday,
           gender: result.gender,
           language: result.language,
@@ -41,6 +42,9 @@ export default function MentorsProfilePage() {
           fee: result.fee,
           couching_medium: result.couching_medium,
           skills: result.skills,
+          password: "",
+          user_type: result.user_type,
+          register_Date: result.register_Date,
           avatar_picture: result.avatar_picture,
         });
         // setMentorsProfile(result)
@@ -52,8 +56,6 @@ export default function MentorsProfilePage() {
   React.useEffect(() => {
     getMentorsProfile();
   }, []);
-
-
 
   console.log("mentorsProfile: ", mentorsProfile);
 
@@ -101,7 +103,9 @@ export default function MentorsProfilePage() {
               <span>Last Name: {mentorsProfile.last_name}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Birthday: {formatDateDdMmYyyy(mentorsProfile.birthday)}</span>
+              <span>
+                Birthday: {formatDateDdMmYyyy(mentorsProfile.birthday)}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Gender: {mentorsProfile.gender}</span>
@@ -135,10 +139,16 @@ export default function MentorsProfilePage() {
             </Paper>
             <Paper elevation={4}>
               <span>
-                Register Date: {formatDateDdMmYyyy(mentorsProfile.register_Date)}
+                Register Date:{" "}
+                {formatDateDdMmYyyy(mentorsProfile.register_Date)}
               </span>
             </Paper>
-            <Button href='/mentors/edit-mentor' className="edit-profile-btn" variant="contained" fullWidth>
+            <Button
+              href="/mentors/edit-mentor"
+              className="edit-profile-btn"
+              variant="contained"
+              fullWidth
+            >
               Edit
             </Button>
           </Box>

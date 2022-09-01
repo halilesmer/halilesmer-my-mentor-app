@@ -1,7 +1,7 @@
 import {
   signUp,
   uploadUserPicture,
-  getProfile,
+  getMenteesProfile,
   menteesSignIn,
 } from "../controllers/menteesController.js";
 import { postLikes,  } from "../controllers/likesController.js";
@@ -17,7 +17,7 @@ router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 router.post("/signup", signUp);
 router.post("/signin", menteesSignIn);
 
-router.get("/menteesprofile", jwtAuth, getProfile);
+router.get("/menteesprofile", jwtAuth, getMenteesProfile);
 router.post("/postLikes", jwtAuth, postLikes, );
 // router.post("/postLikes", jwtAuth, postLikesMentor);
 

@@ -7,6 +7,7 @@ import { Box } from "@mui/system";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { AppContext } from "../contexts/appContext";
+import { Link } from "react-router-dom";
 
 const MentorsCard = ({ mentor }) => {
   const { handleLikeClick, userLogIn, likes, menteesData, getMenteeData } =
@@ -37,6 +38,7 @@ const MentorsCard = ({ mentor }) => {
       return mntrId.includes(mntr) */
   console.log("likedIconColor: ", likedIconColor);
    console.log("likes: ", likes);
+  console.log("mentor: ", mentor);
 
   console.log("menteesData: ", menteesData && menteesData);
   return (
@@ -48,24 +50,25 @@ const MentorsCard = ({ mentor }) => {
         >
           Header
         </div>
+          <Link to='/mentors/details-page'>
         <Box className="mentor-card-body">
-          <Box className="mentor-cards-img-con">
-            {mentor.avatar_picture ? (
-              <img
-                width="100px"
-                className="mentor-img"
-                src={mentor.avatar_picture}
-                alt="avatar"
-              />
-            ) : (
-              <img
-                className="mentor-img"
-                width="100px"
-                src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                alt="avatar"
-              />
-            )}{" "}
-            {/* <img
+            <Box className="mentor-cards-img-con">
+              {mentor.avatar_picture ? (
+                <img
+                  width="100px"
+                  className="mentor-img"
+                  src={mentor.avatar_picture}
+                  alt="avatar"
+                />
+              ) : (
+                <img
+                  className="mentor-img"
+                  width="100px"
+                  src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                  alt="avatar"
+                />
+              )}{" "}
+              {/* <img
                     className="mentor-img"
                     src={
                       mentor.avatar_picture && mentor.avatar_picture
@@ -73,44 +76,45 @@ const MentorsCard = ({ mentor }) => {
                     alt="mentor-avatar"
                     style={{ borderRadius: "50%" }}
                   /> */}
-            {/* <CardMedia
+              {/* <CardMedia
                     className="mentor-img"
                     component="img"
                     height="194"
                     image={mentor?.avatar_picture}
                     alt="Paella dish"
                   /> */}
-          </Box>
+            </Box>
 
-          <Paper className="mentor-card-texts-con">
-            <p
-              style={{
-                color: "#c9811c",
-                fontSize: "20px",
-                textTransform: "uppercase",
-                marginTop: "12px",
-              }}
-            >
-              {mentor.first_name} {mentor.last_name}
-            </p>
-            <p>
-              {" "}
-              {mentor.skills.map((skill, i) => (
-                <span key={i}>{skill}, </span>
-              ))}
-            </p>
-            <p>
-              {mentor.couching_medium.map((medium, i) => (
-                <span key={i}>{medium}, </span>
-              ))}
-            </p>
-            <p>
-              {mentor.language.map((lang, i) => (
-                <span key={i}>{lang}, </span>
-              ))}
-            </p>
-          </Paper>
+            <Paper className="mentor-card-texts-con">
+              <p
+                style={{
+                  color: "#c9811c",
+                  fontSize: "20px",
+                  textTransform: "uppercase",
+                  marginTop: "12px",
+                }}
+              >
+                {mentor.first_name} {mentor.last_name}
+              </p>
+              <p>
+                {" "}
+                {mentor.skills.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </p>
+              <p>
+                {mentor.couching_medium.map((medium, i) => (
+                  <span key={i}>{medium}, </span>
+                ))}
+              </p>
+              <p>
+                {mentor.language.map((lang, i) => (
+                  <span key={i}>{lang}, </span>
+                ))}
+              </p>
+            </Paper>
         </Box>
+          </Link>
         <div className="mentor-cards-footer" style={{ width: "100%" }}>
           <div className="mentor-cards-like-con">
             <IconButton

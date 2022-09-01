@@ -138,8 +138,8 @@ const menteesSignIn = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  console.log("req, res in getProfile: ", req, res);
+const getMenteesProfile = (req, res) => {
+  console.log("req, res in getMenteesProfile: ", req, res);
   console.log("req.user", req.user);
 
   res.status(200).json({
@@ -160,4 +160,4 @@ const getProfile = (req, res) => {
   });
 };
 
-export { uploadUserPicture, signUp, getProfile, menteesSignIn };
+export { uploadUserPicture, signUp, getMenteesProfile, menteesSignIn };

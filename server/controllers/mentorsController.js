@@ -147,8 +147,8 @@ const mentorsSignIn = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  console.log("req, res in getProfile: ", req, res);
+const getMentorsProfile = (req, res) => {
+  console.log("req, res in getMentorsProfile: ", req, res);
   console.log("req.user", req.user);
 
   res.status(200).json({
@@ -241,6 +241,6 @@ export {
   signUp,
   allMentors,
   mentorsSignIn,
-  getProfile,
+  getMentorsProfile,
   editMentor,
 };

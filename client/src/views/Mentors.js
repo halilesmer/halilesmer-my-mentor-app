@@ -23,18 +23,8 @@ const Mentors = () => {
 
   //   return () => (didCancel = true);
   // }, []);
-  const getMentorsProfile = async () => {
-    // const token = getToken();
-    // if (token) {
-    //   const myHeaders = new Headers();
-    //   myHeaders.append("Authorization", `Bearer ${token}`);
+  const getAllMentorsProfile = async () => {
 
-    //   const requestOptions = {
-    //     method: "GET",
-    //     headers: myHeaders,
-    //   };
-
-    // }
     try {
       const response = await fetch(
         "http://localhost:5001/api/mentors/allmentors"
@@ -68,11 +58,13 @@ const Mentors = () => {
   React.useEffect(() => {
     let didCancel = false;
     if (!didCancel) {
-      getMentorsProfile();
+      getAllMentorsProfile();
     }
     return () => (didCancel = true);
   }, []);
 
+
+  // console.log("mentorsData: ", mentorsData);
   return (
     <>
       {mentorsData &&
