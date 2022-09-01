@@ -147,6 +147,7 @@ const mentorsSignIn = async (req, res) => {
   }
 };
 
+// ------- getMentorsProfile -------------------//
 const getMentorsProfile = (req, res) => {
   console.log("req, res in getMentorsProfile: ", req, res);
   console.log("req.user", req.user);
@@ -171,6 +172,26 @@ const getMentorsProfile = (req, res) => {
   });
 };
 
+// ------- getSpecificMentorData -------------------//
+const getSpecificMentorData = async (req, res) => {
+  try {
+    // const mentor = await MentorsModel.findById(req.body.id, { new: true });
+    const mentor = await MentorsModel.findById(req.body.mentorId,);
+    
+    res.status(200).json({
+      mentor,
+      msg: "Getting specific mentor successful",
+    });
+  } catch (error) {
+    console.log("error getting specific mentor: ", error);
+    res.status(400).json({
+      msg: "We're sorry, an error occurred during getting mentors data.",
+    });
+  }
+  console.log("req.body- getSpecificMentorData: ", req.body);
+};
+
+// ----------- editMentor -------------------//
 const editMentor = async (req, res) => {
   // console.log("edit Mentor: req,res: ", req, res);
   console.log("request body:>> ", req.body);
@@ -242,5 +263,6 @@ export {
   allMentors,
   mentorsSignIn,
   getMentorsProfile,
+  getSpecificMentorData,
   editMentor,
 };

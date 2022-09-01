@@ -2,6 +2,7 @@ import {
   allMentors,
   editMentor,
   getMentorsProfile,
+  getSpecificMentorData,
   mentorsSignIn,
   signUp,
   uploadUserPicture,
@@ -22,5 +23,6 @@ router.post("/signin", mentorsSignIn);
 router.get("/allmentors",allMentors);
 router.get("/mentorsprofile", jwtAuth, getMentorsProfile);
 router.post("/editmentor", jwtAuth, editMentor);
-
+router.get("/getonementor", jwtAuth, getSpecificMentorData);
+;
 export default router;

@@ -7,7 +7,6 @@ import FavoritMentorsPage from "./FavoritMentorsPage";
 import Home from "./Home";
 import SignInMentorPage from "./SignInMentorPage";
 import Mentors from "./Mentors";
-import MentorsDetails from "../components/MentorsDetails";
 import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
