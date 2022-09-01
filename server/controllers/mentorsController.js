@@ -175,7 +175,6 @@ const getMentorsProfile = (req, res) => {
 // ------- getSpecificMentorData -------------------//
 const getSpecificMentorData = async (req, res) => {
   try {
-    // const mentor = await MentorsModel.findById(req.body.id, { new: true });
     const mentor = await MentorsModel.findById(req.body.mentorId,);
     
     res.status(200).json({

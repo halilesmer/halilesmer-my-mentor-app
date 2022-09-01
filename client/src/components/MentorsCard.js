@@ -50,8 +50,8 @@ const MentorsCard = ({ mentor }) => {
         >
           Header
         </div>
-          <Link to='/mentors/details-page'>
-        <Box className="mentor-card-body">
+        <Link to={`/mentors/details-page/${mentor && mentor._id}`}>
+          <Box className="mentor-card-body">
             <Box className="mentor-cards-img-con">
               {mentor.avatar_picture ? (
                 <img
@@ -113,8 +113,8 @@ const MentorsCard = ({ mentor }) => {
                 ))}
               </p>
             </Paper>
-        </Box>
-          </Link>
+          </Box>
+        </Link>
         <div className="mentor-cards-footer" style={{ width: "100%" }}>
           <div className="mentor-cards-like-con">
             <IconButton

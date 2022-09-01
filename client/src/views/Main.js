@@ -34,7 +34,10 @@ const Main = () => {
           }
         />
         <Route path="/mentors" element={<Mentors />} />
-        <Route path="/mentors/details-page/:name" element={<MentorsDetailsPage />} />
+        <Route
+          path="/mentors/details-page/:mentorId"
+          element={<MentorsDetailsPage />}
+        />
 
         <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
         <Route path="/signup" element={<SignUpPage />} />
