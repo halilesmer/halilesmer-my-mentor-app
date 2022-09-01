@@ -51,7 +51,7 @@
 }
 
 .profile-info-box div span {
-    margin: auto auto auto 3px;
+    margin: auto auto auto 3px !important;
 }
 .edit-profile-btn{
     margin-top: 1rem !important;

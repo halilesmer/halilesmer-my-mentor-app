@@ -86,6 +86,7 @@ const signUp = async (req, res) => {
             email: savedUser.email,
             skills: savedUser.skills,
             password: savedUser.password,
+            about: savedUser.about,
             avatar_picture: savedUser.avatar_picture,
           },
         });
@@ -150,33 +151,37 @@ const mentorsSignIn = async (req, res) => {
 // ------- getMentorsProfile -------------------//
 const getMentorsProfile = (req, res) => {
   console.log("req, res in getMentorsProfile: ", req, res);
-  console.log("req.user", req.user);
+  console.log("req.user- getMentorsProfile", req.user);
+  // const token = issueToken(req.user._id, req.user.user_type);
 
-  res.status(200).json({
-    id: req.user.id,
-    first_name: req.user.first_name,
-    last_name: req.user.last_name,
-    email: req.user.email,
-    birthday: req.user.birthday,
-    gender: req.user.gender,
-    language: req.user.language,
-    experience: req.user.experience,
-    website: req.user.website,
-    fee: req.user.fee,
-    couching_medium: req.user.couching_medium,
-    skills: req.user.skills,
-    password: "",
-    user_type: req.user.user_type,
-    register_Date: req.user.register_Date,
-    avatar_picture: req.user?.avatar_picture,
-  });
+  res.status(200).json(
+    {
+      id: req.user.id,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      birthday: req.user.birthday,
+      gender: req.user.gender,
+      language: req.user.language,
+      experience: req.user.experience,
+      website: req.user.website,
+      fee: req.user.fee,
+      couching_medium: req.user.couching_medium,
+      skills: req.user.skills,
+      password: "",
+      user_type: req.user.user_type,
+      register_Date: req.user.register_Date,
+      about: req.user.about,
+      avatar_picture: req.user?.avatar_picture,
+    },
+  );
 };
 
 // ------- getSpecificMentorData -------------------//
 const getSpecificMentorData = async (req, res) => {
   try {
-    const mentor = await MentorsModel.findById(req.body.mentorId,);
-    
+    const mentor = await MentorsModel.findById(req.body.mentorId);
+
     res.status(200).json({
       mentor,
       msg: "Getting specific mentor successful",
@@ -212,6 +217,7 @@ const editMentor = async (req, res) => {
     password: hashedPassword,
     user_type: req.body.user_type,
     register_Date: req.body.register_Date,
+    about: req.body.about,
     avatar_picture: req.body?.avatar_picture,
   };
 

@@ -77,7 +77,6 @@ const AppProvider = (props) => {
         //   avatar_picture: result.avatar_picture,
         // });
 
-        // setMenteesData(result)
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }

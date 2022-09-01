@@ -8,10 +8,13 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { AppContext } from "../contexts/appContext";
 import { Link } from "react-router-dom";
+import { getToken } from "../utils/getToken";
 
 const MentorsCard = ({ mentor }) => {
   const { handleLikeClick, userLogIn, likes, menteesData, getMenteeData } =
     useContext(AppContext);
+  const token = getToken();
+  console.log("token: ", token);
 
   const [likedIconColor, setLikedIconColor] = useState(null);
 
@@ -20,13 +23,15 @@ const MentorsCard = ({ mentor }) => {
   // );
 
   useEffect(() => {
-    setLikedIconColor(null)
-     menteesData && menteesData.likes.filter((id) => id.includes(mentor._id) && setLikedIconColor(true));
+    setLikedIconColor(null);
+    menteesData &&
+      menteesData.likes.filter(
+        (id) => id.includes(mentor._id) && setLikedIconColor(true)
+      );
     // if (menteesLikedId && menteesLikedId.length > 0) {
     //   setLikedIconColor(true);
     // }
   }, [menteesData]);
- 
 
   //   const getLikes =
   //     mentor &&
@@ -37,7 +42,7 @@ const MentorsCard = ({ mentor }) => {
   /* menteesData && menteesData.likes.filter(mntrId => {
       return mntrId.includes(mntr) */
   console.log("likedIconColor: ", likedIconColor);
-   console.log("likes: ", likes);
+  console.log("likes: ", likes);
   console.log("mentor: ", mentor);
 
   console.log("menteesData: ", menteesData && menteesData);

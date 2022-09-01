@@ -11,7 +11,7 @@ export default function MentorsProfilePage() {
   // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
   const [mentorsProfile, setMentorsProfile] = React.useState(null);
   const [error, setError] = React.useState(null);
-
+  
   const getMentorsProfile = async () => {
     const token = getToken();
     if (token) {
@@ -27,27 +27,45 @@ export default function MentorsProfilePage() {
           "http://localhost:5001/api/mentors/mentorsprofile",
           requestOptions
         );
-        const result = await response.json();
-          console.log("result: ", result);
-        setMentorsProfile({
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          birthday: result.birthday,
-          gender: result.gender,
-          language: result.language,
-          experience: result.experience,
-          website: result.website,
-          fee: result.fee,
-          couching_medium: result.couching_medium,
-          skills: result.skills,
-          avatar_picture: result.avatar_picture,
-        });
-        // setMentorsProfile(result)
+        const result = await response.json(); 
+        setMentorsProfile(result);
+        console.log("result: ", result);
+
+        // if (token) {
+        //   const myHeaders = new Headers();
+        //   myHeaders.append("Authorization", `Bearer ${token}`);
+
+        //   const requestOptions = {
+        //     method: "GET",
+        //     headers: myHeaders,
+        //   };
+        //   try {
+        //     const response = await fetch(
+        //       "http://localhost:5001/api/mentors/mentorsprofile",
+        //       requestOptions
+        //     );
+        //     const result = await response.json();
+        // setMentorsProfile({
+        //   id: result.id,
+        //   first_name: result.first_name,
+        //   last_name: result.last_name,
+        //   birthday: result.birthday,
+        //   gender: result.gender,
+        //   language: result.language,
+        //   experience: result.experience,
+        //   website: result.website,
+        //   fee: result.fee,
+        //   couching_medium: result.couching_medium,
+        //   skills: result.skills,
+        //   avatar_picture: result.avatar_picture,
+        // });
       } catch (error) {
+        setError(true);
         console.log("error getting prifile data: ", error);
       }
     }
+    console.log("token: ", token);
+
   };
   React.useEffect(() => {
     getMentorsProfile();

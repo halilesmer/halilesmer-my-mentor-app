@@ -5,6 +5,7 @@ import jsonwebtoken from "jsonwebtoken";
 dotenv.config();
 
 const issueToken = (userId, user_type) => {
+  console.log("userId: ", userId);
   const payload = {
     sub: userId,
     role: user_type,

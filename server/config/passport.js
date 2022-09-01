@@ -12,7 +12,8 @@ const jwtOptions = {
 
 const jwtStrategy = new JwtStrategy(jwtOptions, function (jwt_payload, done) {
   console.log('jwt_payload :>> ', jwt_payload);
-  if(jwt_payload.user_type === "mentor"){
+  // if(jwt_payload.user_type === "mentor"){
+  if (jwt_payload.role === "mentor") {
     MentorsModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
       console.log("user", user);
       if (err) {
@@ -25,19 +26,19 @@ const jwtStrategy = new JwtStrategy(jwtOptions, function (jwt_payload, done) {
         // or you could create a new account
       }
     });
-  }else {
-     MenteesModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
-       console.log("user", user);
-       if (err) {
-         return done(err, false);
-       }
-       if (user) {
-         return done(null, user);
-       } else {
-         return done(null, false);
-         // or you could create a new account
-       }
-     });
+  } else {
+    MenteesModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
+      console.log("user", user);
+      if (err) {
+        return done(err, false);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+        // or you could create a new account
+      }
+    });
   }
   
 });

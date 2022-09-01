@@ -9,8 +9,7 @@ import { getToken } from "../utils/getToken.js";
 import { AppContext } from "../contexts/appContext";
 
 export default function MenteesProfilePage() {
-  const { userLogIn, setUserLogIn, menteesData, getMenteeData } =
-    React.useContext(AppContext);
+  const { menteesData, getMenteeData } = React.useContext(AppContext);
 
   const [error, setError] = React.useState(null);
 
@@ -86,7 +85,7 @@ export default function MenteesProfilePage() {
             </Paper>
             <Paper elevation={4}>
               <span>
-                Interests: 
+                Interests:
                 {menteesData.skills.map((skill, i) => (
                   <span key={i}>{skill}, </span>
                 ))}{" "}

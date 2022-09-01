@@ -2,7 +2,7 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip } from "@mui/material";
+import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
@@ -16,30 +16,16 @@ export default function MentorsDetailsPage() {
   const token = getToken();
   const { mentorId } = useParams();
 
-  // console.log("mentorId: ", mentorId);
-
   const getMentorsProfile = async () => {
-    // const mentorsId = { mentorsId: mentorId };
 
     if (token) {
-      // const myHeaders = new Headers();
-      // myHeaders.append("Authorization", `Bearer ${token}`, {
-      //   "Content-Type": "application/json",
-      // });
-      
-
-      // myHeaders.append("Content-Type", "application/json");
-
+   
       const requestOptions = {
         method: "Post",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        // body: {
-        //   mentorId: "6304ddef48c5f4b1ec2b65af",
-        // },
-
         body: JSON.stringify({
           mentorId: mentorId,
         }),
@@ -55,6 +41,7 @@ export default function MentorsDetailsPage() {
         console.log("result.mentor: ", result.mentor);
         setMentor(result.mentor);
       } catch (error) {
+        setError(true);
         console.log("error getting prifile data: ", error);
       }
     }
@@ -73,11 +60,15 @@ export default function MentorsDetailsPage() {
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           {/* ------------ Avatar Picture ---------- */}
           <div className="avatar-picture-con">
-            <div className="avatar-picture-box">
+            <div className="avatar-picture-box" style={{ cursor: "unset" }}>
               {mentor.avatar_picture ? (
                 <img src={mentor?.avatar_picture} alt="avatar" width="300" />
               ) : (
-                <span>Please chouse a profile image (optional)</span>
+                  <img
+                    width="300px"
+                    src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                    alt="avatar"
+                  />
               )}
             </div>
             <div className="image-events-con">
@@ -100,12 +91,10 @@ export default function MentorsDetailsPage() {
           </div>
 
           <Box className="profile-info-box">
-            <Paper elevation={4}>
-              <span>First Name: {mentor.first_name}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Last Name: {mentor.last_name}</span>
-            </Paper>
+            <Typography variant="h5" component="h5" textAlign="center" mb={3}>
+              {mentor.first_name} {mentor.last_name}{" "}
+            </Typography>
+
             <Paper elevation={4}>
               <span>Birthday: {formatDateDdMmYyyy(mentor.birthday)}</span>
             </Paper>
@@ -113,7 +102,12 @@ export default function MentorsDetailsPage() {
               <span>Gender: {mentor.gender}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Languages: {mentor.language}</span>
+              <span>
+                Languages:
+                {mentor.language.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Experience in Years: {mentor.experience}</span>
@@ -125,7 +119,12 @@ export default function MentorsDetailsPage() {
               <span>Fee for one houer: {mentor.fee}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Couching Medium: {mentor.couching_medium}</span>
+              <span>
+                Couching Medium:
+                {mentor.couching_medium.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>
@@ -142,7 +141,10 @@ export default function MentorsDetailsPage() {
               </span>
             </Paper>
             <Paper elevation={4}>
-              <span>About:<br/> {mentor?.about}</span>
+              <span>
+                About:
+                <br /> {mentor?.about}
+              </span>
             </Paper>
             <Button
               href="/mentors/edit-mentor"
