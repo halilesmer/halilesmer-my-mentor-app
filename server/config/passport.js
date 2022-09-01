@@ -1,4 +1,3 @@
-import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import * as dotenv from "dotenv";
 import MentorsModel from "../models/mentorsModel.js";

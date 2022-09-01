@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { getToken } from "../utils/getToken";
 
 const MentorsCard = ({ mentor }) => {
-  const { handleLikeClick, userLogIn, likes, menteesData, getMenteeData } =
+  const { handleLikeClick, userLogIn,userType, likes, menteesData, getMenteeData } =
     useContext(AppContext);
   const token = getToken();
   console.log("token: ", token);
@@ -43,7 +43,7 @@ const MentorsCard = ({ mentor }) => {
       return mntrId.includes(mntr) */
   console.log("likedIconColor: ", likedIconColor);
   console.log("likes: ", likes);
-  console.log("mentor: ", mentor);
+  console.log("mentor.user_type: ", mentor.user_type);
 
   console.log("menteesData: ", menteesData && menteesData);
   return (
@@ -122,16 +122,18 @@ const MentorsCard = ({ mentor }) => {
         </Link>
         <div className="mentor-cards-footer" style={{ width: "100%" }}>
           <div className="mentor-cards-like-con">
-            <IconButton
-              aria-label="Like Button"
-              onClick={() => handleLikeClick(mentor._id)}
-            >
-              {likedIconColor ? (
-                <ThumbUpAltIcon fontSize="small" />
-              ) : (
-                <ThumbUpOffAltIcon fontSize="small" />
-              )}
-            </IconButton>
+            {userType && userType === "mentee" && (
+              <IconButton
+                aria-label="Like Button"
+                onClick={() => handleLikeClick(mentor._id)}
+              >
+                {likedIconColor ? (
+                  <ThumbUpAltIcon fontSize="small" />
+                ) : (
+                  <ThumbUpOffAltIcon fontSize="small" />
+                )}
+              </IconButton>
+            )}
           </div>
         </div>
       </Paper>
