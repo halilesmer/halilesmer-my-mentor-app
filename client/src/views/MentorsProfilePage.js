@@ -2,83 +2,27 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip } from "@mui/material";
+import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
+import {AppContext} from "../contexts/appContext.js";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
-import { getToken } from "../utils/getToken.js";
 
 export default function MentorsProfilePage() {
-  // const { userLogIn, setUserLogIn } = React.useContext(AppContext);
-  const [mentorsProfile, setMentorsProfile] = React.useState(null);
-  const [error, setError] = React.useState(null);
-  
-  const getMentorsProfile = async () => {
-    const token = getToken();
-    if (token) {
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+  const { mentorsProfile, getMentorsProfile } = React.useContext(AppContext);
 
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
-          requestOptions
-        );
-        const result = await response.json(); 
-        setMentorsProfile(result);
-        console.log("result: ", result);
-
-        // if (token) {
-        //   const myHeaders = new Headers();
-        //   myHeaders.append("Authorization", `Bearer ${token}`);
-
-        //   const requestOptions = {
-        //     method: "GET",
-        //     headers: myHeaders,
-        //   };
-        //   try {
-        //     const response = await fetch(
-        //       "http://localhost:5001/api/mentors/mentorsprofile",
-        //       requestOptions
-        //     );
-        //     const result = await response.json();
-        // setMentorsProfile({
-        //   id: result.id,
-        //   first_name: result.first_name,
-        //   last_name: result.last_name,
-        //   birthday: result.birthday,
-        //   gender: result.gender,
-        //   language: result.language,
-        //   experience: result.experience,
-        //   website: result.website,
-        //   fee: result.fee,
-        //   couching_medium: result.couching_medium,
-        //   skills: result.skills,
-        //   avatar_picture: result.avatar_picture,
-        // });
-      } catch (error) {
-        setError(true);
-        console.log("error getting prifile data: ", error);
-      }
-    }
-    console.log("token: ", token);
-
-  };
   React.useEffect(() => {
     getMentorsProfile();
   }, []);
 
-
-
-  console.log("mentorsProfile: ", mentorsProfile);
+  console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
 
   return (
     <>
       {mentorsProfile && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
+          <Typography variant="h5" component="h5" textAlign="center" mb={1}>
+            User Profile
+          </Typography>
           {/* ------------ Avatar Picture ---------- */}
           <div className="avatar-picture-con">
             <div className="avatar-picture-box">
@@ -112,20 +56,26 @@ export default function MentorsProfilePage() {
           </div>
 
           <Box className="profile-info-box">
+            <Typography variant="h5" component="h5" textAlign="center" mb={3}>
+              {mentorsProfile.first_name} {mentorsProfile.last_name} <br />{" "}
+              Mentor
+            </Typography>
+
             <Paper elevation={4}>
-              <span>First Name: {mentorsProfile.first_name}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Last Name: {mentorsProfile.last_name}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Birthday: {formatDateDdMmYyyy(mentorsProfile.birthday)}</span>
+              <span>
+                Birthday: {formatDateDdMmYyyy(mentorsProfile.birthday)}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Gender: {mentorsProfile.gender}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Languages: {mentorsProfile.language}</span>
+              <span>
+                Languages:{" "}
+                {mentorsProfile.language.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Experience in Years: {mentorsProfile.experience}</span>
@@ -134,29 +84,43 @@ export default function MentorsProfilePage() {
               <span>Website: {mentorsProfile.website}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Fee for one houer: {mentorsProfile.fee}</span>
+              <span>Fee for one houer: {mentorsProfile.fee} €</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Couching Medium: {mentorsProfile.couching_medium}</span>
+              <span>
+                Couching Medium:{" "}
+                {mentorsProfile.couching_medium.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </span>
             </Paper>
             <Paper elevation={4}>
-              <span>Skills: {mentorsProfile.skills}</span>
+              <span>
+                Skills: 
+                {mentorsProfile.skills.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Email: {mentorsProfile.email}</span>
             </Paper>
+           
             <Paper elevation={4}>
-              <span>Password: {mentorsProfile.password}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>{mentorsProfile.user_type}</span>
+              <span>User Type: {mentorsProfile.user_type}</span>
             </Paper>
             <Paper elevation={4}>
               <span>
-                Register Date: {formatDateDdMmYyyy(mentorsProfile.register_Date)}
+                Register Date:{" "}
+                {formatDateDdMmYyyy(mentorsProfile.register_Date)}
               </span>
             </Paper>
-            <Button href='/mentors/edit-mentor' className="edit-profile-btn" variant="contained" fullWidth>
+            <Button
+              href="/mentors/edit-mentor"
+              className="edit-profile-btn"
+              variant="contained"
+              fullWidth
+            >
               Edit
             </Button>
           </Box>

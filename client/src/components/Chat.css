@@ -1,0 +1,13 @@
+.chat-con {
+
+  display: flex;
+  align-items: flex-end;
+  min-height: 200px;
+  border: solid 1px #adf;
+  border-radius: 4px;
+}
+
+.chat-input-field {
+  /* border: unset !important;
+  margin: unset !important; */
+}

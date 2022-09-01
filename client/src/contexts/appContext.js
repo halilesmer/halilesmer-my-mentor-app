@@ -1,4 +1,6 @@
 import { createContext, useEffect, useState } from "react";
+
+import { getToken } from "../utils/getToken";
 import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
@@ -8,6 +10,8 @@ const AppProvider = (props) => {
   const [userLogIn, setUserLogIn] = useState("");
   const [userType, setUserType] = useState("");
   const [menteesData, setMenteesData] = useState(null);
+  const [mentorsProfile, setMentorsProfile] = useState(null);
+  const [error, setError] = useState(null);
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -59,33 +63,46 @@ const AppProvider = (props) => {
         );
         const result = await response.json();
         setMenteesData(result);
+        setUserType(result.user_type);
         console.log("result: ", result);
-        // setMenteesData({
-        //   id: result.id,
-        //   first_name: result.first_name,
-        //   last_name: result.last_name,
-        //   birthday: result.birthday,
-        //   gender: result?.gender,
-        //   language: result.language,
-        //   couching_medium: result.couching_medium,
-        //   skills: result.skills,
-        //   about: result.about,
-        //   email: result.email,
-        //   password: "",
-        //   user_type: result.user_type,
-        //   likes: result.likes,
-        //   avatar_picture: result.avatar_picture,
-        // });
-
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }
     }
   };
-  useEffect(() => {
-    getMenteeData();
-  }, []);
+  // useEffect(() => {
+  //   getMenteeData();
+  // }, []);
   // ------ Get Mentee Data -------- ends ---
+
+  // ------ Get Mentor Data -------- starts ---
+  const getMentorsProfile = async () => {
+    const token = getToken();
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentors/mentorsprofile",
+          requestOptions
+        );
+        const result = await response.json();
+        setMentorsProfile(result);
+        setUserType(result.user_type);
+        console.log("result: ", result);
+      } catch (error) {
+        setError(true);
+        console.log("error getting prifile data: ", error);
+      }
+    }
+    console.log("token: ", token);
+  };
+  // ------ Get Mentor Data -------- starts ---
 
   // ------- like a mentor -------- starts --
   const handleLikeClick = async (id) => {
@@ -141,6 +158,8 @@ const AppProvider = (props) => {
         getMenteeData,
         menteesData,
         likes,
+        getMentorsProfile,
+        mentorsProfile,
       }}
     >
       {props.children}

@@ -2,11 +2,11 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip } from "@mui/material";
+import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
+import { AppContext } from "../contexts/appContext";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
-import { AppContext } from "../contexts/appContext";
 
 export default function MenteesProfilePage() {
   const { menteesData, getMenteeData } = React.useContext(AppContext);
@@ -23,6 +23,9 @@ export default function MenteesProfilePage() {
     <>
       {menteesData && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
+          <Typography variant="h5" component="h5" textAlign="center" mb={1}>
+            User Profile
+          </Typography>
           {/* ------------ Avatar Picture ---------- */}
           <div className="avatar-picture-con">
             <div className="avatar-picture-box">
@@ -56,12 +59,9 @@ export default function MenteesProfilePage() {
           </div>
 
           <Box className="profile-info-box">
-            <Paper elevation={4}>
-              <span>First Name: {menteesData.first_name}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Last Name: {menteesData.last_name}</span>
-            </Paper>
+            <Typography variant="h5" component="h5" textAlign="center" mb={3}>
+              {menteesData.first_name} {menteesData.last_name} <br /> Mentee
+            </Typography>
             <Paper elevation={4}>
               <span>Birthday: {formatDateDdMmYyyy(menteesData.birthday)}</span>
             </Paper>
@@ -98,7 +98,7 @@ export default function MenteesProfilePage() {
               <span>Password: {menteesData.password}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>{menteesData.user_type}</span>
+              <span>User Type: {menteesData.user_type}</span>
             </Paper>
             <Paper elevation={4}>
               <span>

@@ -3,18 +3,18 @@ import "./MentorsCard.css";
 import { Card, CardMedia, IconButton, Paper } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
-import { Box } from "@mui/system";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { AppContext } from "../contexts/appContext";
+import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { getToken } from "../utils/getToken";
 
 const MentorsCard = ({ mentor }) => {
   const { handleLikeClick, userLogIn,userType, likes, menteesData, getMenteeData } =
     useContext(AppContext);
   const token = getToken();
-  console.log("token: ", token);
+  // console.log("token: ", token);
 
   const [likedIconColor, setLikedIconColor] = useState(null);
 
@@ -41,11 +41,10 @@ const MentorsCard = ({ mentor }) => {
 
   /* menteesData && menteesData.likes.filter(mntrId => {
       return mntrId.includes(mntr) */
-  console.log("likedIconColor: ", likedIconColor);
-  console.log("likes: ", likes);
-  console.log("mentor.user_type: ", mentor.user_type);
+  // console.log("likedIconColor: ", likedIconColor);
+  // console.log("likes: ", likes);
+  // console.log("mentor.user_type: ", mentor.user_type);
 
-  console.log("menteesData: ", menteesData && menteesData);
   return (
     <>
       <Paper key={mentor._id} elevation={10} className="mentor-card-con">

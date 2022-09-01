@@ -5,24 +5,24 @@ import EditMentor from "../components/EditMentor";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
 import Home from "./Home";
-import SignInMentorPage from "./SignInMentorPage";
+import MenteesProfilePage from "./MenteesProfilePage";
 import Mentors from "./Mentors";
+import MentorsDetailsPage from "./MentorsDetailsPage";
 import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
+import SignInMenteePage from "./SignInMenteePage";
+import SignInMentorPage from "./SignInMentorPage";
+import SignInPage from "./SignInPage";
 import SignUpMenteePage from "../components/SignUpMenteePage";
 import SignUpMentorPage from "../components/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
-import SignInMenteePage from "./SignInMenteePage";
-import SignInPage from "./SignInPage";
-import MenteesProfilePage from "./MenteesProfilePage";
-import MentorsDetailsPage from "./MentorsDetailsPage";
 
 // import Grid from "@mui/material/Grid";
 
 const Main = () => {
   return (
-    <main id="mainCon" style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+    <main id="mainCon" style={{ paddingTop: "3rem", paddingBottom: "4rem" }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

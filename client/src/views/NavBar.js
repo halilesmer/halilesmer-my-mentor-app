@@ -34,7 +34,7 @@ export default function NavBar() {
   const pathname = useLocation();
   const navigateTo = useNavigate();
 
-  const { handleLogoutClick, userType, setUserType } =
+  const { handleLogoutClick, userType,  } =
     React.useContext(AppContext);
   const token = getToken();
 
@@ -57,7 +57,7 @@ export default function NavBar() {
     textDecoration: "none",
   };
 
-  // console.log("userType: ", userType);
+  console.log("userType: ", userType);
   // console.log("token: ", token);
   // console.log("drawerKey: ", drawerKey);
   return (

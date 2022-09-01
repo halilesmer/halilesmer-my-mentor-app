@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
+import Chat from "../components/Chat";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 import { useParams } from "react-router-dom";
@@ -15,6 +16,14 @@ export default function MentorsDetailsPage() {
   const [error, setError] = React.useState(null);
   const token = getToken();
   const { mentorId } = useParams();
+
+   const [startChat, setStartChat] = React.useState("none");
+
+  //  ------ hide unhide chat box --------
+   const handleStartChatClick = () => {
+    startChat === "none" ? setStartChat("flex") : setStartChat("none");
+    
+   };
 
   const getMentorsProfile = async () => {
 
@@ -64,11 +73,11 @@ export default function MentorsDetailsPage() {
               {mentor.avatar_picture ? (
                 <img src={mentor?.avatar_picture} alt="avatar" width="300" />
               ) : (
-                  <img
-                    width="300px"
-                    src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                    alt="avatar"
-                  />
+                <img
+                  width="300px"
+                  src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                  alt="avatar"
+                />
               )}
             </div>
             <div className="image-events-con">
@@ -116,7 +125,7 @@ export default function MentorsDetailsPage() {
               <span>Website: {mentor.website}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Fee for one houer: {mentor.fee}</span>
+              <span>Fee for one houer: {mentor.fee} €</span>
             </Paper>
             <Paper elevation={4}>
               <span>
@@ -146,17 +155,19 @@ export default function MentorsDetailsPage() {
                 <br /> {mentor?.about}
               </span>
             </Paper>
-            <Button
-              href="/mentors/edit-mentor"
-              className="edit-profile-btn"
-              variant="contained"
-              fullWidth
-            >
-              Chat
-            </Button>
           </Box>
         </Box>
       )}
+      {/* --------- Chat Component ---------- */}
+      <Chat startChat={startChat} />
+      <Button
+        onClick={handleStartChatClick}
+        className="edit-profile-btn"
+        variant="contained"
+        fullWidth
+      >
+        Chat
+      </Button>
     </>
   );
 }
