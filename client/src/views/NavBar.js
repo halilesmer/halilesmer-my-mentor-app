@@ -24,7 +24,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { getToken } from "../utils/getToken";
-import jwt_decode from "jwt-decode";
 
 // import { signOut } from "firebase/auth";
 
@@ -32,22 +31,12 @@ export default function NavBar() {
   const [drawerKey, setDrawerKey] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const pathname = useLocation();
-  const navigateTo = useNavigate();
-  const [decodedToken, setDecodedToken] = React.useState("");
+
   const token = getToken();
   
-  const { handleLogoutClick, userType } = React.useContext(AppContext);
+  const { handleLogoutClick,  decodedToken } = React.useContext(AppContext);
   
- React.useEffect(()=> {
- if (token) {
-   const decodeToken = jwt_decode(token);
-   setDecodedToken(decodeToken);
- } else {
-   setDecodedToken("");
- }
- },[])
-
+ 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -67,9 +56,9 @@ export default function NavBar() {
     textDecoration: "none",
   };
 
-  console.log("userType: ", userType);
-  console.log("token: ", token);
-  console.log("decodedToken: ", decodedToken);
+  // console.log("userType: ", userType);
+  // console.log("token: ", token);
+  // console.log("decodedToken: ", decodedToken);
   // console.log("drawerKey: ", drawerKey);
   return (
     <Box

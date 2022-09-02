@@ -8,19 +8,22 @@ import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import { getToken } from "../utils/getToken";
 
 const MentorsCard = ({ mentor }) => {
-  const { handleLikeClick, userLogIn,userType, likes, menteesData, getMenteeData } =
-    useContext(AppContext);
-  const token = getToken();
-  // console.log("token: ", token);
+  const {
+    handleLikeClick,
+
+    menteesData,
+    decodedToken,
+    getMenteeData,
+  } = useContext(AppContext);
 
   const [likedIconColor, setLikedIconColor] = useState(null);
 
-  // const menteesLikedId = ["6304ddef48c5f4b1ec2b6af"].includes(
-  //   "6304ddef48c5f4b1ec2b65af"
-  // );
+  // --------- Get mentees data --------- starts //
+  useEffect(() => {
+    getMenteeData();
+  }, []);
 
   useEffect(() => {
     setLikedIconColor(null);
@@ -32,18 +35,10 @@ const MentorsCard = ({ mentor }) => {
     //   setLikedIconColor(true);
     // }
   }, [menteesData]);
+  // --------- Get mentees data --------- ends //
 
-  //   const getLikes =
-  //     mentor &&
-  //     mentor.map((mntr) => {
-  //       return menteesData && menteesData.likes.map((id) => mntr._id === id);
-  //     });
-
-  /* menteesData && menteesData.likes.filter(mntrId => {
-      return mntrId.includes(mntr) */
-  // console.log("likedIconColor: ", likedIconColor);
-  // console.log("likes: ", likes);
-  // console.log("mentor.user_type: ", mentor.user_type);
+  console.log("menteesData: ", menteesData);
+  console.log("decodedToken: ", decodedToken);
 
   return (
     <>
@@ -121,7 +116,7 @@ const MentorsCard = ({ mentor }) => {
         </Link>
         <div className="mentor-cards-footer" style={{ width: "100%" }}>
           <div className="mentor-cards-like-con">
-            {userType && userType === "mentee" && (
+            {decodedToken && decodedToken.role === "mentee" && (
               <IconButton
                 aria-label="Like Button"
                 onClick={() => handleLikeClick(mentor._id)}

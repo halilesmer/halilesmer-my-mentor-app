@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 import { getToken } from "../utils/getToken";
+import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
@@ -12,6 +13,7 @@ const AppProvider = (props) => {
   const [menteesData, setMenteesData] = useState(null);
   const [mentorsProfile, setMentorsProfile] = useState(null);
   const [error, setError] = useState(null);
+  const [decodedToken, setDecodedToken] = useState("");
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -22,9 +24,16 @@ const AppProvider = (props) => {
   const onBlur = () => setFocused(false);
   const token = localStorage.getItem("token");
   const [likes, setLikes] = useState(null);
-  
 
-
+  // -------- Check is User logged in starts ----------
+  useEffect(() => {
+    if (token) {
+      const decodeToken = jwt_decode(token);
+      setDecodedToken(decodeToken);
+    } else {
+      setDecodedToken("");
+    }
+  }, []);
 
   // -------- Check is User logged in starts ----------
   const isUsrLoggIn = () => {
@@ -141,6 +150,7 @@ const AppProvider = (props) => {
 
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("likes", likes);
+  console.log("decodedToken: ", decodedToken);
   // console.log("menteesData", menteesData && menteesData);
   return (
     <AppContext.Provider
@@ -162,7 +172,7 @@ const AppProvider = (props) => {
         likes,
         getMentorsProfile,
         mentorsProfile,
-
+        decodedToken,
       }}
     >
       {props.children}

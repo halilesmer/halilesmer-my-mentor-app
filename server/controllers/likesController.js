@@ -72,9 +72,12 @@ const postLikes = async (req, res) => {
     // return;
   } catch (error) {
     console.log("error update mentee like: ", error);
+    if (res.headersSent !== true) {
     res.status(400).json({
       msg: "Can not update mentee likes!",
     });
+    }
+    
   }
 
   //   ----- Mentee likes -------- ends ---

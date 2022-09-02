@@ -24,7 +24,7 @@ const mentorSchema = new Schema({
   likes: { type: Array, required: false },
   avatar_picture: { type: String, required: false },
   register_Date: { type: Date, default: Date.now },
-  comments: [{type: ObjectId, ref: "comment"}]
+  // comments: [{type: ObjectId, ref: "comment"}]
 });
 
 const MentorsModel = mongoose.model("mentor", mentorSchema);
