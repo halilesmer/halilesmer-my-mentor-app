@@ -23,8 +23,8 @@ router.post("/signin", mentorsSignIn);
 router.get("/allmentors",allMentors);
 router.get("/mentorsprofile", jwtAuth, getMentorsProfile);
 router.post("/editmentor", jwtAuth, editMentor);
-// router.get("/getonementor/:mentorId", jwtAuth, getSpecificMentorData);
-router.post("/getonementor", jwtAuth, getSpecificMentorData);
+router.get("/getonementor/:mentorId", jwtAuth, getSpecificMentorData);
+// router.post("/getonementor", jwtAuth, getSpecificMentorData);
 
 ;
 export default router;

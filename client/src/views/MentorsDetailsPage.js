@@ -21,29 +21,29 @@ export default function MentorsDetailsPage() {
    const [startChat, setStartChat] = React.useState("none");
 
   //  ------ hide unhide chat box --------
-   const handleStartChatClick = () => {
-    startChat === "none" ? setStartChat("flex") : setStartChat("none");
+  //  const handleStartChatClick = () => {
+  //   startChat === "none" ? setStartChat("flex") : setStartChat("none");
     
-   };
+  //  };
 
   const getMentorsProfile = async () => {
 
     if (token) {
    
       const requestOptions = {
-        method: "Post",
+        method: "Get",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          mentorId: mentorId,
-        }),
+        // body: JSON.stringify({
+        //   mentorId: mentorId,
+        // }),
       };
       try {
         const response = await fetch(
-          // `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
-          `http://localhost:5001/api/mentors/getonementor`,
+          `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
+          // `http://localhost:5001/api/mentors/getonementor`,
 
           requestOptions
         );
@@ -162,14 +162,14 @@ export default function MentorsDetailsPage() {
       )}
       {/* --------- Chat Component ---------- */}
       <Chat startChat={startChat} />
-      <Button
-        onClick={handleStartChatClick}
+      {/* <Button
+        // onClick={handleStartChatClick}
         className="edit-profile-btn"
         variant="contained"
         fullWidth
       >
         Chat
-      </Button>
+      </Button> */}
     </>
   );
 }

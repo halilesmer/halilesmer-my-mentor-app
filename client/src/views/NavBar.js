@@ -24,6 +24,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { getToken } from "../utils/getToken";
+import jwt_decode from "jwt-decode";
 
 // import { signOut } from "firebase/auth";
 
@@ -33,10 +34,19 @@ export default function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const pathname = useLocation();
   const navigateTo = useNavigate();
-
-  const { handleLogoutClick, userType,  } =
-    React.useContext(AppContext);
+  const [decodedToken, setDecodedToken] = React.useState("");
   const token = getToken();
+  
+  const { handleLogoutClick, userType } = React.useContext(AppContext);
+  
+ React.useEffect(()=> {
+ if (token) {
+   const decodeToken = jwt_decode(token);
+   setDecodedToken(decodeToken);
+ } else {
+   setDecodedToken("");
+ }
+ },[])
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,7 +68,8 @@ export default function NavBar() {
   };
 
   console.log("userType: ", userType);
-  // console.log("token: ", token);
+  console.log("token: ", token);
+  console.log("decodedToken: ", decodedToken);
   // console.log("drawerKey: ", drawerKey);
   return (
     <Box
@@ -152,24 +163,26 @@ export default function NavBar() {
               {/* ----------------- Sign Up Page Link  --------------------- */}
 
               {/* {!user && ( */}
-             {!token && ( <List onClick={handleClose}>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon style={{ minWidth: "2.5rem" }}>
-                      <LockOpenIcon />
-                    </ListItemIcon>
+              {!token && (
+                <List onClick={handleClose}>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                        <LockOpenIcon />
+                      </ListItemIcon>
 
-                    <NavLink
-                      to="/signup"
-                      style={({ isActive }) =>
-                        isActive ? activeStyle : noActive
-                      }
-                    >
-                      <ListItemText primary="Sign up" />
-                    </NavLink>
-                  </ListItemButton>
-                </ListItem>
-              </List>)}
+                      <NavLink
+                        to="/signup"
+                        style={({ isActive }) =>
+                          isActive ? activeStyle : noActive
+                        }
+                      >
+                        <ListItemText primary="Sign up" />
+                      </NavLink>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              )}
               {/* )} */}
 
               {/* ----------------- Profile Page Link  --------------------- */}
@@ -184,7 +197,7 @@ export default function NavBar() {
 
                       <NavLink
                         to={
-                          userType === "mentor"
+                          decodedToken.role === "mentor"
                             ? "/mentors/profile"
                             : "/mentees/profile"
                         }

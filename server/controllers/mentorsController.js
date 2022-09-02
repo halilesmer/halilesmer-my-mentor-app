@@ -180,7 +180,9 @@ const getMentorsProfile = (req, res) => {
 // ------- getSpecificMentorData -------------------//
 const getSpecificMentorData = async (req, res) => {
   try {
-    const mentor = await MentorsModel.findById(req.body.mentorId);
+    console.log('req.params :>> ', req.params);
+    const mentor = await MentorsModel.findById(req.params.mentorId);
+    // const mentor = await MentorsModel.findById(req.body.mentorId);
 
     res.status(200).json({
       mentor,

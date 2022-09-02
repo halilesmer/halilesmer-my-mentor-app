@@ -22,7 +22,9 @@ const AppProvider = (props) => {
   const onBlur = () => setFocused(false);
   const token = localStorage.getItem("token");
   const [likes, setLikes] = useState(null);
-  // console.log("mentorsData: ", mentorsData);
+  
+
+
 
   // -------- Check is User logged in starts ----------
   const isUsrLoggIn = () => {
@@ -160,6 +162,7 @@ const AppProvider = (props) => {
         likes,
         getMentorsProfile,
         mentorsProfile,
+
       }}
     >
       {props.children}

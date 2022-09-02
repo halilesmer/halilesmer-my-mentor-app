@@ -6,12 +6,13 @@ import React, { useState } from 'react'
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SendIcon from "@mui/icons-material/Send";
 
-const Chat = ({ startChat }) => {
+const Chat = ( ) => {
     const handleSendClick=(e)=>{
         
     }
   return (
-    <div className="chat-con" style={{ display: startChat }}>
+    <div className="chat-con">
+    <div>No comments yet</div>
       <TextField
         id="outlined-basic"
         className="chat-input-field"
