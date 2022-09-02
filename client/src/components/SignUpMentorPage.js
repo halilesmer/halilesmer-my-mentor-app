@@ -265,32 +265,6 @@ export default function SignUpMentorPage() {
       // setPassword(pw1);
     }
     /* ---- Password Check ---- ends*/
-    // let urlencoded = new URLSearchParams();
-    // let urlencoded= {
-
-    // }
-
-    // urlencoded.append("first_name", first_name);
-    // urlencoded.append("last_name", last_name);
-    // urlencoded.append("birthday", birthday);
-    // urlencoded.append("gender", gender);
-    // urlencoded.append(
-    //   "language",
-    //   language.map((obj) => obj.title)
-    // );
-    // urlencoded.append("experience", experience);
-    // urlencoded.append("website", website);
-    // urlencoded.append("fee", fee);
-    // urlencoded.append("couching_medium", couchingMedium);
-    // urlencoded.append("email", email);
-    // urlencoded.append("skills", selectedSkills);
-    // urlencoded.append("password", pw1);
-    // urlencoded.append(
-    //   "avatar_picture",
-    //   newUser.avatar_picture
-    //     ? newUser.avatar_picture
-    //     : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-    // );
 
     console.log("newUser", newUser);
 

@@ -1,4 +1,4 @@
-import './Chat.css'
+import './comments.css'
 
 import { Button, FormControl, Input, InputAdornment, InputLabel, TextField } from '@mui/material';
 import React, { useState } from 'react'
@@ -6,16 +6,16 @@ import React, { useState } from 'react'
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SendIcon from "@mui/icons-material/Send";
 
-const Chat = ( ) => {
+const Comments = ( ) => {
     const handleSendClick=(e)=>{
         
     }
   return (
-    <div className="chat-con">
-    <div>No comments yet</div>
+    <div className="comments-con">
+    <div className='no-comments'>No comments yet...</div>
       <TextField
         id="outlined-basic"
-        className="chat-input-field"
+        className="comments-input-field"
         size="small"
         label="Type for writing"
         variant="outlined"
@@ -32,4 +32,4 @@ const Chat = ( ) => {
   );
 };
 
-export default Chat
+export default Comments

@@ -5,7 +5,7 @@ import * as React from "react";
 import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext";
-import Chat from "../components/Chat";
+import Comments from "../components/Comments.js";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 import { useParams } from "react-router-dom";
@@ -18,13 +18,7 @@ export default function MentorsDetailsPage() {
   const token = getToken();
   const { mentorId } = useParams();
 
-   const [startChat, setStartChat] = React.useState("none");
-
-  //  ------ hide unhide chat box --------
-  //  const handleStartChatClick = () => {
-  //   startChat === "none" ? setStartChat("flex") : setStartChat("none");
-    
-  //  };
+ 
 
   const getMentorsProfile = async () => {
 
@@ -161,7 +155,7 @@ export default function MentorsDetailsPage() {
         </Box>
       )}
       {/* --------- Chat Component ---------- */}
-      <Chat startChat={startChat} />
+      <Comments />
       {/* <Button
         // onClick={handleStartChatClick}
         className="edit-profile-btn"

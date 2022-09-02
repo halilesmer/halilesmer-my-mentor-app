@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
+import commentsRoute from "./routes/commentsRoute.js";
 import { connectMDB } from "./util/connectMDB.js";
 import cors from "cors";
 import express from "express";
@@ -41,6 +42,7 @@ const loadRoutes = () => {
   // app.use("/api/users", mentorsRoute);
   app.use("/api/mentors", mentorsRoute);
   app.use("/api/mentees", menteesRoute);
+  app.use('/api/comments', commentsRoute)
 };
 
 (function controller() {

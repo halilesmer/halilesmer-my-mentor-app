@@ -31,19 +31,6 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body-signUp: ", req.body);
-  // console.log("Here is the backend : ", {
-  //   first_name: req.body.first_name,
-  //   last_name: req.body.last_name,
-  //   birthday: req.body.birthday,
-  //   gender: req.body.gender,
-  //   language: req.body.language,
-  //   website: req.body.website,
-  //   couching_medium: req.body.couching_medium,
-  //   email: req.body.email,
-  //   skills: req.body.skills,
-  //   password: req.body.password,
-  //   avatar_picture: req.body.avatar_picture,
-  // });
 
   try {
     const existingUser = await MenteesModel.findOne({ email: req.body.email });
