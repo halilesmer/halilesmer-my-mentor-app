@@ -8,25 +8,27 @@ import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
 
 const Comments = (mentorsId) => {
-  console.log("mentorsId: ", mentorsId);
   const [typedComment, setTypedComment] = useState("");
   const [text, setText] = useState("");
   const [commentData, setCommentData] = useState(null);
   const token = getToken();
   const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
 
-const onKeyUp=(e)=>{
-  console.log('e :>> ', e);
+
+ 
+ // ------- Sending comments by pressing 'Enter' button ------- //
+  const onKeyUp = (e) => {
     if (typedComment.trim()) {
       if (e.key === "Enter") {
         handleSendClick();
       }
     }
+  };
 
-}
+  // ------- Handle send comments ------- starts //
   const handleSendClick = async (e) => {
-    getMenteeData();
-console.log("menteesData :>> ", menteesData);
+   await getMenteeData();
+    console.log("menteesData :>> ", menteesData && menteesData);
 
     try {
       const body = {
@@ -56,16 +58,30 @@ console.log("menteesData :>> ", menteesData);
       console.log("error: ", error);
     }
 
-    setTypedComment('');
+    setTypedComment("");
   };
+  // ------- Handle send comments ------- ends //
 
-  console.log("comment text", typedComment);
-// console.log('menteesData :>> ', menteesData);
-console.log('body:', 'first_name:', menteesData.first_name,
-        'last_name:', menteesData.last_name,
-        'menteeId:', menteesData.id,
-        'mentorId:', mentorsId.mentorsId,
-        'commentText:', typedComment,)
+  // console.log("comment text", typedComment);
+  // console.log("mentorsId: ", mentorsId);
+  // console.log('menteesData :>> ', menteesData);
+  // console.log(
+  //   "body:",
+  //   "first_name:",
+  //   menteesData.first_name,
+  //   "last_name:",
+  //   menteesData.last_name,
+  //   "menteeId:",
+  //   menteesData.id,
+  //   "mentorId:",
+  //   mentorsId.mentorsId,
+  //   "commentText:",
+  //   typedComment
+  // );
+  console.log("decodedToken: ", decodedToken);
+
+
+
   return (
     <div className="comments-con">
       {!commentData && <div className="no-comments">No comments yet...</div>}
