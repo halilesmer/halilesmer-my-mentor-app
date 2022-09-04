@@ -152,7 +152,6 @@ const mentorsSignIn = async (req, res) => {
 const getMentorsProfile = (req, res) => {
   console.log("req, res in getMentorsProfile: ", req, res);
   console.log("req.user- getMentorsProfile", req.user);
-  // const token = issueToken(req.user._id, req.user.user_type);
 
   res.status(200).json(
     {
@@ -201,7 +200,7 @@ const getSpecificMentorData = async (req, res) => {
 const editMentor = async (req, res) => {
   // console.log("edit Mentor: req,res: ", req, res);
   console.log("request body:>> ", req.body);
-  console.log("req.user", req.user);
+  console.log("req.user- editMentor controller", req.user);
   const hashedPassword = await encryptPassword(req.body.password);
   // const filter = { email: "test@mail.de" };
   const update = {
@@ -225,7 +224,7 @@ const editMentor = async (req, res) => {
 
   try {
     // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
-    console.log("req.user.id: ", req.user.id);
+    console.log("req.user.id- editMentor controller: ", req.user.id);
 
     const doc = await MentorsModel.findByIdAndUpdate(req.user.id, update, {
       new: true,
@@ -252,7 +251,7 @@ const editMentor = async (req, res) => {
     // );
     // await doc.save();
 
-    console.log("doc: ", doc);
+    console.log("doc- editMentor controller: ", doc);
     res.status(200).json({
       msg: "Mentor update successfull",
     });

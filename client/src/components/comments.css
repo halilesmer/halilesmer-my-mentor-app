@@ -7,20 +7,25 @@
   border-radius: 4px;
   margin-top: 1rem;
   flex-flow: column;
-    
-  
+
+
   /* width: 200px; */
-    height: 100px;
-    background-color: #b6e2f8;
-    position: relative;
+  height: 100px;
+  background-color: #b6e2f8;
+  position: relative;
 }
-.no-comments{
+
+.no-comments {
   width: fit-content;
   margin: 1rem auto;
 }
+
 .comments-input-field {
-/* width: 100px !important; */
+  /* width: 100px !important; */
   background-color: #ffffff !important;
   position: absolute !important;
   bottom: 0px !important;
+  left: 0  !important;
+  right: 0  !important;
+  margin: 0 auto !important;
 }

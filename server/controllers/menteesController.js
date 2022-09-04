@@ -127,7 +127,7 @@ const menteesSignIn = async (req, res) => {
 
 const getMenteesProfile = (req, res) => {
   console.log("req, res in getMenteesProfile: ", req, res);
-  console.log("req.user", req.user);
+  console.log("req.user-getMenteesProfile controller:", req.user);
 
   res.status(200).json({
     id: req.user.id,

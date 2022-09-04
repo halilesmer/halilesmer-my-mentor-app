@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const signInSchema = new Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
+  email: { type: String, required: true, trim: true },
+  password: { type: String, required: true, trim: true },
 });
 
 const signInModel = mongoose.model("signIn", signInSchema);

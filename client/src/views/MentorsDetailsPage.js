@@ -18,8 +18,6 @@ export default function MentorsDetailsPage() {
   const token = getToken();
   const { mentorId } = useParams();
 
- 
-
   const getMentorsProfile = async () => {
 
     if (token) {
@@ -37,12 +35,9 @@ export default function MentorsDetailsPage() {
       try {
         const response = await fetch(
           `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
-          // `http://localhost:5001/api/mentors/getonementor`,
-
           requestOptions
         );
         const result = await response.json();
-        console.log("result.mentor: ", result.mentor);
         setMentor(result.mentor);
         setUserType("mentor");
       } catch (error) {
@@ -56,8 +51,8 @@ export default function MentorsDetailsPage() {
   }, []);
 
   // console.log("mentor: ", mentor && mentor.mentor.first_name);
-  console.log("token: ");
-  console.log("mentor: ", mentor);
+  // console.log("token: ");
+  // console.log("mentor: ", mentor);
 
   return (
     <>
@@ -97,7 +92,7 @@ export default function MentorsDetailsPage() {
 
           <Box className="profile-info-box">
             <Typography variant="h5" component="h5" textAlign="center" mb={3}>
-              {mentor.first_name} {mentor.last_name}{" "}
+              {mentor.first_name} {mentor.last_name}<br/> (Mentor)
             </Typography>
 
             <Paper elevation={4}>
@@ -155,7 +150,7 @@ export default function MentorsDetailsPage() {
         </Box>
       )}
       {/* --------- Chat Component ---------- */}
-      <Comments />
+      <Comments mentorsId={mentorId}/>
       {/* <Button
         // onClick={handleStartChatClick}
         className="edit-profile-btn"

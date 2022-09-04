@@ -5,8 +5,8 @@ const { Schema } = mongoose;
 
 const menteesSchema = new Schema(
   {
-    first_name: { type: String, required: true },
-    last_name: { type: String, required:  true },
+    first_name: { type: String, required: true, trim: true },
+    last_name: { type: String, required:  true, trim: true },
     birthday: { type: Date, required: true},
     gender: { type: String, required: false },
     language: { type: Array, required: false },
@@ -17,13 +17,13 @@ const menteesSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
+      lowercase: true, trim: true
       // validate: [validator.isEmail, "Valid email is required"],
     },
     password: {
       type: String,
       required: [true, "Password are is required"],
-      minLength: [4, 'At least 4 charactars please.']
+      minLength: [4, 'At least 4 charactars please.'], trim: true
     },
     user_type: { type: String, default: "mentee" },
     likes: { type: Array, required: false },

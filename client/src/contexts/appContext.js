@@ -123,11 +123,8 @@ const AppProvider = (props) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      // body: JSON.stringify( {filter}),
       body: JSON.stringify({
         mentorId: id,
-
-        // likes: { mentor_id: id },
       }),
     };
 

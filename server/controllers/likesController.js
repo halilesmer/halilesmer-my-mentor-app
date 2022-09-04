@@ -83,14 +83,14 @@ const postLikes = async (req, res) => {
   //   ----- Mentee likes -------- ends ---
 
   //   ----- Mentor likes -------- starts ---
-  console.log("request body- postLikes:>> ", req.body);
-  console.log("req.body.mentor ID- postLikes", req.body.mentorId);
-  console.log("req.user.id- postLikes: ", req.user.id);
+  console.log("request body- postLikes Controller:>> ", req.body);
+  console.log("req.body.mentor ID- postLikes Controller", req.body.mentorId);
+  console.log("req.user.id- postLikes Controller: ", req.user.id);
 };
 
 const getLikes = (req, res) => {
   console.log("req, res in getLikes: ", req, res);
-  console.log("req.user", req.user);
+  console.log("req.user- getLikes Controller", req.user);
 
   res.status(200).json({
     id: req.user.id,
