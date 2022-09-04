@@ -1,13 +1,9 @@
 import CommentsModel from "../models/commentsModel.js";
 
-const commentsController = async (req, res) => {
-  console.log("req.body- commentsController: ", req.body);
-  // console.log("req.user- commentsController: ", req.user);
-  
-//   const mentee = await CommentsModel.findByIdAndUpdate(
-//     req.body.menteeId,
-//     req.body
-//   );
+const postComments = async (req, res) => {
+  console.log("req.body- postComments: ", req.body);
+  // console.log("req.user- postComments: ", req.user);
+
 
   const newComment = new CommentsModel({
     first_name: req.body.first_name,
@@ -33,7 +29,7 @@ const commentsController = async (req, res) => {
     });
   }
 };
-export { commentsController };
+export { postComments };
 
 /* 
 const postComment = async (newsId, comment) => {
