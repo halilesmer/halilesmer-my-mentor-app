@@ -29,7 +29,26 @@ const postComments = async (req, res) => {
     });
   }
 };
-export { postComments };
+
+const getSpecificMentorsComments= async (req, res)=>{
+    console.log("req.params getSpecificMentorsComments:>> ", req.params);
+
+  console.log("req.body - getSpecificMentorsComments: ", req.body);
+  console.log("req.user - getSpecificMentorsComments: ", req.user);
+  try {
+  const oneMentorsComments = await CommentsModel.find({
+    mentorId: req.params.mentorsId,
+  });
+  res.status(200).json({
+    oneMentorsComments
+  })
+  
+} catch (error) {
+  console.log("error get mentors comments: ", error);
+  
+}
+}
+export { postComments,getSpecificMentorsComments };
 
 /* 
 const postComment = async (newsId, comment) => {

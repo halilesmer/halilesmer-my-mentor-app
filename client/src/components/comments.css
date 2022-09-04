@@ -1,4 +1,4 @@
-.comments-con {
+.comments-card-con {
 
   /* display: flex; */
   align-items: flex-end;
@@ -7,12 +7,15 @@
   border-radius: 4px;
   margin-top: 1rem;
   flex-flow: column;
-
-
   /* width: 200px; */
-  height: 100px;
   background-color: #b6e2f8;
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.comments-card-box {
+  margin-bottom: 4rem !important;
+
 }
 
 .no-comments {
@@ -20,12 +23,94 @@
   margin: 1rem auto;
 }
 
+.comments-cards-header {
+  /* width: 100% !important; */
+  display: flex;
+  justify-content: space-between;
+  height: 25px !important;
+  margin: 0 0.5rem;
+}
+
+
+
+p.comments-cards-name {
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+  margin: 4px 0px;
+  display: inline-block;
+  width: auto;
+}
+
+
+.comments-cards-date {
+  font-size: 12px;
+  color: #000;
+}
+
+.comments-card-body {
+  flex-direction: column;
+  width: calc(100% - 25px);
+  padding-bottom: 10px;
+
+  /* display: flex !important;
+  align-items: center !important;
+  justify-content: center !important; */
+}
+
+.comments-card-texts-con {
+  /* margin: 0.3rem !important; */
+  max-height: 12rem;
+  overflow: auto;
+}
+
+.comments-card-texts-con p {
+  margin: 0.3rem !important;
+  color: #848484;
+  font-size: 12px;
+}
+
+.comments-card-texts-con p span {
+  font-size: 0.9rem !important;
+}
+
+h2.comment-card-header {
+  border-bottom: 4px solid #DDDDDD;
+  font-size: 22px;
+  font-weight: normal;
+  /* margin-bottom: 12px; */
+  padding-bottom: 6px;
+  margin-top: 15px;
+  width: 95%;
+  margin: 15px auto 12px auto;
+}
+
+.comments-img {
+  width: 25px !important;
+  border: 1px solid #C9C9C9;
+  box-shadow: 0 2px 7px #dfdfdf;
+  padding: 3px;
+  margin: 3px;
+}
+
+.comments-cards-like-con {
+  display: flex !important;
+  justify-content: end !important;
+  height: 20px;
+  margin-right: 0.5rem !important;
+}
+
+.comments-fields {
+  display: flex;
+  margin: 6px auto !important;
+  width: 95% !important;
+}
+
 .comments-input-field {
   /* width: 100px !important; */
   background-color: #ffffff !important;
   position: absolute !important;
   bottom: 0px !important;
-  left: 0  !important;
-  right: 0  !important;
+  left: 0 !important;
+  right: 0 !important;
   margin: 0 auto !important;
 }
