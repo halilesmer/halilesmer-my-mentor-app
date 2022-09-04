@@ -3,7 +3,6 @@ import "./comments.css";
 import { InputAdornment, TextField } from "@mui/material";
 import React, { useContext, useState } from "react";
 
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import { AppContext } from "../contexts/appContext";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
@@ -16,6 +15,15 @@ const Comments = (mentorsId) => {
   const token = getToken();
   const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
 
+const onKeyUp=(e)=>{
+  console.log('e :>> ', e);
+    if (typedComment.trim()) {
+      if (e.key === "Enter") {
+        handleSendClick();
+      }
+    }
+
+}
   const handleSendClick = async (e) => {
     getMenteeData();
 console.log("menteesData :>> ", menteesData);
@@ -62,26 +70,29 @@ console.log('body:', 'first_name:', menteesData.first_name,
     <div className="comments-con">
       {!commentData && <div className="no-comments">No comments yet...</div>}
 
-     {decodedToken.role ==='mentee' && <TextField
-        id="outlined-basic"
-        className="comments-input-field"
-        size="small"
-        label="Type for writing"
-        variant="outlined"
-        autoFocus
-        value={typedComment}
-        onChange={(e) => setTypedComment(e.currentTarget.value)}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <SendIcon
-                onClick={handleSendClick}
-                style={{ cursor: "pointer" }}
-              />
-            </InputAdornment>
-          ),
-        }}
-      ></TextField>}
+      {decodedToken.role === "mentee" && (
+        <TextField
+          id="outlined-basic"
+          className="comments-input-field"
+          size="small"
+          label="Type for writing"
+          variant="outlined"
+          autoFocus
+          onKeyUp={onKeyUp}
+          value={typedComment}
+          onChange={(e) => setTypedComment(e.currentTarget.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SendIcon
+                  onClick={handleSendClick}
+                  style={{ cursor: "pointer" }}
+                />
+              </InputAdornment>
+            ),
+          }}
+        ></TextField>
+      )}
     </div>
   );
 };
