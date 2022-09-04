@@ -69,6 +69,7 @@ p.comments-cards-name {
   margin: 0.3rem !important;
   color: #848484;
   font-size: 12px;
+      overflow-wrap: anywhere !important;
 }
 
 .comments-card-texts-con p span {
@@ -117,6 +118,7 @@ h2.comment-card-header {
 .editIcon {
   color: #4996de;
   height: 26px;
+      
 }
 
 .comments-input-field {

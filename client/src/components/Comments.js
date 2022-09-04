@@ -1,10 +1,11 @@
 import "./comments.css";
 
 import { IconButton, InputAdornment, Paper, TextField } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { AppContext } from "../contexts/appContext";
 import { Box } from "@mui/system";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
@@ -12,13 +13,23 @@ import { getToken } from "../utils/getToken";
 const Comments = (mentorsId) => {
   const [typedComment, setTypedComment] = useState("");
   const [text, setText] = useState("");
-const [commentsData, setCommentsData] = useState(null);
+  const [commentsData, setCommentsData] = useState(null);
   const token = getToken();
   const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
 
-   useEffect(() => {
-     getMenteeData();
-   }, []);
+  const commentsInputFieldRef = useRef(null);
+
+  const scrollToElement = () => {
+    if (commentsInputFieldRef.current) {
+      commentsInputFieldRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getMenteeData();
+  }, []);
   // ------- Sending comments by pressing 'Enter' button ------- //
   const onKeyUp = (e) => {
     if (typedComment.trim()) {
@@ -63,6 +74,7 @@ const [commentsData, setCommentsData] = useState(null);
     }
 
     setTypedComment("");
+    scrollToElement();
   };
   // ------- Handle send comments ------- ends //
 
@@ -94,7 +106,7 @@ const [commentsData, setCommentsData] = useState(null);
 
   // console.log("comment text", typedComment);
   console.log("mentorsId: ", mentorsId);
-  console.log('menteesData :>> ', menteesData);
+  console.log("menteesData :>> ", menteesData);
   // console.log(
   //   "body:",
   //   "first_name:",
@@ -111,7 +123,9 @@ const [commentsData, setCommentsData] = useState(null);
 
   return (
     <div className="comments-card-con">
-      <h2 className="comment-card-header">{`(${commentsData && commentsData.length}) READERS COMMENTS`}</h2>
+      <h2 className="comment-card-header">{`(${
+        commentsData && commentsData.length
+      }) READERS COMMENTS`}</h2>
       <div className="comments-card-box">
         {!commentsData && <div className="no-comments">No comments yet...</div>}
         {commentsData &&
@@ -124,20 +138,20 @@ const [commentsData, setCommentsData] = useState(null);
               >
                 <Box className="comments-cards-img-con">
                   {comment?.avatar_picture ? (
-                <img
-                  width="100px"
-                  className="comments-img"
-                  src={comment?.avatar_picture}
-                  alt="avatar"
-                />
-              ) : (
-                <img
-                  className="comments-img"
-                  width="100px"
-                  src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                  alt="avatar"
-                />
-              )}{" "}
+                    <img
+                      width="100px"
+                      className="comments-img"
+                      src={comment?.avatar_picture}
+                      alt="avatar"
+                    />
+                  ) : (
+                    <img
+                      className="comments-img"
+                      width="100px"
+                      src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                      alt="avatar"
+                    />
+                  )}{" "}
                   {/* <img
                     className="comments-img"
                     width="100px"
@@ -164,17 +178,15 @@ const [commentsData, setCommentsData] = useState(null);
                   <div className="comments-card-texts-con">
                     <p>{comment?.commentText}</p>
                   </div>
-                <div
-                className="comments-cards-footer"
-
-              >
-                <IconButton>
-<EditIcon size='small' className="editIcon" />
-
-                </IconButton>
-              </div>
+                  <div className="comments-cards-footer">
+                    <IconButton>
+                      <DeleteIcon size="small" className="deleteIcon" />
+                    </IconButton>
+                    <IconButton>
+                      <EditIcon size="small" className="editIcon" />
+                    </IconButton>
+                  </div>
                 </Box>
-
               </Paper>
             );
           })}
@@ -182,8 +194,12 @@ const [commentsData, setCommentsData] = useState(null);
 
       {decodedToken.role === "mentee" && (
         <TextField
+          ref={commentsInputFieldRef}
           id="outlined-basic"
           className="comments-input-field"
+          type="text"
+          multiline
+          maxRows={4}
           size="small"
           label="Type for writing"
           variant="outlined"
