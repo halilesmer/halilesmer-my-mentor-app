@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { AppContext } from "../contexts/appContext";
 import { Box } from "@mui/system";
+import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
 
@@ -30,7 +31,6 @@ const [commentsData, setCommentsData] = useState(null);
   // ------- Handle send comments ------- starts //
   const handleSendClick = async (e) => {
     await getMenteeData();
-    console.log("menteesData :>> ", menteesData && menteesData);
 
     try {
       const body = {
@@ -38,6 +38,7 @@ const [commentsData, setCommentsData] = useState(null);
         last_name: menteesData.last_name,
         menteeId: menteesData.id,
         mentorId: mentorsId.mentorsId,
+        avatar_picture: menteesData?.avatar_picture,
         commentText: typedComment,
       };
       const requestOptions = {
@@ -93,7 +94,7 @@ const [commentsData, setCommentsData] = useState(null);
 
   // console.log("comment text", typedComment);
   console.log("mentorsId: ", mentorsId);
-  // console.log('menteesData :>> ', menteesData);
+  console.log('menteesData :>> ', menteesData);
   // console.log(
   //   "body:",
   //   "first_name:",
@@ -122,11 +123,11 @@ const [commentsData, setCommentsData] = useState(null);
                 elevation={4}
               >
                 <Box className="comments-cards-img-con">
-                  {/* {comments.avatar_picture ? (
+                  {comment?.avatar_picture ? (
                 <img
                   width="100px"
                   className="comments-img"
-                  src={comments.avatar_picture}
+                  src={comment?.avatar_picture}
                   alt="avatar"
                 />
               ) : (
@@ -136,13 +137,13 @@ const [commentsData, setCommentsData] = useState(null);
                   src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
                   alt="avatar"
                 />
-              )}{" "} */}
-                  <img
+              )}{" "}
+                  {/* <img
                     className="comments-img"
                     width="100px"
                     src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
                     alt="avatar"
-                  />
+                  /> */}
                 </Box>
 
                 <Box className="comments-card-body">
@@ -150,7 +151,7 @@ const [commentsData, setCommentsData] = useState(null);
                     <p className="comments-cards-name">
                       {comment.first_name} {comment.last_name}
                     </p>
-                    <div className="comments-cards-date">
+                    <p className="comments-cards-date">
                       {`${new Date(
                         comment.createdAt
                       ).toLocaleDateString()} at ${new Date(
@@ -158,17 +159,22 @@ const [commentsData, setCommentsData] = useState(null);
                       ).getHours()}:${new Date(
                         comment.createdAt
                       ).getMinutes()}`}
-                    </div>
+                    </p>
                   </div>
                   <div className="comments-card-texts-con">
                     <p>{comment?.commentText}</p>
                   </div>
+                <div
+                className="comments-cards-footer"
+
+              >
+                <IconButton>
+<EditIcon size='small' className="editIcon" />
+
+                </IconButton>
+              </div>
                 </Box>
 
-                {/* <div
-                className="comments-cards-footer"
-                style={{ width: "100%" }}
-              ></div> */}
               </Paper>
             );
           })}

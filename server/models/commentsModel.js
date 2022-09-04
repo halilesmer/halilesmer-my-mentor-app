@@ -8,6 +8,7 @@ const commentsSchema = new Schema(
     last_name: { type: String, require: true, trim: true },
     menteeId: { type: String, require: true, trim: true },
     mentorId: { type: String, require: true, trim: true },
+    avatar_picture: { type: String, require: false },
     commentText: { type: String, require: true, trim: true },
   },
   {

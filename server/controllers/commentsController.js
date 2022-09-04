@@ -10,6 +10,7 @@ const postComments = async (req, res) => {
     last_name: req.body.last_name,
     menteeId: req.body.menteeId,
     mentorId: req.body.mentorId,
+    avatar_picture: req.body.avatar_picture,
     commentText: req.body.commentText,
   });
 
