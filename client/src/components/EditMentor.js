@@ -117,7 +117,10 @@ export default function EditMentor() {
 
   // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
-    const languageArray = value.map((obj) => obj.title);
+    console.log("value: ", value);
+    const languageArray = value.map((obj) => {
+      return { title: obj.title };
+    });
     setEditedUserData({
       ...editedUserData,
       language: languageArray,
@@ -304,7 +307,9 @@ export default function EditMentor() {
           id: result.id,
           birthday: result.birthday,
           gender: result.gender,
-          language: result.language,
+          language: result.language.map(lng => {
+            return { title: lng };
+          }),
           experience: result.experience,
           website: result.website,
           fee: result.fee,
@@ -343,6 +348,7 @@ export default function EditMentor() {
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
   console.log("token :>> ", token);
+                    console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
   const obj = [
@@ -429,7 +435,7 @@ export default function EditMentor() {
                     />
                   )}
                   {!editedUserData.avatar_picture && (
-                    <span>Please chouse a profile image (optional)</span>
+                    <span>Please choose a profile image (optional)</span>
                   )}
                 </div>
                 <div className="image-events-con">
@@ -526,14 +532,17 @@ export default function EditMentor() {
                     size="small"
                     multiple
                     options={languages}
-                    // value={test2 !== null ? test2 : language}
+                    isOptionEqualToValue={(option, v) => {
+                      return option.title === v.title;
+                    }}
+                    value={
+                      editedUserData.language ? editedUserData.language.map(lng => lng.title) : []
+                    }
+                     // value={
+                    //   editedUserData.language ? editedUserData.language : []
+                    // }
                     onChange={handleLanguageOnChange}
-                    // autoSelect={true}
-                    defaultValue={[languages[13], languages[12], languages[11]]}
-                    // defaultValue={[obj[0], obj[1], ]}
-
                     id="language"
-                   
                     name="language"
                     // disableCloseOnSelect
                     getOptionLabel={(option) => option.title}

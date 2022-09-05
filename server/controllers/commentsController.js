@@ -1,10 +1,9 @@
 import CommentsModel from "../models/commentsModel.js";
 
+// ---------- Post comments ----------- starts --//
 const postComments = async (req, res) => {
   console.log("req.body- postComments: ", req.body);
   // console.log("req.user- postComments: ", req.user);
-
-
   const newComment = new CommentsModel({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -31,25 +30,54 @@ const postComments = async (req, res) => {
   }
 };
 
-const getSpecificMentorsComments= async (req, res)=>{
-    console.log("req.params getSpecificMentorsComments:>> ", req.params);
+// ---------- Update comment ----------- starts --//
+const editComment = async (req, res) => {
+  console.log("req.body- editComment: ", req.body);
+
+  try {
+    if (req.body.commentText) {
+      const comment = await CommentsModel.findByIdAndUpdate(
+        req.body.commentId,
+        { commentText: req.body.commentText }
+      );
+      res.status(200).json({
+        comment,
+        msg: "Comment successfully edited!",
+      });
+    } else {
+      res.status(400).json({
+        msg: "edit comment failed!! There are not 'commentText' field." + error,
+      });
+    }
+  } catch (error) {
+    console.log("error: edit comment failed!!: ", error);
+    res.status(400).json({
+      msg: "edit comment failed!!:" + error,
+    });
+  }
+  // if (!news) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, "News not found");
+  // }
+};
+
+// ---------- Get specific comments ----------- starts --//
+const getSpecificMentorsComments = async (req, res) => {
+  console.log("req.params getSpecificMentorsComments:>> ", req.params);
 
   console.log("req.body - getSpecificMentorsComments: ", req.body);
   console.log("req.user - getSpecificMentorsComments: ", req.user);
   try {
-  const oneMentorsComments = await CommentsModel.find({
-    mentorId: req.params.mentorsId,
-  });
-  res.status(200).json({
-    oneMentorsComments
-  })
-  
-} catch (error) {
-  console.log("error get mentors comments: ", error);
-  
-}
-}
-export { postComments,getSpecificMentorsComments };
+    const oneMentorsComments = await CommentsModel.find({
+      mentorId: req.params.mentorsId,
+    });
+    res.status(200).json({
+      oneMentorsComments,
+    });
+  } catch (error) {
+    console.log("error get mentors comments: ", error);
+  }
+};
+export { postComments, getSpecificMentorsComments, editComment };
 
 /* 
 const postComment = async (newsId, comment) => {

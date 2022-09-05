@@ -382,7 +382,7 @@ export default function SignUpMentorPage() {
                 <img src={newUser.avatar_picture} alt="avatar" width="300" />
               )}
               {!newUser.avatar_picture && (
-                <span>Please chouse a profile image (optional)</span>
+                <span>Please choose a profile image (optional)</span>
               )}
             </div>
             <div className="image-events-con">

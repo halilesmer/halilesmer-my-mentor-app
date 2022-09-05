@@ -36,7 +36,7 @@ export default function MenteesProfilePage() {
                   width="300"
                 />
               ) : (
-                <span>Please chouse a profile image (optional)</span>
+                <span>Please choose a profile image (optional)</span>
               )}
             </div>
             <div className="image-events-con">

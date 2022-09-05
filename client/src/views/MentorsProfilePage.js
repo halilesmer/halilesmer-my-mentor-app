@@ -33,7 +33,7 @@ export default function MentorsProfilePage() {
                   width="300"
                 />
               ) : (
-                <span>Please chouse a profile image (optional)</span>
+                <span>Please choose a profile image (optional)</span>
               )}
             </div>
             <div className="image-events-con">
@@ -72,8 +72,8 @@ export default function MentorsProfilePage() {
             <Paper elevation={4}>
               <span>
                 Languages:{" "}
-                {mentorsProfile.language.map((skill, i) => (
-                  <span key={i}>{skill}, </span>
+                {mentorsProfile.language.map((lng, i) => (
+                  <span key={i}>{lng.title}, </span>
                 ))}
               </span>
             </Paper>
@@ -96,7 +96,7 @@ export default function MentorsProfilePage() {
             </Paper>
             <Paper elevation={4}>
               <span>
-                Skills: 
+                Skills:
                 {mentorsProfile.skills.map((skill, i) => (
                   <span key={i}>{skill}, </span>
                 ))}
@@ -105,7 +105,7 @@ export default function MentorsProfilePage() {
             <Paper elevation={4}>
               <span>Email: {mentorsProfile.email}</span>
             </Paper>
-           
+
             <Paper elevation={4}>
               <span>User Type: {mentorsProfile.user_type}</span>
             </Paper>

@@ -14,7 +14,7 @@ import {
   Snackbar,
   Tooltip,
 } from "@mui/material";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
@@ -368,7 +368,7 @@ export default function SignUpMenteePage() {
                 <img src={newUser.avatar_picture} alt="avatar" width="300" />
               )}
               {!newUser.avatar_picture && (
-                <span>Please chouse a profile image (optional)</span>
+                <span>Please choose a profile image (optional)</span>
               )}
             </div>
             <div className="image-events-con">
@@ -425,10 +425,6 @@ export default function SignUpMenteePage() {
                 autoComplete="birthday"
               />
             </Grid>
-            
-            
-          
-            
 
             <Grid item xs={12} className="skillsInput">
               <div>Select Your Skills:</div>
