@@ -151,14 +151,7 @@ export default function MentorsDetailsPage() {
       )}
       {/* --------- Chat Component ---------- */}
       <Comments mentorsId={mentorId}/>
-      {/* <Button
-        // onClick={handleStartChatClick}
-        className="edit-profile-btn"
-        variant="contained"
-        fullWidth
-      >
-        Chat
-      </Button> */}
+  
     </>
   );
 }

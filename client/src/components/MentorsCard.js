@@ -39,6 +39,7 @@ const MentorsCard = ({ mentor }) => {
 
   console.log("menteesData: ", menteesData);
   console.log("decodedToken: ", decodedToken);
+  console.log("mentor: ", mentor);
 
   return (
     <>
@@ -67,21 +68,7 @@ const MentorsCard = ({ mentor }) => {
                   alt="avatar"
                 />
               )}{" "}
-              {/* <img
-                    className="mentor-img"
-                    src={
-                      mentor.avatar_picture && mentor.avatar_picture
-                    }
-                    alt="mentor-avatar"
-                    style={{ borderRadius: "50%" }}
-                  /> */}
-              {/* <CardMedia
-                    className="mentor-img"
-                    component="img"
-                    height="194"
-                    image={mentor?.avatar_picture}
-                    alt="Paella dish"
-                  /> */}
+     
             </Box>
 
             <Paper className="mentor-card-texts-con">
@@ -97,9 +84,10 @@ const MentorsCard = ({ mentor }) => {
               </p>
               <p>
                 {" "}
-                {mentor.skills.map((skill, i) => (
-                  <span key={i}>{skill}, </span>
-                ))}
+                {mentor.skills.map((skill, i) => {
+                  console.log("skill: ", skill);
+                  return <span key={i}>{skill}, </span>;
+                })}
               </p>
               <p>
                 {mentor.couching_medium.map((medium, i) => (
@@ -107,9 +95,13 @@ const MentorsCard = ({ mentor }) => {
                 ))}
               </p>
               <p>
-                {mentor.language.map((lang, i) => (
-                  <span key={i}>{lang}, </span>
-                ))}
+                {/* {mentor.language.map((skill, i) => (
+                  <span key={i}>{skill}, </span>
+                ))} */}
+                {mentor.language.map((skill, i) => {
+                  console.log("skill: ", skill);
+                  return <span key={i}>{skill.title}, </span>;
+                })}
               </p>
             </Paper>
           </Box>

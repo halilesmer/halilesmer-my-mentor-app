@@ -107,67 +107,64 @@ const Comments = (mentorsId) => {
   // console.log("comment text", typedComment);
   // console.log("mentorsId: ", mentorsId);
   // console.log("menteesData :>> ", menteesData);
-        console.log("commentsData: ", commentsData);
+  console.log("commentsData: ", commentsData);
 
-const handleEditComment=(e)=> {
-  setOpenEditField(true);
-  
-}
+  const handleEditComment = (e) => {
+    setOpenEditField(true);
+  };
+
+  console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
+
   return (
     <div className="comments-card-con">
-    
       <h2 className="comment-card-header">{`(${
         commentsData && commentsData.length
       }) READERS COMMENTS`}</h2>
       <div className="comments-card-box">
-
         {!commentsData && <div className="no-comments">No comments yet...</div>}
-      
-         
-{commentsData &&
+
+        {commentsData &&
           !openEditField &&
           commentsData.map((comment) => {
             return (
               <CommentBox
-              key={comment._id}
+                key={comment._id}
                 comment={comment}
                 handleEditComment={handleEditComment}
               />
-
             );
-          }) 
-}
-
-          
+          })}
       </div>
 
       {decodedToken.role === "mentee" && (
-        <TextField
-          ref={commentsInputFieldRef}
-          id="outlined-basic"
-          className="comments-input-field"
-          type="text"
-          multiline
-          maxRows={4}
-          size="small"
-          label="Type for writing"
-          variant="outlined"
-          autoFocus
-          autoComplete="off"
-          onKeyUp={onKeyUp}
-          value={typedComment}
-          onChange={(e) => setTypedComment(e.currentTarget.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SendIcon
-                  onClick={handleSendClick}
-                  style={{ cursor: "pointer" }}
-                />
-              </InputAdornment>
-            ),
-          }}
-        ></TextField>
+        <>
+          <TextField
+            id="outlined-basic"
+            className="comments-input-field"
+            type="text"
+            ref={commentsInputFieldRef}
+            multiline
+            maxRows={4}
+            size="small"
+            label="Type for writing"
+            variant="outlined"
+            autoFocus
+            autoComplete="off"
+            onKeyUp={onKeyUp}
+            value={typedComment}
+            onChange={(e) => setTypedComment(e.currentTarget.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SendIcon
+                    onClick={handleSendClick}
+                    style={{ cursor: "pointer" }}
+                  />
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+        </>
       )}
     </div>
   );

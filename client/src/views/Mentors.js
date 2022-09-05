@@ -64,7 +64,7 @@ const Mentors = () => {
     return () => (didCancel = true);
   }, []);
 
-  // console.log("mentorsData: ", mentorsData);
+  console.log("mentorsData: ", mentorsData);
   return (
     <>
       {mentorsData &&
