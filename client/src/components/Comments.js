@@ -1,11 +1,11 @@
 import "./comments.css";
 
-import { IconButton, InputAdornment, Paper, TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { AppContext } from "../contexts/appContext";
-import { Box } from "@mui/system";
 import CommentBox from "./CommentBox";
+import EditComment from "./EditComment";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
 
@@ -16,6 +16,8 @@ const Comments = (mentorsId) => {
   const token = getToken();
   const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
   const [openEditField, setOpenEditField] = useState(false);
+  // const [commentId, setCommentId] = useState("");
+const [commentToEdit, setCommentToEdit] = useState(null);
 
   const commentsInputFieldRef = useRef(null);
 
@@ -104,17 +106,20 @@ const Comments = (mentorsId) => {
   }, []);
   // ------- Get mentors comments ------- ends //
 
-  // console.log("comment text", typedComment);
-  // console.log("mentorsId: ", mentorsId);
-  // console.log("menteesData :>> ", menteesData);
-  console.log("commentsData: ", commentsData);
-
-  const handleEditComment = (e) => {
-    setOpenEditField(true);
+const handleEditComment = (comment) => {
+  setCommentToEdit(comment);
+  
+  setOpenEditField(true);
   };
 
-  console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
 
+  
+  // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
+  // console.log("commentsData: ", commentsData);
+  console.log("openEditField: ", openEditField);
+  // console.log("commentId: ", commentId);
+  // console.log("commentToEdit: ", commentToEdit);
+  
   return (
     <div className="comments-card-con">
       <h2 className="comment-card-header">{`(${
@@ -130,13 +135,22 @@ const Comments = (mentorsId) => {
               <CommentBox
                 key={comment._id}
                 comment={comment}
+                // setCommentId={setCommentId}
                 handleEditComment={handleEditComment}
               />
             );
           })}
       </div>
 
-      {decodedToken.role === "mentee" && (
+      {/*-------- Edit Comment Box ----------- starts */}
+      {openEditField && (
+        <EditComment
+          allComments={commentsData}
+          commentToEdit={commentToEdit && commentToEdit}
+        />
+      )}
+
+      {decodedToken.role === "mentee" && !openEditField && (
         <>
           <TextField
             id="outlined-basic"

@@ -44,6 +44,7 @@ const editComment = async (req, res) => {
         comment,
         msg: "Comment successfully edited!",
       });
+      console.log("Comment successfully edited!");
     } else {
       res.status(400).json({
         msg: "edit comment failed!! There are not 'commentText' field." + error,

@@ -31,24 +31,6 @@ const Mentors = () => {
       );
       const result = await response.json();
       // console.log("result: ", result);
-      // setMentorsData({
-      //   first_name: result.first_name,
-      //   last_name: result.last_name,
-      //   email: result.email,
-      //   id: result.id,
-      //   birthday: result.birthday,
-      //   gender: result.gender,
-      //   language: result.language,
-      //   experience: result.experience,
-      //   website: result.website,
-      //   fee: result.fee,
-      //   couching_medium: result.couching_medium,
-      //   skills: result.skills,
-      //   password: "",
-      //   user_type: result.user_type,
-      //   register_Date: result.register_Date,
-      //   avatar_picture: result.avatar_picture,
-      // });
       // setMentorsProfile(result)
       setMentorsData(result);
       setUserType('mentor');

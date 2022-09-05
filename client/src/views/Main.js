@@ -50,6 +50,8 @@ const Main = () => {
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
         <Route path="/mentees/profile" element={<MenteesProfilePage />} />
         <Route path="/mentors/edit-mentor" element={<EditMentor />} />
+
+        {/* <Route path="/comments/edit-comment/:commentId" element={<MentorsDetailsPage />} /> */}
         <Route
           path="*"
           element={<ErrorPage errorMsg="Something went wrong ..." />}
