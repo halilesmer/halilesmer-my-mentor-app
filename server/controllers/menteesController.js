@@ -129,22 +129,24 @@ const getMenteesProfile = (req, res) => {
   console.log("req, res in getMenteesProfile: ", req, res);
   console.log("req.user-getMenteesProfile controller:", req.user);
 
-  res.status(200).json({
-    id: req.user.id,
-    first_name: req.user.first_name,
-    last_name: req.user.last_name,
-    birthday: req.user.birthday,
-    gender: req.user.gender,
-    language: req.user.language,
-    couching_medium: req.user.couching_medium,
-    skills: req.user.skills,
-    about: req.user.about,
-    email: req.user.email,
-    password: "",
-    user_type: req.user.user_type,
-    likes: req.user.likes,
-    avatar_picture: req.user?.avatar_picture,
-  });
+  res.status(200).json(req.user);
+  // res.status(200).json({
+  //   id: req.user.id,
+  //   first_name: req.user.first_name,
+  //   last_name: req.user.last_name,
+  //   birthday: req.user.birthday,
+  //   gender: req.user.gender,
+  //   language: req.user.language,
+  //   couching_medium: req.user.couching_medium,
+  //   skills: req.user.skills,
+  //   about: req.user.about,
+  //   about: req.user.createdAt,
+  //   email: req.user.email,
+  //   password: "",
+  //   user_type: req.user.user_type,
+  //   likes: req.user.likes,
+  //   avatar_picture: req.user?.avatar_picture,
+  // });
 };
 
 

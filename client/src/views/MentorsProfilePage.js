@@ -122,16 +122,14 @@ export default function MentorsProfilePage() {
               </div>
             )} */}
 
-
-             { mentorsProfile.likes.length > 0 ? (
-                <div className="mentor-follower-con">
-                  Gratulation!!!
-                  <br /> you have <strong>
-                    {mentorsProfile.likes.length}
-                  </strong>{" "}
-                  follower.
-                </div>
-              
+            {mentorsProfile.likes.length > 0 ? (
+              <div className="mentor-follower-con">
+                Gratulation!!!
+                <br /> you have <strong>
+                  {mentorsProfile.likes.length}
+                </strong>{" "}
+                follower.
+              </div>
             ) : (
               <div className="mentor-follower-con">
                 You don't have any followers yet
@@ -183,6 +181,9 @@ export default function MentorsProfilePage() {
                   <span key={i}>{skill}, </span>
                 ))}
               </span>
+            </Paper>
+            <Paper elevation={4}>
+              <span>About: {mentorsProfile.about}</span>
             </Paper>
             <Paper elevation={4}>
               <span>Email: {mentorsProfile.email}</span>

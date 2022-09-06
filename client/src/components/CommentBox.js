@@ -1,6 +1,7 @@
 import { Box, IconButton, Paper } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
+import { AppContext } from "../contexts/appContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
@@ -9,9 +10,13 @@ const CommentBox = ({
   comment,
   handleDeleteOneComment,
   handleEditCommentClick,
-  setCommentId,
 }) => {
+  const { decodedToken } = useContext(AppContext);
+
   console.log("comment: ", comment);
+  // console.log("comment.menteeId: ", comment.menteeId);
+  // // console.log("decodedToken: ", decodedToken);
+  // console.log("isSameMentee: ", isSameMentee);
 
   return (
     <Paper key={comment._id} className="comments-fields" elevation={4}>
@@ -47,17 +52,18 @@ const CommentBox = ({
         <div className="comments-card-texts-con">
           <p>{comment?.commentText}</p>
         </div>
-        <div className="comments-cards-footer">
-          <IconButton onClick={() => handleDeleteOneComment(comment)}>
-            <DeleteIcon size="small" className="deleteIcon" />
-          </IconButton>
-          {/* to={`/comments/edit-comment/${comment._id}`} */}
+        {decodedToken.role === "mentee" &&
+          comment.menteeId === decodedToken.sub && (
+            <div className="comments-cards-footer">
+              <IconButton onClick={() => handleDeleteOneComment(comment)}>
+                <DeleteIcon size="small" className="deleteIcon" />
+              </IconButton>
 
-          {/* <IconButton onClick={handleEditCommentClick((e)=> comment)}> */}
-          <IconButton onClick={() => handleEditCommentClick(comment)}>
-            <EditIcon size="small" className="editIcon" />
-          </IconButton>
-        </div>
+              <IconButton onClick={() => handleEditCommentClick(comment)}>
+                <EditIcon size="small" className="editIcon" />
+              </IconButton>
+            </div>
+          )}
       </Box>
     </Paper>
   );

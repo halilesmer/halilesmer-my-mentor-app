@@ -110,6 +110,7 @@ export default function EditMentee() {
 
   // -------- Handle Input Value   ends -------
   const handleInputValueChange = (e) => {
+    console.log("e.target.value: ", e.target.value);
     setEditedUserData({
       ...editedUserData,
       [e.target.name]: e.target.value,
@@ -450,6 +451,7 @@ export default function EditMentee() {
                     size="small"
                     type="text"
                     name="first_name"
+                    label="Your first name"
                     required
                     fullWidth
                     autoComplete="off"
@@ -469,6 +471,7 @@ export default function EditMentee() {
                     type="text"
                     required
                     fullWidth
+                    label="Your last name"
                     autoComplete="off"
                     id="last_name"
                     name="last_name"
@@ -675,6 +678,26 @@ export default function EditMentee() {
                       />
                     </div>
                   </div>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    name="about"
+                    multiline
+                    maxRows={20}
+                    minRows={3}
+                    label="Tell Me Something Interesting About Yourself"
+                    fullWidth
+                    autoComplete="off"
+                    id="about"
+                    // label="First Name"
+                    // defaultValue={mtrsCurrData.first_name}
+                    // autoFocus
+                    value={editedUserData.about ? editedUserData.about : ""}
+                    onChange={handleInputValueChange}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>

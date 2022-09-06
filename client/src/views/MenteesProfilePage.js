@@ -98,12 +98,7 @@ export default function MenteesProfilePage() {
             <Paper elevation={4}>
               <span>Languages: {menteesData.language}</span>
             </Paper>
-            <Paper elevation={4}>
-              <span>Experience in Years: {menteesData.experience}</span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Website: {menteesData.website}</span>
-            </Paper>
+
             <Paper elevation={4}>
               <span>Fee for one houer: {menteesData.fee}</span>
             </Paper>
@@ -119,17 +114,20 @@ export default function MenteesProfilePage() {
               </span>
             </Paper>
             <Paper elevation={4}>
+              <span>About: {menteesData.about}</span>
+            </Paper>
+            <Paper elevation={4}>
               <span>Email: {menteesData.email}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Password: {menteesData.password}</span>
+              <span>Password: ***</span>
             </Paper>
             <Paper elevation={4}>
               <span>User Type: {menteesData.user_type}</span>
             </Paper>
             <Paper elevation={4}>
               <span>
-                Register Date: {formatDateDdMmYyyy(menteesData.register_Date)}
+                Register Date: {formatDateDdMmYyyy(menteesData.createdAt)}
               </span>
             </Paper>
             <Button

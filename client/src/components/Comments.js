@@ -133,6 +133,7 @@ const Comments = (mentorsId) => {
   // ------- Delete One Comment ------- ends //
 
   const handleEditCommentClick = (comment) => {
+    console.log("comment: ", comment);
     setCommentToEdit(comment);
     setOpenEditField(true);
   };
@@ -146,7 +147,6 @@ const Comments = (mentorsId) => {
   
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
   console.log("commentsData: ", commentsData);
-  console.log("openEditField: ", openEditField);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);
 // const handleDeleteOneComment = (comment) => {
@@ -157,7 +157,7 @@ const Comments = (mentorsId) => {
     <div className="comments-card-con">
       <h2 className="comment-card-header">{`(${
         commentsData && commentsData.length
-      }) READERS COMMENTS`}</h2>
+      }) MENTEE COMMENTS`}</h2>
 
       {commentsData && commentsData.length < 1 && (
         <div className="no-comments">No comments yet...</div>
@@ -165,15 +165,14 @@ const Comments = (mentorsId) => {
       
      {commentsData &&
           !openEditField && <div className="comments-card-box">
-        {commentsData &&
-          !openEditField &&
-          commentsData.map((comment) => {
+        {commentsData.map((comment) => {
             return (
               <CommentBox
                 key={comment._id}
                 comment={comment}
                 handleEditCommentClick={handleEditCommentClick}
                 handleDeleteOneComment={handleDeleteOneComment}
+                commentsData={commentsData}
               />
             );
           })}

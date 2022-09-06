@@ -529,7 +529,7 @@ export default function EditMentor() {
                   <Autocomplete
                     size="small"
                     multiple
-                    options={languages.map(lgn => lgn.title)}
+                    options={languages.map((lgn) => lgn.title)}
                     isOptionEqualToValue={(option, v) => {
                       return option === v;
                     }}
@@ -742,6 +742,24 @@ export default function EditMentor() {
                       />
                     </div>
                   </div>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    name="about"
+                    multiline
+                    maxRows={20}
+                    minRows={3}
+                    label="Tell Me Something Interesting About Yourself"
+                    fullWidth
+                    autoComplete="off"
+                    id="about"
+                   
+                    value={editedUserData.about ? editedUserData.about : ""}
+                    onChange={handleInputValueChange}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
