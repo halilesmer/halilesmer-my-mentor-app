@@ -14,6 +14,7 @@ const AppProvider = (props) => {
   const [mentorsProfile, setMentorsProfile] = useState(null);
   const [error, setError] = useState(null);
   const [decodedToken, setDecodedToken] = useState("");
+const [allComments, setAllComments] = useState(null);
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -145,6 +146,43 @@ const AppProvider = (props) => {
   };
   // ------- like a mentor -------- ends --
 
+  // ------- Get All Comments -------- starts --
+  const getAllComments = async () => {
+        const token = getToken();
+        if (token) {
+          const myHeaders = new Headers();
+          myHeaders.append("Authorization", `Bearer ${token}`);
+
+          const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+          };
+          try {
+            const response = await fetch(
+              "http://localhost:5001/api/comments/getAllComments",
+              requestOptions
+            );
+            const result = await response.json();
+            console.log("All Comments: ", result);
+            setAllComments(result);
+            
+
+          } catch (error) {
+      console.log("error getting all comments: ", error);          }
+        }
+
+
+    
+  };
+  useEffect(() => {
+    let didCancel = false;
+    if (!didCancel) {
+      getAllComments();
+    }
+    return () => (didCancel = true);
+  }, []);
+  // ------- Get All Comments -------- ends --
+
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("likes", likes);
   console.log("decodedToken: ", decodedToken);
@@ -167,6 +205,7 @@ const AppProvider = (props) => {
         getMenteeData,
         menteesData,
         likes,
+        getAllComments,
         getMentorsProfile,
         mentorsProfile,
         decodedToken,

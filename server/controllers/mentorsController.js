@@ -104,10 +104,16 @@ const signUp = async (req, res) => {
 
 const allMentors = async (req, res) => {
   console.log("req.body: ", req.body);
-
-  const response = await MentorsModel.find();
-  // const result = await response.json();
-  res.status(200).json(response);
+  try {
+    const response = await MentorsModel.find();
+    res.status(200).json(response);
+  } catch (error) {
+    console.log("error, getting all mentors failed: ", error);
+    res.status(400).json({
+      msg: "getting all mentors failed:",
+      error: error,
+    });
+  }
 };
 
 const mentorsSignIn = async (req, res) => {
@@ -153,27 +159,25 @@ const getMentorsProfile = (req, res) => {
   console.log("req, res in getMentorsProfile: ", req, res);
   console.log("req.user- getMentorsProfile", req.user);
 
-  res.status(200).json(
-    {
-      id: req.user.id,
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      email: req.user.email,
-      birthday: req.user.birthday,
-      gender: req.user.gender,
-      language: req.user.language,
-      experience: req.user.experience,
-      website: req.user.website,
-      fee: req.user.fee,
-      couching_medium: req.user.couching_medium,
-      skills: req.user.skills,
-      password: "",
-      user_type: req.user.user_type,
-      register_Date: req.user.register_Date,
-      about: req.user.about,
-      avatar_picture: req.user?.avatar_picture,
-    },
-  );
+  res.status(200).json({
+    id: req.user.id,
+    first_name: req.user.first_name,
+    last_name: req.user.last_name,
+    email: req.user.email,
+    birthday: req.user.birthday,
+    gender: req.user.gender,
+    language: req.user.language,
+    experience: req.user.experience,
+    website: req.user.website,
+    fee: req.user.fee,
+    couching_medium: req.user.couching_medium,
+    skills: req.user.skills,
+    password: "",
+    user_type: req.user.user_type,
+    register_Date: req.user.register_Date,
+    about: req.user.about,
+    avatar_picture: req.user?.avatar_picture,
+  });
 };
 
 // ------- getSpecificMentorData -------------------//

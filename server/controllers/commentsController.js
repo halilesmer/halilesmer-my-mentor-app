@@ -61,6 +61,22 @@ const editComment = async (req, res) => {
   // }
 };
 
+// ---------- Get all comments ----------- starts --//
+const getAllComments = async (req, res) => {
+  console.log("req.body: ", req.body);
+  try {
+    const response = await CommentsModel.find();
+    res.status(200).json(response);
+    console.log('Getting all comments succeed!')
+  } catch (error) {
+    console.log("error, getting all mentors failed: ", error);
+    res.status(400).json({
+      msg: "getting all mentors failed:",
+      error: error,
+    });
+  }
+};
+
 // ---------- Get specific comments ----------- starts --//
 const getSpecificMentorsComments = async (req, res) => {
   console.log("req.params getSpecificMentorsComments:>> ", req.params);
@@ -78,7 +94,35 @@ const getSpecificMentorsComments = async (req, res) => {
     console.log("error get mentors comments: ", error);
   }
 };
-export { postComments, getSpecificMentorsComments, editComment };
+
+
+
+
+// ---------- Get specific comments ----------- starts --//
+const deleteOneComment=async (req,res)=>{
+  console.log("req.body- deleteOneComment: ", req.body);
+  try {
+    const comment = await CommentsModel.findByIdAndDelete(req.body.commentId);
+    console.log("Comment deleted successfully.");
+    res.status(200).json({
+      msg: "Comment deleted successfully."
+    })
+  } catch (error) {
+    console.log("error deleting comment: ", error);
+    res.status(400).json({
+      msg: "error deleting comment: ", error,
+    });
+    
+  }
+}
+
+export {
+  postComments,
+  getSpecificMentorsComments,
+  editComment,
+  getAllComments,
+  deleteOneComment,
+};
 
 /* 
 const postComment = async (newsId, comment) => {

@@ -2,14 +2,15 @@ import { Box, IconButton, Paper, TextField } from "@mui/material";
 import React, { useState } from "react";
 
 import CancelIcon from "@mui/icons-material/Cancel";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import { getToken } from "../utils/getToken";
 
 const EditComment = ({
-   handleSendClick,
+  handleSendClick,
   allComments,
   commentToEdit,
+  handleAfterSubmitEditetComment,
+  handleCancelClick,
 }) => {
   const [changedCommentTxt, setChangedCommentTxt] = useState(
     commentToEdit && commentToEdit.commentText
@@ -35,8 +36,8 @@ const EditComment = ({
       );
 
       console.log("response: ", response);
-       handleSendClick()
-// handleAfterSubmitEditetComment();
+      //  handleSendClick()
+      handleAfterSubmitEditetComment();
     } catch (error) {
       console.log("error while edit the comment: ", error);
     }
@@ -96,8 +97,12 @@ const EditComment = ({
           />
         </div>
         <div className="comments-cards-footer">
-          <IconButton onClick={handleSendClick}>
-            <CancelIcon size="small" className="cancelIcon" />
+          <IconButton onClick={handleCancelClick}>
+            <CancelIcon
+              style={{ color: "#d81c1c" }}
+              size="small"
+              className="cancelIcon"
+            />
           </IconButton>
           <IconButton onClick={handleSubmitEditedCommentClick}>
             <SaveIcon size="small" className="saveIcon" />

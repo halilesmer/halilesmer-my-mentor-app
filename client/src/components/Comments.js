@@ -14,10 +14,11 @@ const Comments = (mentorsId) => {
   const [text, setText] = useState("");
   const [commentsData, setCommentsData] = useState(null);
   const token = getToken();
-  const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
+  const { menteesData, getMenteeData, decodedToken, getAllComments } =
+    useContext(AppContext);
   const [openEditField, setOpenEditField] = useState(false);
   // const [commentId, setCommentId] = useState("");
-const [commentToEdit, setCommentToEdit] = useState(null);
+  const [commentToEdit, setCommentToEdit] = useState(null);
 
   const commentsInputFieldRef = useRef(null);
 
@@ -77,13 +78,10 @@ const [commentToEdit, setCommentToEdit] = useState(null);
     } catch (error) {
       console.log("error: ", error);
     }
-
-    
-    
   };
   // ------- Handle send comments ------- ends //
 
-  // ------- Get mentors comments ------- starts //
+  // ------- Get all comments from one specific mentor  ------- starts //
   const getSpecificMentorsComments = async (e) => {
     const requestOptions = {
       method: "get",
@@ -98,6 +96,7 @@ const [commentToEdit, setCommentToEdit] = useState(null);
         requestOptions
       );
       const comments = await response.json();
+      console.log("comments: ", comments);
       setCommentsData(comments.oneMentorsComments);
       console.log("comments: ", comments.oneMentorsComments);
     } catch (error) {
@@ -107,24 +106,25 @@ const [commentToEdit, setCommentToEdit] = useState(null);
   useEffect(() => {
     getSpecificMentorsComments();
   }, []);
-  // ------- Get mentors comments ------- ends //
+  // ------- Get all comments from one specific mentor ------- ends //
 
-const handleEditCommentClick = (comment) => {
-  setCommentToEdit(comment);
-  setOpenEditField(true);
+  const handleEditCommentClick = (comment) => {
+    setCommentToEdit(comment);
+    setOpenEditField(true);
   };
-// const handleAfterSubmitEditetComment=()=>{
-//   setOpenEditField(false)
-//   handleSendClick()
-// }
-
-  
+  const handleAfterSubmitEditetComment = () => {
+    setOpenEditField(false);
+    getSpecificMentorsComments();
+  };
+const handleCancelClick=()=>{
+  setOpenEditField(false);
+}
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
-  // console.log("commentsData: ", commentsData);
+  console.log("commentsData: ", commentsData);
   console.log("openEditField: ", openEditField);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);
-  
+
   return (
     <div className="comments-card-con">
       <h2 className="comment-card-header">{`(${
@@ -152,8 +152,9 @@ const handleEditCommentClick = (comment) => {
         <EditComment
           allComments={commentsData}
           commentToEdit={commentToEdit && commentToEdit}
-        
+          handleAfterSubmitEditetComment={handleAfterSubmitEditetComment}
           handleSendClick={handleSendClick}
+          handleCancelClick={handleCancelClick}
         />
       )}
 
