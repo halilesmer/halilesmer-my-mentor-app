@@ -16,7 +16,12 @@ const router = express.Router();
 router.post("/", jwtAuth, postComments);
 router.post("/editComment", jwtAuth, editComment);
 router.get("/getAllComments", jwtAuth, getAllComments);
-router.get("/getSpecificMentorsComments/:mentorsId", jwtAuth, getSpecificMentorsComments);
+// router.get("/getSpecificMentorsComments/:mentorsId", jwtAuth, getSpecificMentorsComments);
+router.get(
+  "/getSpecificMentorsComments/:mentorsId",
+  getSpecificMentorsComments
+);
+
 router.put("/delete-one-comment", jwtAuth, deleteOneComment);
 
 

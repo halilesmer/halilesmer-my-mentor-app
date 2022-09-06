@@ -3,11 +3,25 @@ import "./MentorsCard.css";
 import { IconButton, Paper } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
+import AlertDialogSlide from "./AlertDialogSlide";
 import { AppContext } from "../contexts/appContext";
 import { Box } from "@mui/system";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { Link } from "react-router-dom";
+import Slide from "@mui/material/Slide";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
 
 const MentorsCard = ({ mentor }) => {
   const {
@@ -17,9 +31,22 @@ const MentorsCard = ({ mentor }) => {
     decodedToken,
     getMenteeData,
   } = useContext(AppContext);
-
+  
   const [likedIconColor, setLikedIconColor] = useState(null);
 
+
+    const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  
   // --------- Get mentees data --------- starts //
   useEffect(() => {
     getMenteeData();
@@ -37,6 +64,7 @@ const MentorsCard = ({ mentor }) => {
   console.log("menteesData: ", menteesData);
   // console.log("decodedToken: ", decodedToken);
   // console.log("mentor: ", mentor);
+  console.log("decodedToken: ", decodedToken);
 
   return (
     <>
@@ -47,7 +75,20 @@ const MentorsCard = ({ mentor }) => {
         >
           Header
         </div>
-        <Link to={`/mentors/details-page/${mentor && mentor._id}`}>
+        {/* <Link
+          to={
+            decodedToken
+              ? `/mentors/details-page/${mentor && mentor._id}`
+              : () => handleClickOpen()
+          }
+        > */}
+
+        <Link
+          onClick={!decodedToken ? handleClickOpen : null}
+          to={
+            !decodedToken ?  "" : `/mentors/details-page/${mentor && mentor._id}`
+          }
+        >
           <Box className="mentor-card-body">
             <Box className="mentor-cards-img-con">
               {mentor.avatar_picture ? (
@@ -64,8 +105,7 @@ const MentorsCard = ({ mentor }) => {
                   src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
                   alt="avatar"
                 />
-              )}{" "}
-     
+              )}
             </Box>
 
             <Paper className="mentor-card-texts-con">
@@ -94,28 +134,45 @@ const MentorsCard = ({ mentor }) => {
                 {mentor.language.map((skill, i) => (
                   <span key={i}>{skill}, </span>
                 ))}
-               
               </p>
             </Paper>
           </Box>
-        </Link>
-        <div className="mentor-cards-footer" style={{ width: "100%" }}>
-          <div className="mentor-cards-like-con">
-            {decodedToken && decodedToken.role === "mentee" && (
-              <IconButton
-                aria-label="Like Button"
-                onClick={() => handlePostLikeClick(mentor._id)}
-              >
-                {likedIconColor ? (
-                  <ThumbUpAltIcon fontSize="small" />
-                ) : (
-                  <ThumbUpOffAltIcon fontSize="small" />
-                )}
-              </IconButton>
-            )}
+          <div className="mentor-cards-footer" style={{ width: "100%" }}>
+            <div className="mentor-cards-like-con">
+              {decodedToken && decodedToken.role === "mentee" && (
+                <IconButton
+                  aria-label="Like Button"
+                  onClick={() => handlePostLikeClick(mentor._id)}
+                >
+                  {likedIconColor ? (
+                    <ThumbUpAltIcon fontSize="small" />
+                  ) : (
+                    <ThumbUpOffAltIcon fontSize="small" />
+                  )}
+                </IconButton>
+              )}
+            </div>
           </div>
-        </div>
+        </Link>
       </Paper>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"You are not logged in."}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            You need to be a member to see the detailed information of the
+            mentors and to write a comment.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Agree</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
