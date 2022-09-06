@@ -44,14 +44,11 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentee() {
-  const { handlePwInputFocus, onBlur, getMenteeData, menteesData } =
-    React.useContext(AppContext);
+  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
 
   const [mtrsCurrData, setMtrsCurrData] = React.useState({});
-  const [editedUserData, setEditedUserData] = React.useState(
-    menteesData && menteesData
-    );
-    console.log("editedUserData: ", editedUserData);
+  const [editedUserData, setEditedUserData] = React.useState(null);
+  console.log("editedUserData: ", editedUserData);
 
   const [error, setError] = React.useState(null);
 
@@ -267,7 +264,7 @@ export default function EditMentee() {
     /* ---- Password Check ---- ends*/
 
     let requestOptions = {
-      method: "POST",
+      method: "put",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -289,55 +286,53 @@ export default function EditMentee() {
   };
 
   // ------ Get profile data  ----------- starts--
-  // const getMenteesProfile = async () => {
-  //   if (token) {
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("Authorization", `Bearer ${token}`);
+  const getMenteesProfile = async () => {
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
-  //     const requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //     };
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:5001/api/mentees/menteesprofile",
-  //         requestOptions
-  //       );
-  //       const result = await response.json();
-  //       console.log("result: ", result);
-  //       const profileData = {
-  //         first_name: result.first_name,
-  //         last_name: result.last_name,
-  //         email: result.email,
-  //         id: result.id,
-  //         birthday: result.birthday,
-  //         gender: result.gender,
-  //         language: result.language,
-  //         experience: result.experience,
-  //         couching_medium: result.couching_medium,
-  //         skills: result.skills,
-  //         about: result?.about,
-  //         password: "",
-  //         user_type: result.user_type,
-  //         register_Date: result.register_Date,
-  //         avatar_picture: result.avatar_picture,
-  //       };
-  //       setMtrsCurrData(profileData);
-  //       setEditedUserData(profileData);
-  //     } catch (error) {
-  //       console.log("error getting prifile data: ", error);
-  //     }
-  //   }
-  // };
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentees/menteesprofile",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("result: ", result);
+        const profileData = {
+          first_name: result.first_name,
+          last_name: result.last_name,
+          email: result.email,
+          id: result.id,
+          birthday: result.birthday,
+          gender: result.gender,
+          language: result.language,
+          experience: result.experience,
+          couching_medium: result.couching_medium,
+          skills: result.skills,
+          about: result?.about,
+          password: "",
+          user_type: result.user_type,
+          register_Date: result.register_Date,
+          avatar_picture: result.avatar_picture,
+        };
+        // setMtrsCurrData(profileData);
+        setEditedUserData(profileData);
+      } catch (error) {
+        console.log("error getting prifile data: ", error);
+      }
+    }
+  };
   React.useEffect(() => {
-    getMenteeData();
+    //  getMenteeData();
+    getMenteesProfile();
     // setEditedUserData(menteesData && menteesData);
   }, []);
-  // React.useEffect(() => {
-  //   setEditedUserData(menteesData && menteesData);
-  // }, []);
-  // ------ Get profile data  ----------- ends--
 
+  // ------ Get profile data  ----------- ends--
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
   // console.log("isEmailValid: ", isEmailValid);
@@ -348,7 +343,6 @@ export default function EditMentee() {
   // console.log("language", language);
   // console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
-    console.log("menteesData: ", menteesData);
 
   // console.log("mtrsCurrData: ", mtrsCurrData);
   // console.log("password1: ", password1);

@@ -63,7 +63,7 @@ const editComment = async (req, res) => {
 
 // ---------- Get all comments ----------- starts --//
 const getAllComments = async (req, res) => {
-  console.log("req.body: ", req.body);
+  console.log("req.body: getAllComments", req.body);
   try {
     const response = await CommentsModel.find();
     res.status(200).json(response);
