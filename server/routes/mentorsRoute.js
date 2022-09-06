@@ -1,5 +1,6 @@
 import {
   allMentors,
+  deleteAccount,
   editMentor,
   getMentorsProfile,
   getSpecificMentorData,
@@ -24,6 +25,7 @@ router.get("/allmentors",allMentors);
 router.get("/mentorsprofile", jwtAuth, getMentorsProfile);
 router.post("/editmentor", jwtAuth, editMentor);
 router.get("/getonementor/:mentorId", jwtAuth, getSpecificMentorData);
+router.post("/delete-account", jwtAuth, deleteAccount);
 // router.post("/getonementor", jwtAuth, getSpecificMentorData);
 
 ;

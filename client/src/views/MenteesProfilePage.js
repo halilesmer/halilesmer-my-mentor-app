@@ -86,7 +86,7 @@ export default function MenteesProfilePage() {
 
           <Box className="profile-info-box">
             <Typography variant="h5" component="h5" textAlign="center" mb={3}>
-              {menteesData.first_name} {menteesData.last_name} <br /> Mentee
+              {menteesData.first_name} {menteesData.last_name} <br /> (Mentee)
             </Typography>
             <Paper elevation={4}>
               <span>Birthday: {formatDateDdMmYyyy(menteesData.birthday)}</span>

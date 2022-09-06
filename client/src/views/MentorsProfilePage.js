@@ -58,7 +58,7 @@ export default function MentorsProfilePage() {
           <Box className="profile-info-box">
             <Typography variant="h5" component="h5" textAlign="center" mb={3}>
               {mentorsProfile.first_name} {mentorsProfile.last_name} <br />{" "}
-              Mentor
+              (Mentor)
             </Typography>
 
             <Paper elevation={4}>

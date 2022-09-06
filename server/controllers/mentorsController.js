@@ -267,6 +267,27 @@ const editMentor = async (req, res) => {
   }
 };
 
+
+// ---------- Delete Mentors Account ----------- starts --//
+
+const deleteAccount = async (req, res) => {
+  console.log("req.body- deleteAccount-mentee: ", req.body);
+  try {
+    const mentor = await MentorsModel.findByIdAndDelete(
+      req.body.mentorId
+    );
+    console.log("Mentor delete account successfully.");
+    res.status(200).json({
+      msg: "Mentor delete account successfully.",
+    });
+  } catch (error) {
+    console.log("error deleting Mentor account: ", error);
+    res.status(400).json({
+      msg: "error deleting Mentor: ",
+      error,
+    });
+  }
+};
 export {
   uploadUserPicture,
   signUp,
@@ -275,4 +296,5 @@ export {
   getMentorsProfile,
   getSpecificMentorData,
   editMentor,
+  deleteAccount,
 };

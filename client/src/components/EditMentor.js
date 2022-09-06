@@ -536,9 +536,11 @@ export default function EditMentor() {
                       return option.title === v.title;
                     }}
                     value={
-                      editedUserData.language ? editedUserData.language.map(lng => lng.title) : []
+                      editedUserData.language
+                        ? editedUserData.language.map((lng) => lng.title)
+                        : []
                     }
-                     // value={
+                    // value={
                     //   editedUserData.language ? editedUserData.language : []
                     // }
                     onChange={handleLanguageOnChange}
@@ -807,6 +809,7 @@ export default function EditMentor() {
                 style={{ display: "flex", justifyContent: "space-around" }}
               >
                 <Button
+                  href="/mentors/profile"
                   type="submit"
                   variant="contained"
                   color="inherit"
