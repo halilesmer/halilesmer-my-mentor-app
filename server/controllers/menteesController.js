@@ -14,7 +14,7 @@ const uploadUserPicture = async (req, res) => {
   try {
     console.log("req.file :>> ", req.file); //Multer is storing the file in that property(objec) of the request object
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-      folder: "my-it-mentor/mentees",
+      folder: "my-it-mentee/mentees",
     });
     console.log("uploadResult", uploadResult); //this show us the object with all the information about the upload, including the public URL in result.url
     res.status(200).json({
@@ -147,6 +147,51 @@ const getMenteesProfile = (req, res) => {
   });
 };
 
+
+// ----------- editMentee -------------------//
+const editMentee = async (req, res) => {
+  // console.log("edit Mentee: req,res: ", req, res);
+  console.log("request body:>> ", req.body);
+  console.log("req.user- editMentee controller", req.user);
+  const hashedPassword = await encryptPassword(req.body.password);
+  // const filter = { email: "test@mail.de" };
+  const update = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    birthday: req.body.birthday,
+    gender: req.body.gender,
+    language: req.body.language,
+    couching_medium: req.body.couching_medium,
+    skills: req.body.skills,
+    email: req.body.email,
+    password: hashedPassword,
+    about: req.body.about,
+    avatar_picture: req.body?.avatar_picture,
+  };
+
+  try {
+    // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
+    console.log("req.user.id- editMentee controller: ", req.user.id);
+
+    const mentee = await MenteesModel.findByIdAndUpdate(req.user.id, update, {
+      new: true,
+    });
+
+    console.log("mentee- editMentee controller: ", mentee);
+    res.status(200).json({
+      msg: "Mentee update successfull",
+    });
+  } catch (error) {
+    console.log("error update mentee: ", error);
+    res.status(400).json({
+      msg: "Can not update mentee!",
+    });
+  }
+};
+
+
+
+
 // ------- Get All Mentees ------------------- starts//
 const allMentees = async (req, res) => {
   console.log("req.body: ", req.body);
@@ -191,4 +236,5 @@ export {
   menteesSignIn,
   deleteAccount,
   allMentees,
+  editMentee,
 };

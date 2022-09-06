@@ -133,7 +133,7 @@ export default function MenteesProfilePage() {
               </span>
             </Paper>
             <Button
-              href="/mentees/edit-mentees"
+              href="/mentee/edit-mentee"
               className="edit-profile-btn"
               variant="contained"
               fullWidth

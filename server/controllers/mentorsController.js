@@ -237,27 +237,6 @@ const editMentor = async (req, res) => {
       new: true,
     });
 
-    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
-    //   { _id: req.body.id },
-    //   {
-    //     first_name: "jason bourne",
-    //   }
-    // );
-    // const doc = await mongoose.MentorsModel.findByIdAndUpdate(
-    //   req.body.id,
-    //   { first_name: "jason bourne" },
-    //   function (err, result) {
-    //     if (err) {
-    //       res.send(err);
-    //     } else {
-    //       res.send(result);
-    //       // res.status(200).json(result);
-    //       res.status(200).json({ msg: "Update Succesfull" });
-    //     }
-    //   }
-    // );
-    // await doc.save();
-
     console.log("doc- editMentor controller: ", doc);
     res.status(200).json({
       msg: "Mentor update successfull",

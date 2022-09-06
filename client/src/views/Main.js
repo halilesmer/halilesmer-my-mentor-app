@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Chat from "./Chat";
+import EditMentee from "../components/EditMentee";
 import EditMentor from "../components/EditMentor";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
@@ -50,6 +51,7 @@ const Main = () => {
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
         <Route path="/mentees/profile" element={<MenteesProfilePage />} />
         <Route path="/mentors/edit-mentor" element={<EditMentor />} />
+        <Route path="/mentee/edit-mentee" element={<EditMentee />} />
 
         {/* <Route path="/comments/edit-comment/:commentId" element={<MentorsDetailsPage />} /> */}
         <Route

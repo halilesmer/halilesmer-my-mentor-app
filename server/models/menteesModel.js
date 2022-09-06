@@ -12,7 +12,6 @@ const menteesSchema = new Schema(
     language: { type: Array, required: false },
     couching_medium: { type: Array, required: false },
     skills: { type: Array, required: true},
-    about: { type: String, required: false },
     email: {
       type: String,
       required: true,
@@ -27,6 +26,7 @@ const menteesSchema = new Schema(
     },
     user_type: { type: String, default: "mentee" },
     likes: { type: Array, required: false },
+    about: { type: String, required: false },
     avatar_picture: { type: String, required: false },
   },
   {
