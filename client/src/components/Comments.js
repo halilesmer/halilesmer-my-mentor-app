@@ -158,9 +158,13 @@ const Comments = (mentorsId) => {
       <h2 className="comment-card-header">{`(${
         commentsData && commentsData.length
       }) READERS COMMENTS`}</h2>
-      <div className="comments-card-box">
-        {!commentsData && <div className="no-comments">No comments yet...</div>}
 
+      {commentsData && commentsData.length < 1 && (
+        <div className="no-comments">No comments yet...</div>
+      )}
+      
+     {commentsData &&
+          !openEditField && <div className="comments-card-box">
         {commentsData &&
           !openEditField &&
           commentsData.map((comment) => {
@@ -168,13 +172,13 @@ const Comments = (mentorsId) => {
               <CommentBox
                 key={comment._id}
                 comment={comment}
-                // setCommentId={setCommentId}
                 handleEditCommentClick={handleEditCommentClick}
                 handleDeleteOneComment={handleDeleteOneComment}
               />
             );
           })}
       </div>
+     }
 
       {/*-------- Edit Comment Box ----------- starts */}
       {openEditField && (
