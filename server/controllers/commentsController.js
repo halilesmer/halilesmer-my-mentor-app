@@ -102,7 +102,7 @@ const getSpecificMentorsComments = async (req, res) => {
 const deleteOneComment=async (req,res)=>{
   console.log("req.body- deleteOneComment: ", req.body);
   try {
-    const comment = await CommentsModel.findByIdAndDelete(req.body.commentId);
+    const comment = await CommentsModel.findByIdAndDelete(req.body.commentId._id);
     console.log("Comment deleted successfully.");
     res.status(200).json({
       msg: "Comment deleted successfully."

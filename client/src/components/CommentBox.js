@@ -1,5 +1,5 @@
 import { Box, IconButton, Paper } from "@mui/material";
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,11 +7,10 @@ import { Link } from "react-router-dom";
 
 const CommentBox = ({
   comment,
-  setOpenEditField,
-  handleEditCommentClick,setCommentId,
+  handleDeleteOneComment,
+  handleEditCommentClick,
+  setCommentId,
 }) => {
-  
-
   console.log("comment: ", comment);
 
   return (
@@ -49,7 +48,7 @@ const CommentBox = ({
           <p>{comment?.commentText}</p>
         </div>
         <div className="comments-cards-footer">
-          <IconButton>
+          <IconButton onClick={() => handleDeleteOneComment(comment)}>
             <DeleteIcon size="small" className="deleteIcon" />
           </IconButton>
           {/* to={`/comments/edit-comment/${comment._id}`} */}
@@ -64,4 +63,4 @@ const CommentBox = ({
   );
 };
 
-export default CommentBox
+export default CommentBox;

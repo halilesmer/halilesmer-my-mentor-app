@@ -17,7 +17,7 @@ router.post("/", jwtAuth, postComments);
 router.post("/editComment", jwtAuth, editComment);
 router.get("/getAllComments", jwtAuth, getAllComments);
 router.get("/getSpecificMentorsComments/:mentorsId", jwtAuth, getSpecificMentorsComments);
-router.post("/delete-one-comment", jwtAuth, deleteOneComment);
+router.put("/delete-one-comment", jwtAuth, deleteOneComment);
 
 
 export default router;

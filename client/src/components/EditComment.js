@@ -14,16 +14,16 @@ const EditComment = ({
 }) => {
   const [changedCommentTxt, setChangedCommentTxt] = useState(
     commentToEdit && commentToEdit.commentText
-  );
-  const token = getToken();
-
-  const handleSubmitEditedCommentClick = async (e) => {
-    var requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    );
+    const token = getToken();
+    
+    const handleSubmitEditedCommentClick = async (e) => {
+      var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       body: JSON.stringify({
         commentText: changedCommentTxt,
         commentId: commentToEdit._id,
@@ -33,8 +33,9 @@ const EditComment = ({
       const response = await fetch(
         "http://localhost:5001/api/comments/editComment",
         requestOptions
-      );
-
+        );
+        
+  
       console.log("response: ", response);
       //  handleSendClick()
       handleAfterSubmitEditetComment();
@@ -43,7 +44,7 @@ const EditComment = ({
     }
   };
 
-  console.log("allComments: ", allComments);
+  // console.log("allComments: ", allComments);
   console.log("changedCommentTxt: ", changedCommentTxt);
   console.log("commentToEdit: ", commentToEdit);
   console.log("commentToEdit.commentId: ", commentToEdit._id);

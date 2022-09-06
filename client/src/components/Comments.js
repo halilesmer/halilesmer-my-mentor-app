@@ -42,7 +42,7 @@ const Comments = (mentorsId) => {
     }
   };
 
-  // ------- Handle send comments ------- starts //
+  // ------- Handle Create One comment ------- starts //
   const handleSendClick = async (e) => {
     await getMenteeData();
 
@@ -79,7 +79,7 @@ const Comments = (mentorsId) => {
       console.log("error: ", error);
     }
   };
-  // ------- Handle send comments ------- ends //
+  // ------- Handle Create One comment ------- ends //
 
   // ------- Get all comments from one specific mentor  ------- starts //
   const getSpecificMentorsComments = async (e) => {
@@ -108,6 +108,30 @@ const Comments = (mentorsId) => {
   }, []);
   // ------- Get all comments from one specific mentor ------- ends //
 
+  // ------- Delete One Comment ------- starts //
+  const handleDeleteOneComment = async (commentId) => {
+    const deleteOptions = {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({"commentId": commentId})
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/comments/delete-one-comment",
+        deleteOptions
+      );
+      console.log("response-deleteOneComment: ", response);
+      getSpecificMentorsComments();
+    } catch (error) {
+      console.log("error deleting comment: ", error);
+    }
+  };
+
+  // ------- Delete One Comment ------- ends //
+
   const handleEditCommentClick = (comment) => {
     setCommentToEdit(comment);
     setOpenEditField(true);
@@ -116,15 +140,19 @@ const Comments = (mentorsId) => {
     setOpenEditField(false);
     getSpecificMentorsComments();
   };
-const handleCancelClick=()=>{
-  setOpenEditField(false);
-}
+  const handleCancelClick = () => {
+    setOpenEditField(false);
+  };
+  
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
   console.log("commentsData: ", commentsData);
   console.log("openEditField: ", openEditField);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);
-
+// const handleDeleteOneComment = (comment) => {
+//   console.log("comment in handleCancelClick: ", comment);
+//   getSpecificMentorsComments();
+// };
   return (
     <div className="comments-card-con">
       <h2 className="comment-card-header">{`(${
@@ -142,6 +170,7 @@ const handleCancelClick=()=>{
                 comment={comment}
                 // setCommentId={setCommentId}
                 handleEditCommentClick={handleEditCommentClick}
+                handleDeleteOneComment={handleDeleteOneComment}
               />
             );
           })}
