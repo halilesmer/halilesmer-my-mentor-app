@@ -147,4 +147,29 @@ const getMenteesProfile = (req, res) => {
   });
 };
 
-export { uploadUserPicture, signUp, getMenteesProfile, menteesSignIn };
+// ---------- Get specific comments ----------- starts --//
+const deleteAccount = async (req, res) => {
+  console.log("req.body- deleteAccount-mentee: ", req.body);
+  try {
+    const mentee = await MenteesModel.findByIdAndDelete(
+      req.body.menteeId
+    );
+    console.log("Mentee delete account successfully.");
+    res.status(200).json({
+      msg: "Mentee delete account successfully.",
+    });
+  } catch (error) {
+    console.log("error deleting Mentee account: ", error);
+    res.status(400).json({
+      msg: "error deleting Mentee: ",
+      error,
+    });
+  }
+};
+export {
+  uploadUserPicture,
+  signUp,
+  getMenteesProfile,
+  menteesSignIn,
+  deleteAccount,
+};
