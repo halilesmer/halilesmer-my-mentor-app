@@ -7,15 +7,41 @@ import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 import { AppContext } from "../contexts/appContext";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
+import { useNavigate } from "react-router-dom";
 
 export default function MenteesProfilePage() {
   const { menteesData, getMenteeData } = React.useContext(AppContext);
 
   const [error, setError] = React.useState(null);
-
+  const token = getToken();
+  const navigate = useNavigate();
   React.useEffect(() => {
     getMenteeData();
   }, []);
+
+  // ------- Delete Mentees Account ------- starts //
+  const deleteMenteesAccount = async (commentId) => {
+    const deleteOptions = {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ menteeId: menteesData.id }),
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentees/delete-account/",
+        deleteOptions
+      );
+      console.log("response-deleteMenteesAccount: ", response);
+      navigate("/");
+    } catch (error) {
+      console.log("error deleting Mentees Account: ", error);
+    }
+  };
+
+  // ------- Delete Mentees Account -------  ends //
 
   console.log("menteesData: ", menteesData && menteesData);
 
@@ -112,6 +138,16 @@ export default function MenteesProfilePage() {
               fullWidth
             >
               Edit
+            </Button>
+            <Button
+              onClick={deleteMenteesAccount}
+              // href="/mentees/edit-mentees"
+              className="edit-profile-btn"
+              variant="contained"
+              color="error"
+              fullWidth
+            >
+              Delete Account
             </Button>
           </Box>
         </Box>
