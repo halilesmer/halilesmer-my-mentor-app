@@ -14,7 +14,8 @@ const AppProvider = (props) => {
   const [mentorsProfile, setMentorsProfile] = useState(null);
   const [error, setError] = useState(null);
   const [decodedToken, setDecodedToken] = useState("");
-const [allComments, setAllComments] = useState(null);
+  const [allComments, setAllComments] = useState(null);
+  const [allMentorsData, setAllMentorsData] = useState(null);
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -58,7 +59,7 @@ const [allComments, setAllComments] = useState(null);
   };
   // -------- Log out in ends ----------
 
-  // ------ Get Mentee Data -------- starts ---
+  // ------ Get Mentees Profile Data -------- starts ---
   const getMenteeData = async () => {
     if (token) {
       const myHeaders = new Headers();
@@ -82,10 +83,31 @@ const [allComments, setAllComments] = useState(null);
       }
     }
   };
-  // useEffect(() => {
-  //   getMenteeData();
-  // }, []);
-  // ------ Get Mentee Data -------- ends ---
+  // ------ Get Mentees Profile Data -------- ends ---
+
+  // ------- Get All Mentors -------------------//
+  const getAllMentorsData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentors/allmentors"
+      );
+      const result = await response.json();
+      // console.log("result: ", result);
+      // setMentorsProfile(result)
+      setAllMentorsData(result);
+      setUserType("mentor");
+    } catch (error) {
+      console.log("error getting prifile data: ", error);
+    }
+  };
+  useEffect(() => {
+    let didCancel = false;
+    if (!didCancel) {
+      getAllMentorsData();
+    }
+    return () => (didCancel = true);
+  }, []);
+  // ------- Get All Mentors -------------------//
 
   // ------ Get Mentor Data -------- starts ---
   const getMentorsProfile = async () => {
@@ -117,7 +139,7 @@ const [allComments, setAllComments] = useState(null);
   // ------ Get Mentor Data -------- starts ---
 
   // ------- like a mentor -------- starts --
-  const handleLikeClick = async (id) => {
+  const handlePostLikeClick = async (id) => {
     let requestOptions = {
       method: "POST",
       headers: {
@@ -148,31 +170,27 @@ const [allComments, setAllComments] = useState(null);
 
   // ------- Get All Comments -------- starts --
   const getAllComments = async () => {
-        const token = getToken();
-        if (token) {
-          const myHeaders = new Headers();
-          myHeaders.append("Authorization", `Bearer ${token}`);
+    const token = getToken();
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
-          const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-          };
-          try {
-            const response = await fetch(
-              "http://localhost:5001/api/comments/getAllComments",
-              requestOptions
-            );
-            const result = await response.json();
-            console.log("All Comments: ", result);
-            setAllComments(result);
-            
-
-          } catch (error) {
-      console.log("error getting all comments: ", error);          }
-        }
-
-
-    
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/comments/getAllComments",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("All Comments: ", result);
+        setAllComments(result);
+      } catch (error) {
+        console.log("error getting all comments: ", error);
+      }
+    }
   };
   useEffect(() => {
     let didCancel = false;
@@ -201,7 +219,7 @@ const [allComments, setAllComments] = useState(null);
         handleLogoutClick,
         userType,
         setUserType,
-        handleLikeClick,
+        handlePostLikeClick,
         getMenteeData,
         menteesData,
         likes,
@@ -209,6 +227,8 @@ const [allComments, setAllComments] = useState(null);
         getMentorsProfile,
         mentorsProfile,
         decodedToken,
+        allMentorsData,
+        getAllMentorsData,
       }}
     >
       {props.children}

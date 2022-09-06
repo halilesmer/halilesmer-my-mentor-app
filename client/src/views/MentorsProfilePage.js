@@ -10,14 +10,24 @@ import { getToken } from "../utils/getToken";
 import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {
-  const { mentorsProfile, getMentorsProfile } = React.useContext(AppContext);
+  const {
+    mentorsProfile,
+    getMentorsProfile,
+    allMentorsData,
+    getAllMentorsData,
+  } = React.useContext(AppContext);
   const token = getToken();
   const navigate = useNavigate();
 
+ 
   React.useEffect(() => {
-    getMentorsProfile();
+    let didCancel = false;
+    if (!didCancel) {
+      getMentorsProfile();
+      getAllMentorsData && getAllMentorsData();
+    }
+    return () => (didCancel = true);
   }, []);
-
   // ------- Delete Mentors Account ------- starts //
   const deleteMentorsAccount = async (commentId) => {
     const deleteOptions = {
@@ -43,7 +53,9 @@ export default function MentorsProfilePage() {
   // ------- Delete Mentors Account -------  ends //
 
   
-  console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
+  
+  // console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
+  console.log("allMentorsData: ", allMentorsData && allMentorsData);
 
   return (
     <>

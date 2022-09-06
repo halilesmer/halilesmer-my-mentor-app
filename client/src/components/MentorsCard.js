@@ -11,7 +11,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 const MentorsCard = ({ mentor }) => {
   const {
-    handleLikeClick,
+    handlePostLikeClick,
 
     menteesData,
     decodedToken,
@@ -111,7 +111,7 @@ const MentorsCard = ({ mentor }) => {
             {decodedToken && decodedToken.role === "mentee" && (
               <IconButton
                 aria-label="Like Button"
-                onClick={() => handleLikeClick(mentor._id)}
+                onClick={() => handlePostLikeClick(mentor._id)}
               >
                 {likedIconColor ? (
                   <ThumbUpAltIcon fontSize="small" />

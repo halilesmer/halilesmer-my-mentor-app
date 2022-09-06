@@ -1,4 +1,5 @@
 import {
+  allMentees,
   deleteAccount,
   getMenteesProfile,
   menteesSignIn,
@@ -21,5 +22,7 @@ router.post("/signin", menteesSignIn);
 router.get("/menteesprofile", jwtAuth, getMenteesProfile);
 router.post("/postLikes", jwtAuth, postLikes, );
 router.post("/delete-account", jwtAuth, deleteAccount);
+router.get("/all-mentees", jwtAuth, allMentees);
+
 
 export default router;

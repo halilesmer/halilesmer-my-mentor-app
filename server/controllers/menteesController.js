@@ -147,6 +147,24 @@ const getMenteesProfile = (req, res) => {
   });
 };
 
+// ------- Get All Mentees ------------------- starts//
+const allMentees = async (req, res) => {
+  console.log("req.body: ", req.body);
+  try {
+    const response = await MenteesModel.find();
+    console.log('Getting all mentees successfully!')
+    res.status(200).json(response);
+  } catch (error) {
+    console.log("error, getting all mentees failed: ", error);
+    res.status(400).json({
+      msg: "getting all mentees failed:",
+      error: error,
+    });
+  }
+};
+// ------- Get All Mentees ------------------- ends//
+
+
 // ---------- Delete Mentees Account ----------- starts --//
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentee: ", req.body);
@@ -172,4 +190,5 @@ export {
   getMenteesProfile,
   menteesSignIn,
   deleteAccount,
+  allMentees,
 };

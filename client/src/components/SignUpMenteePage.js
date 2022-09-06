@@ -478,7 +478,7 @@ export default function SignUpMenteePage() {
                     size="small"
                     // fullWidth
                     id="skills"
-                    label="Type your Skills"
+                    label="Type your interests"
                     name="skills"
                     value={typedSkill}
                     onKeyUp={handleSkillsEnter}

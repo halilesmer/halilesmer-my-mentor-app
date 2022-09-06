@@ -102,6 +102,7 @@ const signUp = async (req, res) => {
   }
 };
 
+// ------- Get All Mentors ------------------- starts//
 const allMentors = async (req, res) => {
   console.log("req.body: ", req.body);
   try {
@@ -115,6 +116,7 @@ const allMentors = async (req, res) => {
     });
   }
 };
+// ------- Get All Mentors ------------------- ends//
 
 const mentorsSignIn = async (req, res) => {
   const user = await MentorsModel.findOne({ email: req.body.email });
@@ -176,6 +178,7 @@ const getMentorsProfile = (req, res) => {
     user_type: req.user.user_type,
     register_Date: req.user.register_Date,
     about: req.user.about,
+    likes: req.user.likes,
     avatar_picture: req.user?.avatar_picture,
   });
 };
