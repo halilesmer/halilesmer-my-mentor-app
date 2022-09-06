@@ -1,6 +1,6 @@
 import "./MentorsCard.css";
 
-import { Card, CardMedia, IconButton, Paper } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
 import { AppContext } from "../contexts/appContext";
@@ -31,15 +31,12 @@ const MentorsCard = ({ mentor }) => {
       menteesData.likes.filter(
         (id) => id.includes(mentor._id) && setLikedIconColor(true)
       );
-    // if (menteesLikedId && menteesLikedId.length > 0) {
-    //   setLikedIconColor(true);
-    // }
   }, [menteesData]);
   // --------- Get mentees data --------- ends //
 
   console.log("menteesData: ", menteesData);
-  console.log("decodedToken: ", decodedToken);
-  console.log("mentor: ", mentor);
+  // console.log("decodedToken: ", decodedToken);
+  // console.log("mentor: ", mentor);
 
   return (
     <>
@@ -85,7 +82,6 @@ const MentorsCard = ({ mentor }) => {
               <p>
                 {" "}
                 {mentor.skills.map((skill, i) => {
-                  console.log("skill: ", skill);
                   return <span key={i}>{skill}, </span>;
                 })}
               </p>

@@ -203,8 +203,8 @@ const AppProvider = (props) => {
 
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("likes", likes);
-  console.log("decodedToken: ", decodedToken);
-  console.log("menteesData", menteesData && menteesData);
+  // console.log("decodedToken: ", decodedToken);
+  // console.log("menteesData", menteesData && menteesData);
   return (
     <AppContext.Provider
       value={{

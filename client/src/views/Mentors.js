@@ -9,21 +9,7 @@ const Mentors = () => {
 
   const { allMentorsData, getAllMentorsData } = React.useContext(AppContext);
   
-  // // ------- Get All Mentors -------------------//
-  // const getAllMentorsData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:5001/api/mentors/allmentors"
-  //     );
-  //     const result = await response.json();
-  //     // console.log("result: ", result);
-  //     // setMentorsProfile(result)
-  //     setMentorsData(result);
-  //     setUserType("mentor");
-  //   } catch (error) {
-  //     console.log("error getting prifile data: ", error);
-  //   }
-  // };
+
   React.useEffect(() => {
     let didCancel = false;
     if (!didCancel) {
@@ -32,7 +18,7 @@ const Mentors = () => {
     return () => (didCancel = true);
   }, []);
 
-  console.log("allMentorsData: ", allMentorsData);
+  // console.log("allMentorsData: ", allMentorsData);
   return (
     <>
       {allMentorsData &&
