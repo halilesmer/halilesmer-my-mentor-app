@@ -155,7 +155,7 @@ export default function MentorsProfilePage() {
             <Button
               onClick={deleteMentorsAccount}
               // href="/mentees/edit-mentees"
-              // className="delete-profile-btn"
+              className="delete-profile-btn"
               variant="contained"
               color="error"
               fullWidth

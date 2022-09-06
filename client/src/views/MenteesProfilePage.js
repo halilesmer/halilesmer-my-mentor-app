@@ -143,7 +143,7 @@ export default function MenteesProfilePage() {
             <Button
               onClick={deleteMenteesAccount}
               style={{ borderRadius: "50px" }}
-              className="edit-profile-btn"
+              className="delete-profile-btn"
               variant="contained"
               color="error"
               fullWidth

@@ -61,7 +61,7 @@
 
 .delete-profile-btn {
     /* border-radius: 38% !important; */
-    width: 87% !important;
+    width: 80px !important;
     font-size: 0.8rem !important;
     margin: 1rem auto !important;
     display: flex !important;
