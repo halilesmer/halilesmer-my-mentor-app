@@ -155,13 +155,15 @@ export default function MentorsProfilePage() {
             <Button
               onClick={deleteMentorsAccount}
               // href="/mentees/edit-mentees"
-              className="edit-profile-btn"
+              // className="delete-profile-btn"
               variant="contained"
               color="error"
               fullWidth
+              style={{borderRadius:'50px'}}
             >
               Delete Account
             </Button>
+          
           </Box>
         </Box>
       )}

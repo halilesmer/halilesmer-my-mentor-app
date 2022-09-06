@@ -142,7 +142,7 @@ export default function MenteesProfilePage() {
             </Button>
             <Button
               onClick={deleteMenteesAccount}
-              // href="/mentees/edit-mentees"
+              style={{ borderRadius: "50px" }}
               className="edit-profile-btn"
               variant="contained"
               color="error"

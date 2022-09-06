@@ -45,6 +45,7 @@
     /* height: 2rem !important;
         line-height: 2rem; */
 }
+
 .profile-info-box div {
     margin: 3px auto 3px auto;
     border: solid 1px #adf;
@@ -53,6 +54,15 @@
 .profile-info-box div span {
     margin: auto auto auto 3px !important;
 }
-.edit-profile-btn{
+
+.edit-profile-btn {
     margin-top: 1rem !important;
+}
+
+.delete-profile-btn {
+    /* border-radius: 38% !important; */
+    width: 87% !important;
+    font-size: 0.8rem !important;
+    margin: 1rem auto !important;
+    display: flex !important;
 }
