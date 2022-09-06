@@ -155,7 +155,7 @@ export default function MentorsProfilePage() {
               <span>
                 Languages:{" "}
                 {mentorsProfile.language.map((lng, i) => (
-                  <span key={i}>{lng.title}, </span>
+                  <span key={i}>{lng}, </span>
                 ))}
               </span>
             </Paper>

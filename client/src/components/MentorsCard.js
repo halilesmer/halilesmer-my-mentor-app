@@ -95,13 +95,10 @@ const MentorsCard = ({ mentor }) => {
                 ))}
               </p>
               <p>
-                {/* {mentor.language.map((skill, i) => (
+                {mentor.language.map((skill, i) => (
                   <span key={i}>{skill}, </span>
-                ))} */}
-                {mentor.language.map((skill, i) => {
-                  console.log("skill: ", skill);
-                  return <span key={i}>{skill.title}, </span>;
-                })}
+                ))}
+               
               </p>
             </Paper>
           </Box>

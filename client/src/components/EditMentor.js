@@ -118,12 +118,12 @@ export default function EditMentor() {
   // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
     console.log("value: ", value);
-    const languageArray = value.map((obj) => {
-      return { title: obj.title };
-    });
+    // const languageArray = value.map((obj) => {
+    //   return obj.title ;
+    // });
     setEditedUserData({
       ...editedUserData,
-      language: languageArray,
+      language: value,
     });
   };
 
@@ -307,9 +307,7 @@ export default function EditMentor() {
           id: result.id,
           birthday: result.birthday,
           gender: result.gender,
-          language: result.language.map(lng => {
-            return { title: lng };
-          }),
+          language: result.language,
           experience: result.experience,
           website: result.website,
           fee: result.fee,
@@ -531,23 +529,20 @@ export default function EditMentor() {
                   <Autocomplete
                     size="small"
                     multiple
-                    options={languages}
+                    options={languages.map(lgn => lgn.title)}
                     isOptionEqualToValue={(option, v) => {
-                      return option.title === v.title;
+                      return option === v;
                     }}
-                    value={
-                      editedUserData.language
-                        ? editedUserData.language.map((lng) => lng.title)
-                        : []
-                    }
                     // value={
-                    //   editedUserData.language ? editedUserData.language : []
-                    // }
+                    //   editedUserData.language}
+                    value={
+                      editedUserData.language ? editedUserData.language : []
+                    }
                     onChange={handleLanguageOnChange}
                     id="language"
                     name="language"
                     // disableCloseOnSelect
-                    getOptionLabel={(option) => option.title}
+                    getOptionLabel={(option) => option}
                     renderOption={(props, option, { selected }) => (
                       <li {...props}>
                         <Checkbox
@@ -556,7 +551,7 @@ export default function EditMentor() {
                           style={{ marginRight: 8 }}
                           checked={selected}
                         />
-                        {option.title}
+                        {option}
                       </li>
                     )}
                     // style={{ width: 500 }}
