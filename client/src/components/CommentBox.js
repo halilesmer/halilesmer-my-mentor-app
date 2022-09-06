@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const CommentBox = ({
   comment,
   setOpenEditField,
-  handleEditComment,setCommentId,
+  handleEditCommentClick,setCommentId,
 }) => {
   
 
@@ -54,8 +54,8 @@ const CommentBox = ({
           </IconButton>
           {/* to={`/comments/edit-comment/${comment._id}`} */}
 
-          {/* <IconButton onClick={handleEditComment((e)=> comment)}> */}
-          <IconButton onClick={() => handleEditComment(comment)}>
+          {/* <IconButton onClick={handleEditCommentClick((e)=> comment)}> */}
+          <IconButton onClick={() => handleEditCommentClick(comment)}>
             <EditIcon size="small" className="editIcon" />
           </IconButton>
         </div>

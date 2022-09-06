@@ -6,12 +6,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import { getToken } from "../utils/getToken";
 
-const EditComment = ({ handleEditComment, allComments,setOpenEditField, commentToEdit }) => {
-  const [changedCommentTxt, setChangedCommentTxt] = useState(commentToEdit && commentToEdit.commentText);
+const EditComment = ({
+   handleSendClick,
+  allComments,
+  commentToEdit,
+}) => {
+  const [changedCommentTxt, setChangedCommentTxt] = useState(
+    commentToEdit && commentToEdit.commentText
+  );
   const token = getToken();
 
-
-  const handleSaveCommentClick = async (e) => {
+  const handleSubmitEditedCommentClick = async (e) => {
     var requestOptions = {
       method: "POST",
       headers: {
@@ -27,20 +32,20 @@ const EditComment = ({ handleEditComment, allComments,setOpenEditField, commentT
       const response = await fetch(
         "http://localhost:5001/api/comments/editComment",
         requestOptions
-        );
-        
-        console.log("response: ", response);
-        // setOpenEditField(false);
-        
-      } catch (error) {
-        console.log("error while edit the comment: ", error);
-      }
-    };
-    
-    console.log("allComments: ", allComments);
-    console.log("changedCommentTxt: ", changedCommentTxt);
-    console.log("commentToEdit: ", commentToEdit);
-    console.log("commentToEdit.commentId: ", commentToEdit._id);
+      );
+
+      console.log("response: ", response);
+       handleSendClick()
+// handleAfterSubmitEditetComment();
+    } catch (error) {
+      console.log("error while edit the comment: ", error);
+    }
+  };
+
+  console.log("allComments: ", allComments);
+  console.log("changedCommentTxt: ", changedCommentTxt);
+  console.log("commentToEdit: ", commentToEdit);
+  console.log("commentToEdit.commentId: ", commentToEdit._id);
 
   return (
     <Paper key={commentToEdit._id} className="comments-fields" elevation={4}>
@@ -91,10 +96,10 @@ const EditComment = ({ handleEditComment, allComments,setOpenEditField, commentT
           />
         </div>
         <div className="comments-cards-footer">
-          <IconButton>
+          <IconButton onClick={handleSendClick}>
             <CancelIcon size="small" className="cancelIcon" />
           </IconButton>
-          <IconButton onClick={handleSaveCommentClick}>
+          <IconButton onClick={handleSubmitEditedCommentClick}>
             <SaveIcon size="small" className="saveIcon" />
           </IconButton>
         </div>

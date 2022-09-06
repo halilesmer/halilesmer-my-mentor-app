@@ -69,14 +69,17 @@ const [commentToEdit, setCommentToEdit] = useState(null);
       const result = await response.json();
 
       console.log("result", result);
-      setText(commentsData);
+      // setText(commentsData);
+      setOpenEditField(false);
       getSpecificMentorsComments();
+      scrollToElement();
+      setTypedComment("");
     } catch (error) {
       console.log("error: ", error);
     }
 
-    setTypedComment("");
-    scrollToElement();
+    
+    
   };
   // ------- Handle send comments ------- ends //
 
@@ -106,12 +109,14 @@ const [commentToEdit, setCommentToEdit] = useState(null);
   }, []);
   // ------- Get mentors comments ------- ends //
 
-const handleEditComment = (comment) => {
+const handleEditCommentClick = (comment) => {
   setCommentToEdit(comment);
-  
   setOpenEditField(true);
   };
-
+// const handleAfterSubmitEditetComment=()=>{
+//   setOpenEditField(false)
+//   handleSendClick()
+// }
 
   
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
@@ -136,7 +141,7 @@ const handleEditComment = (comment) => {
                 key={comment._id}
                 comment={comment}
                 // setCommentId={setCommentId}
-                handleEditComment={handleEditComment}
+                handleEditCommentClick={handleEditCommentClick}
               />
             );
           })}
@@ -147,6 +152,8 @@ const handleEditComment = (comment) => {
         <EditComment
           allComments={commentsData}
           commentToEdit={commentToEdit && commentToEdit}
+        
+          handleSendClick={handleSendClick}
         />
       )}
 
