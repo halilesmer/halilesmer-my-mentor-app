@@ -54,8 +54,7 @@ export default function MentorsProfilePage() {
 
   
   
-  // console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
-  console.log("allMentorsData: ", allMentorsData && allMentorsData);
+  console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
 
   return (
     <>
@@ -101,6 +100,48 @@ export default function MentorsProfilePage() {
               {mentorsProfile.first_name} {mentorsProfile.last_name} <br />{" "}
               (Mentor)
             </Typography>
+
+            {/* {mentorsProfile.likes ? (
+              mentorsProfile.likes.length > 0 && (
+                <div className="mentor-follower-con">
+                  Gratulation!!!
+                  <br /> you have <strong>
+                    {mentorsProfile.likes.length}
+                  </strong>{" "}
+                  follower.
+                </div>
+              )
+            ) : (
+              <div className="mentor-follower-con">
+                You don't have any followers yet
+              </div>
+            )}
+            {!mentorsProfile && (
+              <div className="mentor-follower-con">
+                You don't have any followers yet
+              </div>
+            )} */}
+
+
+             { mentorsProfile.likes.length > 0 ? (
+                <div className="mentor-follower-con">
+                  Gratulation!!!
+                  <br /> you have <strong>
+                    {mentorsProfile.likes.length}
+                  </strong>{" "}
+                  follower.
+                </div>
+              
+            ) : (
+              <div className="mentor-follower-con">
+                You don't have any followers yet
+              </div>
+            )}
+            {/* {!mentorsProfile && (
+              <div className="mentor-follower-con">
+                You don't have any followers yet
+              </div>
+            )} */}
 
             <Paper elevation={4}>
               <span>
@@ -171,11 +212,10 @@ export default function MentorsProfilePage() {
               variant="contained"
               color="error"
               fullWidth
-              style={{borderRadius:'50px'}}
+              style={{ borderRadius: "50px" }}
             >
               Delete Account
             </Button>
-          
           </Box>
         </Box>
       )}
