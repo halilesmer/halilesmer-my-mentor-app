@@ -4,16 +4,45 @@ import * as React from "react";
 
 import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
-import {AppContext} from "../contexts/appContext.js";
+import { AppContext } from "../contexts/appContext.js";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
+import { getToken } from "../utils/getToken";
+import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {
   const { mentorsProfile, getMentorsProfile } = React.useContext(AppContext);
+  const token = getToken();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     getMentorsProfile();
   }, []);
 
+  // ------- Delete Mentors Account ------- starts //
+  const deleteMentorsAccount = async (commentId) => {
+    const deleteOptions = {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ menteeId: mentorsProfile.id }),
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentors/delete-account/",
+        deleteOptions
+      );
+      console.log("response-deleteMenteesAccount: ", response);
+      navigate("/");
+    } catch (error) {
+      console.log("error deleting Mentors Account: ", error);
+    }
+  };
+
+  // ------- Delete Mentors Account -------  ends //
+
+  
   console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
 
   return (
@@ -122,6 +151,16 @@ export default function MentorsProfilePage() {
               fullWidth
             >
               Edit
+            </Button>
+            <Button
+              onClick={deleteMentorsAccount}
+              // href="/mentees/edit-mentees"
+              className="edit-profile-btn"
+              variant="contained"
+              color="error"
+              fullWidth
+            >
+              Delete Account
             </Button>
           </Box>
         </Box>

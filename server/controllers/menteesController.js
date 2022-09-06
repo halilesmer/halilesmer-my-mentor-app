@@ -147,7 +147,7 @@ const getMenteesProfile = (req, res) => {
   });
 };
 
-// ---------- Get specific comments ----------- starts --//
+// ---------- Delete Mentees Account ----------- starts --//
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentee: ", req.body);
   try {
