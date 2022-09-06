@@ -3,9 +3,16 @@ import { Icon } from "@mui/material";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import React from "react";
 
-const LoginRegisterBtn = ({ classes, text, onClick, color = "green" }) => {
+const LoginRegisterBtn = ({
+  classes,
+  text,
+  href,
+  onClick,
+  color = "green",
+}) => {
   return (
     <Button
+      href={href}
       className={classes}
       variant="bold"
       size="medium"

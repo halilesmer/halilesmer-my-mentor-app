@@ -13,6 +13,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Link } from "react-router-dom";
+import LoginRegisterBtn from "./LoginRegisterBtn";
 import Slide from "@mui/material/Slide";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -75,18 +76,11 @@ const MentorsCard = ({ mentor }) => {
         >
           Header
         </div>
-        {/* <Link
-          to={
-            decodedToken
-              ? `/mentors/details-page/${mentor && mentor._id}`
-              : () => handleClickOpen()
-          }
-        > */}
 
         <Link
           onClick={!decodedToken ? handleClickOpen : null}
           to={
-            !decodedToken ?  "" : `/mentors/details-page/${mentor && mentor._id}`
+            !decodedToken ? "" : `/mentors/details-page/${mentor && mentor._id}`
           }
         >
           <Box className="mentor-card-body">
@@ -166,11 +160,18 @@ const MentorsCard = ({ mentor }) => {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             You need to be a member to see the detailed information of the
-            mentors and to write a comment.
+            mentors and to write a comment. <br />
+            <br />
+            If you are not yet a member, we would be very glad to have you as a
+            member.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Agree</Button>
+          <DialogActions>
+            <LoginRegisterBtn href="/signin" text="Sign In" />
+            <LoginRegisterBtn href="/signup" text="Sign Up" />
+          </DialogActions>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </>

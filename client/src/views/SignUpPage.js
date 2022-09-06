@@ -14,7 +14,7 @@ const SignUpPage = () => {
           If you want to be a <strong>mentor,</strong> please click here!
         </p>
         <Link to="/mentors/signup">
-          <LoginRegisterBtn text="Register" />
+          <LoginRegisterBtn text="Sign Up" />
         </Link>
       </div>
       <div className="_register-page__mentee-con">
@@ -22,7 +22,7 @@ const SignUpPage = () => {
           If you want to be a <strong>mentee,</strong> please click here!
         </p>
         <Link to="/mentees/signup/">
-          <LoginRegisterBtn text="Register" />
+          <LoginRegisterBtn text="Sign Up" />
         </Link>
       </div>
     </div>
