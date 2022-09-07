@@ -28,10 +28,8 @@ import Checkbox from "@mui/material/Checkbox";
 import CloseIcon from "@mui/icons-material/Close";
 import CssBaseline from "@mui/material/CssBaseline";
 import ErrorPage from "../views/ErrorPage";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
-import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -45,10 +43,8 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentee() {
   const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
-
-  const [mtrsCurrData, setMtrsCurrData] = React.useState({});
   const [editedUserData, setEditedUserData] = React.useState(null);
-  console.log("editedUserData: ", editedUserData);
+  const [preview, setPreview] = React.useState();
 
   const [error, setError] = React.useState(null);
 
@@ -188,50 +184,64 @@ export default function EditMentee() {
   // ---- Handle Skills  ends -------
 
   // ----   Handle ------
-  const handleAttachFileOnchange = (e) => {
-    setSelectedImage(e.target.files[0]);
+  const handleSelectFileChange = (e) => {
+    // setSelectedImage(e.target.files[0]);
+
+    //  if (!e.target.files || e.target.files.length === 0) {
+    //    setSelectedImage(undefined);
+    //    return;
+    //  }
+
+    //  // I've kept this example simple by using the first image instead of multiple
+    //  setSelectedImage(e.target.files[0]);
+
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
   };
+
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    e.preventDefault();
-    if (!selectedImage) {
-      setSnackBarAlert("Please select a picture first!");
-      handleClick();
-    } else {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
-      console.log("formData: ", formData);
+    // e.preventDefault();
+    // if (!selectedImage) {
+    //   setSnackBarAlert("Please select a picture first!");
+    //   handleClick();
+    // } else {
 
-      const requestOptions = {
-        method: "Post",
-        body: formData,
-      };
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
 
-      try {
-        setSpinner(true);
-        const response = await fetch(
-          "http://localhost:5001/api/mentees/imageupload",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result: ", result);
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
 
-        setEditedUserData({
-          ...editedUserData,
-          avatar_picture: result.imageUrl,
-        });
-        setSpinner(false);
-      } catch (error) {
-        console.log("error: ", error);
-        setSpinner(false);
-      }
+    try {
+      setSpinner(true);
+      const response = await fetch(
+        "http://localhost:5001/api/mentees/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+
+      setEditedUserData({
+        ...editedUserData,
+        avatar_picture: result.imageUrl,
+      });
+      setSpinner(false);
+      console.log("result- handleSubmitPictureClick: ", result);
+      return result.imageUrl;
+    } catch (error) {
+      console.log("error, Picture upload failed: ", error);
+      setSpinner(false);
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
   // ---- Send Form Handle ------
+  // const handleEditSubmit = async (e) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-
     /* ---- Email Check ---- starts*/
     const checkEmail = emailCheck(editedUserData.email);
     if (checkEmail) {
@@ -264,25 +274,34 @@ export default function EditMentee() {
     }
     /* ---- Password Check ---- ends*/
 
-    let requestOptions = {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(editedUserData),
-    };
+    const img = await handleSubmitPictureClick();
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentees/editmentee",
-        requestOptions
-      );
-      const results = await response.json();
-      console.log("results: ", results);
-      navigate("/mentees/profile");
-    } catch (error) {
-      console.log("error fetching", error.msg);
+    if (img) {
+      const userData = {
+        ...editedUserData,
+        avatar_picture: img,
+      };
+      console.log("avatar pic changed");
+      let requestOptions = {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentees/editmentee",
+          requestOptions
+        );
+        const results = await response.json();
+        console.log("results- handleEditSubmit: ", results);
+        navigate("/mentees/profile");
+      } catch (error) {
+        console.log("error Submit edited mentee", error.msg);
+      }
     }
   };
 
@@ -302,7 +321,7 @@ export default function EditMentee() {
           requestOptions
         );
         const result = await response.json();
-        console.log("result: ", result);
+        console.log("result - getMenteesProfile: ", result);
         const profileData = {
           first_name: result.first_name,
           last_name: result.last_name,
@@ -332,8 +351,17 @@ export default function EditMentee() {
     getMenteesProfile();
     // setEditedUserData(menteesData && menteesData);
   }, []);
-
   // ------ Get profile data  ----------- ends--
+
+  //  React.useEffect(() => {
+  //    // create the preview
+  //    const objectUrl = URL.createObjectURL(selectedImage);
+  //    setPreview(objectUrl);
+
+  //    // free memory when ever this component is unmounted
+  //    return () => URL.revokeObjectURL(objectUrl);
+  //  }, [selectedImage]);
+
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
   // console.log("isEmailValid: ", isEmailValid);
@@ -342,13 +370,10 @@ export default function EditMentee() {
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
   // console.log("language", language);
-  // console.log("selectedImage :>> ", selectedImage);
+  console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
-
-  // console.log("mtrsCurrData: ", mtrsCurrData);
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
-  // console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
 
@@ -418,30 +443,56 @@ export default function EditMentee() {
                   className="avatar-picture-box"
                   onClick={onButtonSelectPictureClick}
                 >
+                  <img
+                    src={
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : editedUserData.avatar_picture
+                        ? editedUserData.avatar_picture
+                        : ""
+                    }
+                    alt="avatar"
+                  />
+
+                  {/* {selectedImage && (
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="avatar"
+                      width="300"
+                    />
+                  )}
                   {editedUserData.avatar_picture && (
                     <img
                       src={editedUserData.avatar_picture}
                       alt="avatar"
                       width="300"
                     />
-                  )}
-                  {!editedUserData.avatar_picture && (
+                  )} */}
+                  {!editedUserData.avatar_picture && !selectedImage && (
                     <span>Please choose a profile image (optional)</span>
                   )}
                 </div>
                 <div className="image-events-con">
-                  {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
+                  {/* <input type="file" onChange={handleSelectFileChange} /> */}
                   <input
+                    accept="image/*"
                     type="file"
                     id="file"
-                    onChange={handleAttachFileOnchange}
+                    onChange={handleSelectFileChange}
                     ref={inputFile}
                     style={{ display: "none" }}
-                  />
+                  />{" "}
+                  {/* <input
+                    type="file"
+                    id="file"
+                    onChange={handleSelectFileChange}
+                    ref={inputFile}
+                    style={{ display: "none" }}
+                  /> */}
                   {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-                  <button onClick={handleSubmitPictureClick}>
+                  {/* <button onClick={handleSubmitPictureClick}>
                     Upload Picture
-                  </button>
+                  </button> */}
                 </div>
               </div>
 
@@ -456,8 +507,7 @@ export default function EditMentee() {
                     fullWidth
                     autoComplete="off"
                     id="first_name"
-                    // label="First Name"
-                    // defaultValue={mtrsCurrData.first_name}
+                    // label="First Name
                     // autoFocus
                     value={
                       editedUserData.first_name ? editedUserData.first_name : ""
@@ -692,8 +742,7 @@ export default function EditMentee() {
                     fullWidth
                     autoComplete="off"
                     id="about"
-                    // label="First Name"
-                    // defaultValue={mtrsCurrData.first_name}
+                    // label="First Name
                     // autoFocus
                     value={editedUserData.about ? editedUserData.about : ""}
                     onChange={handleInputValueChange}

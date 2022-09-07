@@ -47,16 +47,17 @@
 }
 
 .profile-info-box div {
-    margin: 10px auto 3px auto;
+    margin: 8px auto 3px auto;
     border: solid 1px #adf;
+    padding: 2px 2px;
 }
 
 .mentor-follower-con {
-        border: dashed 5px #2383c9 !important;
-            width: 200px !important;
-            text-align: center !important;
-            padding: 6px;
-            margin-bottom: 2rem  !important;
+    border: dashed 5px #2383c9 !important;
+    width: 200px !important;
+    text-align: center !important;
+    padding: 6px;
+    margin-bottom: 2rem !important;
 }
 
 .profile-info-box div span {

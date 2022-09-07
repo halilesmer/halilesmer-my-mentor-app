@@ -175,7 +175,7 @@ export default function SignUpMenteePage() {
 
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!selectedImage) {
       setSnackBarAlert("Please select a picture first!");
       handleClick();
@@ -201,6 +201,7 @@ export default function SignUpMenteePage() {
           ...newUser,
           avatar_picture: result.imageUrl,
         });
+        return result.imageUrl;
       } catch (error) {
         console.log("error: ", error);
       }
@@ -258,40 +259,48 @@ export default function SignUpMenteePage() {
     }
     /* ---- Password Check ---- ends*/
 
+    const img = await handleSubmitPictureClick();
 
-
-    let requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    if (img) {
+      const userData = {
         ...newUser,
-        first_name: first_name,
-        last_name: last_name,
-        birthday: data.get("birthday").trim(),
-        email: email,
-        skills: selectedSkills,
-        password: pw1,
-      }),
-    };
+        avatar_picture: img,
+      };
+      console.log("avatar pic changed");
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentees/signup",
-        requestOptions
-      );
-      const results = await response.json();
-      console.log("results: ", results);
+      let requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newUser,
+          first_name: first_name,
+          last_name: last_name,
+          birthday: data.get("birthday").trim(),
+          email: email,
+          skills: selectedSkills,
+          password: pw1,
+        }),
+      };
 
-      if (results.msg === "user allready exists") {
-        setSnackBarAlert("User allready exists");
-        handleClick();
-      } else {
-        navigate("/mentees/signin");
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentees/signup",
+          requestOptions
+        );
+        const results = await response.json();
+        console.log("results: ", results);
+
+        if (results.msg === "user allready exists") {
+          setSnackBarAlert("User allready exists");
+          handleClick();
+        } else {
+          navigate("/mentees/signin");
+        }
+      } catch (error) {
+        console.log("error fetching", error.msg);
       }
-    } catch (error) {
-      console.log("error fetching", error.msg);
     }
   };
 
@@ -302,7 +311,7 @@ export default function SignUpMenteePage() {
   // console.log("isPwValid: ", isPwValid);
   // console.log('volunteer', volunteer)
   // console.log("fee: ", fee);
-  // console.log("language", language);
+  console.log("newUser", newUser);
 
   return (
     <ThemeProvider theme={theme}>
