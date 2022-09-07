@@ -123,7 +123,13 @@ export default function MenteesProfilePage() {
               <span>Password: ***</span>
             </Paper>
             <Paper elevation={4}>
-              <span>User Type: {menteesData.user_type}</span>
+              <span>User Type:</span>{" "}
+              <span
+                className="user-type"
+                style={{ textTransform: "capitalize" }}
+              >
+                {menteesData.user_type}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>

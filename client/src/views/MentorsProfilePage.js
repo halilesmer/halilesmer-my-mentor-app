@@ -123,9 +123,7 @@ export default function MentorsProfilePage() {
 
             {mentorsProfile.likes.length > 0 ? (
               <div className="mentor-follower-con">
-                You have <strong>
-                  {mentorsProfile.likes.length}
-                </strong>{" "}
+                You have <strong>{mentorsProfile.likes.length}</strong>{" "}
                 follower.
               </div>
             ) : (
@@ -188,7 +186,10 @@ export default function MentorsProfilePage() {
             </Paper>
 
             <Paper elevation={4}>
-              <span>User Type: {mentorsProfile.user_type}</span>
+              <span>User Type:</span>{" "}
+              <span style={{textTransform:'capitalize'}}>
+                {mentorsProfile.user_type}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>
