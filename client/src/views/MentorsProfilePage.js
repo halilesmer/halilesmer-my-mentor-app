@@ -104,8 +104,7 @@ export default function MentorsProfilePage() {
             {/* {mentorsProfile.likes ? (
               mentorsProfile.likes.length > 0 && (
                 <div className="mentor-follower-con">
-                  Gratulation!!!
-                  <br /> you have <strong>
+                 You have <strong>
                     {mentorsProfile.likes.length}
                   </strong>{" "}
                   follower.
@@ -124,8 +123,7 @@ export default function MentorsProfilePage() {
 
             {mentorsProfile.likes.length > 0 ? (
               <div className="mentor-follower-con">
-                Gratulation!!!
-                <br /> you have <strong>
+                You have <strong>
                   {mentorsProfile.likes.length}
                 </strong>{" "}
                 follower.

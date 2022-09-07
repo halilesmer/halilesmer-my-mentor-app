@@ -5,8 +5,8 @@ import React from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 const styleMentorMenteesBox = {
-  border: "solid black 2px",
-  borderRadius: "20px",
+  // border: "solid black 2px",
+  borderRadius: "11px",
   width: "70%",
   maxWidth: "17rem",
   minHeight: "9rem",
@@ -16,6 +16,9 @@ const styleMentorMenteesBox = {
   justifyContent: "space-around",
   textAlign: "center",
   margin: "2rem auto 2rem auto",
+
+  boxShadow: "0px -1px 183px 28px rgb(0 0 0 / 30%)",
+  background: "#ecebeb",
 };
 const Home = () => {
   return (
