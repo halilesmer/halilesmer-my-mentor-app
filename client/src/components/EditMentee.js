@@ -41,6 +41,8 @@ const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+
+
 export default function EditMentee() {
   const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
@@ -207,7 +209,11 @@ export default function EditMentee() {
     //   setSnackBarAlert("Please select a picture first!");
     //   handleClick();
     // } else {
-
+const avatarPicture =
+  "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
+if (!selectedImage) {
+  return avatarPicture;
+} 
     const formData = new FormData();
     formData.append("image", selectedImage);
     console.log("formData: ", formData);
@@ -443,6 +449,7 @@ export default function EditMentee() {
                   className="avatar-picture-box"
                   onClick={onButtonSelectPictureClick}
                 >
+                  {/* <img src={URL.createObjectURL(selectedImage)} alt="avatar" /> */}
                   <img
                     src={
                       selectedImage

@@ -176,35 +176,40 @@ export default function SignUpMenteePage() {
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     // e.preventDefault();
+    // if (!selectedImage) {
+    //   setSnackBarAlert("Please select a picture first!");
+    //   handleClick();
+    // } else {
+const avatarPicture =
+  "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
     if (!selectedImage) {
-      setSnackBarAlert("Please select a picture first!");
-      handleClick();
-    } else {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
-      console.log("formData: ", formData);
+     return avatarPicture;
+    } 
 
-      const requestOptions = {
-        method: "Post",
-        body: formData,
-      };
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
 
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/mentees/imageupload",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result: ", result);
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
 
-        setNewUser({
-          ...newUser,
-          avatar_picture: result.imageUrl,
-        });
-        return result.imageUrl;
-      } catch (error) {
-        console.log("error: ", error);
-      }
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentees/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+
+      setNewUser({
+        ...newUser,
+        avatar_picture: result.imageUrl,
+      });
+      console.log("result- handleSubmitPictureClick: ", result);
+      return result.imageUrl;
+    } catch (error) {
+      console.log("error, Picture upload failed: ", error);
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
@@ -260,6 +265,7 @@ export default function SignUpMenteePage() {
     /* ---- Password Check ---- ends*/
 
     const img = await handleSubmitPictureClick();
+    console.log("img: ", img);
 
     if (img) {
       const userData = {
@@ -274,7 +280,7 @@ export default function SignUpMenteePage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...newUser,
+          ...userData,
           first_name: first_name,
           last_name: last_name,
           birthday: data.get("birthday").trim(),
