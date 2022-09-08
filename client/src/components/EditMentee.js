@@ -73,11 +73,11 @@ export default function EditMentee() {
   const inputFile = React.useRef();
 
   // -------- Handle  Close   -------
-  const handleClick = () => {
+  const handleSnackbarClick = () => {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -86,14 +86,14 @@ export default function EditMentee() {
   };
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
+      <Button color="secondary" size="small" onClick={handleSnackBarClose}>
         UNDO
       </Button>
       <IconButton
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handleClose}
+        onClick={handleSnackBarClose}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -111,7 +111,6 @@ export default function EditMentee() {
   };
   // -------- Handle Input Value   ends -------
   const handleInputValueChange = (e) => {
-    console.log("e.target.value: ", e.target.value);
     setEditedUserData({
       ...editedUserData,
       [e.target.name]: e.target.value,
@@ -128,17 +127,6 @@ export default function EditMentee() {
     setEditedUserData({
       ...editedUserData,
       language: value,
-    });
-  };
-
-  // -------- Handle Volunteer  -------
-  const handleSelectVolunteerClick = (e) => {
-    const checked = e.target.checked;
-    checked ? setVolunteer(true) : setVolunteer(false);
-
-    setEditedUserData({
-      ...editedUserData,
-      fee: Number.parseInt(0, 10),
     });
   };
 
@@ -358,15 +346,6 @@ export default function EditMentee() {
   // ------ Get profile data  ----------- ends--
 
 
-
-  // console.log("selectedSkills: ", selectedSkills);
-  // console.log("typedSkill: ", typedSkill);
-  // console.log("isEmailValid: ", isEmailValid);
-  // console.log("isPwValid: ", isPwValid);
-  // console.log("couchingMedium: ", couchingMedium);
-  // console.log('volunteer', volunteer)
-  // console.log("fee: ", fee);
-  // console.log("language", language);
   console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
   // console.log("password1: ", password1);
@@ -405,7 +384,7 @@ export default function EditMentee() {
             <Snackbar
               open={open}
               autoHideDuration={6000}
-              onClose={handleClose}
+              onClose={handleSnackBarClose}
               message="Note archived"
               action={action}
               style={{
@@ -422,7 +401,7 @@ export default function EditMentee() {
               }}
             >
               <Alert
-                onClose={handleClose}
+                onClose={handleSnackBarClose}
                 severity="warning"
                 sx={{ width: "100%" }}
               >

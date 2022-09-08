@@ -45,12 +45,6 @@ export default function SignUpMenteePage() {
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
   const [isPwValid, setIsPwValid] = React.useState(Boolean);
 
-  const [gender, setGender] = React.useState("");
-  const [language, setLanguage] = React.useState([]);
-  const [couchingMedium, setCouchingMedium] = React.useState([]);
-
-  const [fee, setFee] = React.useState(Number);
-  const [volunteer, setVolunteer] = React.useState("");
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
@@ -102,24 +96,7 @@ export default function SignUpMenteePage() {
   };
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
-  // -------- Handle Gender  -------
-  const handleGenderChange = (e) => {
-    setGender(e.target.value);
-  };
 
-  // -------- Handle Language  -------
-  const handleLanguageOnChange = (e, value) => {
-    setLanguage(value.filter((item) => Object.values(item)));
-    // setLanguage(Object.values(value));
-    // setLanguage(value.map((obj)=> obj.name));
-    // value.map((obj) => setLanguage(obj.name));
-
-    // setLanguage(
-    //   value.map(({ title }) => {
-    //     return title;
-    //   })
-    // );
-  };
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
@@ -227,8 +204,8 @@ export default function SignUpMenteePage() {
       setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
+    
     /* ---- Password Check ---- starts*/
-
     if (pw1 !== pw2) {
       console.log(
         "You first Passwords is not similar with 2nd password. Please enter same password in both"
@@ -243,14 +220,13 @@ export default function SignUpMenteePage() {
     /* ---- Password Check ---- ends*/
 
     const img = await handleSubmitPictureClick();
-    console.log("img: ", img);
 
     if (img) {
       const userData = {
         ...newUser,
         avatar_picture: img,
       };
-      console.log("avatar pic changed");
+
 
       let requestOptions = {
         method: "POST",
@@ -274,7 +250,7 @@ export default function SignUpMenteePage() {
           requestOptions
         );
         const results = await response.json();
-        console.log("results: ", results);
+        console.log("results handleSignUpFormSubmit: ", results);
 
         if (results.msg === "user allready exists") {
           setSnackBarAlert("User allready exists");
@@ -283,7 +259,8 @@ export default function SignUpMenteePage() {
           navigate("/mentees/signin");
         }
       } catch (error) {
-        console.log("error fetching", error.msg);
+        console.log("error Submit new mentee", error.msg);
+
       }
     }
   };
@@ -362,9 +339,11 @@ export default function SignUpMenteePage() {
                 alt={selectedImage && "Thumb"}
                 width="300"
               />
-              
+
               {!selectedImage && (
-                <span className="img-warn-txt">Please choose a profile image (optional)</span>
+                <span className="img-warn-txt">
+                  Please choose a profile image (optional)
+                </span>
               )}
             </div>
             <div className="image-events-con">

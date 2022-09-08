@@ -95,6 +95,12 @@ export default function SignUpMentorPage() {
   const onButtonSelectPictureClick = () => {
     inputFile.current.click();
   };
+
+  // -------- Remove Selected Image  -------
+  const removeSelectedImage = () => {
+    setSelectedImage();
+  }
+  
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
@@ -175,35 +181,36 @@ export default function SignUpMentorPage() {
 
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    e.preventDefault();
+    const avatarPicture =
+      "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
     if (!selectedImage) {
-      setSnackBarAlert("Please select a picture first!");
-      handleClick();
-    } else {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
-      console.log("formData: ", formData);
+      return avatarPicture;
+    }
 
-      const requestOptions = {
-        method: "Post",
-        body: formData,
-      };
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
 
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/mentors/imageupload",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result: ", result);
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
 
-        setNewUser({
-          ...newUser,
-          avatar_picture: result.imageUrl,
-        });
-      } catch (error) {
-        console.log("error: ", error);
-      }
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/mentors/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result handleSubmitPictureClick: ", result);
+
+      setNewUser({
+        ...newUser,
+        avatar_picture: result.imageUrl,
+      });
+      return result.imageUrl;
+    } catch (error) {
+      console.log("error: ", error);
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
@@ -215,7 +222,6 @@ export default function SignUpMentorPage() {
 
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
-    const birthday = data.get("birthday").trim();
     const experience = data.get("experience").trim();
     const website = data.get("mentor-website").trim();
     const email = data.get("email").trim();
@@ -251,8 +257,8 @@ export default function SignUpMentorPage() {
       setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
-    /* ---- Password Check ---- starts*/
 
+    /* ---- Password Check ---- starts*/
     if (pw1 !== pw2) {
       console.log(
         "You first Passwords is not similar with 2nd password. Please enter same password in both"
@@ -266,46 +272,54 @@ export default function SignUpMentorPage() {
     }
     /* ---- Password Check ---- ends*/
 
-    console.log("newUser", newUser);
+    const img = await handleSubmitPictureClick();
 
-    let requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    if (img) {
+      const userData = {
         ...newUser,
-        first_name: first_name,
-        last_name: last_name,
-        birthday: data.get("birthday").trim(),
-        gender: gender,
-        language: language.map((obj) => obj.title),
-        experience: experience,
-        website: website,
-        fee: fee,
-        couching_medium: couchingMedium,
-        email: email,
-        skills: selectedSkills,
-        password: pw1,
-      }),
-    };
+        avatar_picture: img,
+      };
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentors/signup",
-        requestOptions
-      );
-      const results = await response.json();
-      console.log("results: ", results);
+      let requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...userData,
+          first_name: first_name,
+          last_name: last_name,
+          birthday: data.get("birthday").trim(),
+          gender: gender,
+          language: language.map((obj) => obj.title),
+          experience: experience,
+          website: website,
+          fee: fee,
+          couching_medium: couchingMedium,
+          email: email,
+          skills: selectedSkills,
+          password: pw1,
+        }),
+      };
 
-      if (results.msg === "user allready exists") {
-        setSnackBarAlert("user allready exists");
-        handleClick();
-      } else {
-        navigate("/mentors/signin");
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentors/signup",
+          requestOptions
+        );
+        const results = await response.json();
+        console.log("results: ", results);
+
+        if (results.msg === "user allready exists") {
+          setSnackBarAlert("user allready exists");
+          handleClick();
+        } else {
+          navigate("/mentors/signin");
+        }
+      } catch (error) {
+        console.log("error Submit new mentor", error.msg);
+
       }
-    } catch (error) {
-      console.log("error fetching", error.msg);
     }
   };
 
@@ -378,15 +392,19 @@ export default function SignUpMentorPage() {
               className="avatar-picture-box"
               onClick={onButtonSelectPictureClick}
             >
-              {newUser.avatar_picture && (
-                <img src={newUser.avatar_picture} alt="avatar" width="300" />
-              )}
-              {!newUser.avatar_picture && (
-                <span>Please choose a profile image (optional)</span>
+              <img
+                src={selectedImage && URL.createObjectURL(selectedImage)}
+                alt={selectedImage && "Thumb"}
+                width="300"
+              />
+
+              {!selectedImage && (
+                <span className="img-warn-txt">
+                  Please choose a profile image (optional)
+                </span>
               )}
             </div>
             <div className="image-events-con">
-              {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
               <input
                 type="file"
                 id="file"
@@ -394,8 +412,16 @@ export default function SignUpMentorPage() {
                 ref={inputFile}
                 style={{ display: "none" }}
               />
-              {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-              <button onClick={handleSubmitPictureClick}>Upload Picture</button>
+
+              {selectedImage && (
+                <Button
+                  size="small"
+                  onClick={removeSelectedImage}
+                  className="remove-image-btn"
+                >
+                  Remove This Image
+                </Button>
+              )}
             </div>
           </div>
 
@@ -411,8 +437,6 @@ export default function SignUpMentorPage() {
                 id="firstName"
                 label="First Name"
                 autoFocus
-                // value={firstName}
-                // onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -104,7 +104,11 @@ export default function EditMentor() {
   const onButtonSelectPictureClick = () => {
     inputFile.current.click();
   };
-  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
+
+  // -------- Remove Selected Image  -------
+  const removeSelectedImage = () => {
+    setSelectedImage();
+  };
 
   // -------- Handle Input Value   ends -------
   const handleInputValueChange = (e) => {
@@ -185,43 +189,43 @@ export default function EditMentor() {
   // ---- Handle Skills  ends -------
 
   // ----   Handle ------
-  const handleAttachFileOnchange = (e) => {
+  const handleSelectFileChange = (e) => {
     setSelectedImage(e.target.files[0]);
   };
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    e.preventDefault();
+    const avatarPicture =
+      "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
     if (!selectedImage) {
-      setSnackBarAlert("Please select a picture first!");
-      handleClick();
-    } else {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
-      console.log("formData: ", formData);
+      return avatarPicture;
+    }
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    console.log("formData: ", formData);
 
-      const requestOptions = {
-        method: "Post",
-        body: formData,
-      };
+    const requestOptions = {
+      method: "Post",
+      body: formData,
+    };
 
-      try {
-        setSpinner(true);
-        const response = await fetch(
-          "http://localhost:5001/api/mentors/imageupload",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result: ", result);
+    try {
+      setSpinner(true);
+      const response = await fetch(
+        "http://localhost:5001/api/mentors/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result- handleSubmitPictureClick: ", result);
 
-        setEditedUserData({
-          ...editedUserData,
-          avatar_picture: result.imageUrl,
-        });
-        setSpinner(false);
-      } catch (error) {
-        console.log("error: ", error);
-        setSpinner(false);
-      }
+      setEditedUserData({
+        ...editedUserData,
+        avatar_picture: result.imageUrl,
+      });
+      setSpinner(false);
+      return result.imageUrl;
+    } catch (error) {
+      console.log("error, Picture upload failed: ", error);
+      setSpinner(false);
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
@@ -229,6 +233,17 @@ export default function EditMentor() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
+    /* ---- Email Check ---- starts*/
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (re.test(editedUserData.email)) {
+      console.log("valid email :>> ");
+      setIsEmailValid(true);
+    } else {
+      console.log("invalid email");
+      setIsEmailValid(false);
+    }
     /* ---- Email Check ---- starts*/
     const checkEmail = emailCheck(editedUserData.email);
     if (checkEmail) {
@@ -276,10 +291,10 @@ export default function EditMentor() {
         requestOptions
       );
       const results = await response.json();
-      console.log("results: ", results);
+        console.log("results- handleEditSubmit: ", results);
       navigate("/mentors/profile");
     } catch (error) {
-      console.log("error fetching", error.msg);
+        console.log("error Submit edited mentor", error.msg);
     }
   };
 
@@ -332,21 +347,14 @@ export default function EditMentor() {
   }, []);
   // ------ Get profile data  ----------- ends--
 
-  // console.log("selectedSkills: ", selectedSkills);
-  // console.log("typedSkill: ", typedSkill);
-  // console.log("isEmailValid: ", isEmailValid);
-  // console.log("isPwValid: ", isPwValid);
-  // console.log("couchingMedium: ", couchingMedium);
-  // console.log('volunteer', volunteer)
-  // console.log("fee: ", fee);
-  // console.log("language", language);
+
   // console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
   // console.log("mtrsCurrData: ", mtrsCurrData);
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
   console.log("token :>> ", token);
-                    console.log("languages: ", languages);
+  console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
   const obj = [
@@ -425,30 +433,41 @@ export default function EditMentor() {
                   className="avatar-picture-box"
                   onClick={onButtonSelectPictureClick}
                 >
-                  {editedUserData.avatar_picture && (
-                    <img
-                      src={editedUserData.avatar_picture}
-                      alt="avatar"
-                      width="300"
-                    />
-                  )}
-                  {!editedUserData.avatar_picture && (
+                  {/* <img src={URL.createObjectURL(selectedImage)} alt="avatar" /> */}
+                  <img
+                    src={
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : editedUserData.avatar_picture
+                        ? editedUserData.avatar_picture
+                        : ""
+                    }
+                    alt="avatar"
+                  />
+
+                  {!editedUserData.avatar_picture && !selectedImage && (
                     <span>Please choose a profile image (optional)</span>
                   )}
                 </div>
                 <div className="image-events-con">
-                  {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
+                  {/* <input type="file" onChange={handleSelectFileChange} /> */}
                   <input
+                    accept="image/*"
                     type="file"
                     id="file"
-                    onChange={handleAttachFileOnchange}
+                    onChange={handleSelectFileChange}
                     ref={inputFile}
                     style={{ display: "none" }}
-                  />
-                  {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-                  <button onClick={handleSubmitPictureClick}>
-                    Upload Picture
-                  </button>
+                  />{" "}
+                  {selectedImage && (
+                    <Button
+                      size="small"
+                      onClick={removeSelectedImage}
+                      className="remove-image-btn"
+                    >
+                      Remove This Image
+                    </Button>
+                  )}
                 </div>
               </div>
 
@@ -756,7 +775,6 @@ export default function EditMentor() {
                     fullWidth
                     autoComplete="off"
                     id="about"
-                   
                     value={editedUserData.about ? editedUserData.about : ""}
                     onChange={handleInputValueChange}
                   />
