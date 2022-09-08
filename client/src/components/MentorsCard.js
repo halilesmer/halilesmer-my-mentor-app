@@ -62,19 +62,19 @@ const MentorsCard = ({ mentor }) => {
   }, [menteesData]);
   // --------- Get mentees data --------- ends //
 
-  console.log("menteesData: ", menteesData);
+  // console.log("menteesData: ", menteesData);
   // console.log("decodedToken: ", decodedToken);
   // console.log("mentor: ", mentor);
-  console.log("decodedToken: ", decodedToken);
+  // console.log("decodedToken: ", decodedToken);
 
   return (
     <>
       <Paper key={mentor._id} elevation={10} className="mentor-card-con">
         <div
           className="mentor-cards-header"
-          style={{ width: "100%", height: "20px" }}
+          style={{ width: "100%", height: "10px" }}
         >
-          Header
+          
         </div>
 
         <Link
