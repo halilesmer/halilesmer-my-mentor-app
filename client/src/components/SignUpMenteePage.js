@@ -545,7 +545,7 @@ export default function SignUpMenteePage() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/login-page">
+              <Link to="/mentees/signin">
                 <Typography variant="body2">
                   Already have an account? Sign in
                 </Typography>

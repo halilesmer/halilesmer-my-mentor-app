@@ -5,6 +5,7 @@ import * as React from "react";
 import {
   Alert,
   Autocomplete,
+  ClickAwayListener,
   FormControl,
   IconButton,
   InputAdornment,
@@ -14,7 +15,7 @@ import {
   Snackbar,
   Tooltip,
 } from "@mui/material";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
@@ -54,6 +55,7 @@ export default function SignUpMentorPage() {
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
+  const [openTooltip, setOpenTooltip] = React.useState(false);
 
   const [newUser, setNewUser] = React.useState({});
 
@@ -90,7 +92,14 @@ export default function SignUpMentorPage() {
       </IconButton>
     </React.Fragment>
   );
-
+  // -------- Handle  Tooltip Open -------
+  const handleTooltipOpen = () => {
+    setOpenTooltip(true);
+  };
+  // -------- Handle  Tooltip Close -------
+  const handleTooltipClose = () => {
+    setOpenTooltip(false);
+  };
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
     inputFile.current.click();
@@ -99,8 +108,8 @@ export default function SignUpMentorPage() {
   // -------- Remove Selected Image  -------
   const removeSelectedImage = () => {
     setSelectedImage();
-  }
-  
+  };
+
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
@@ -111,15 +120,7 @@ export default function SignUpMentorPage() {
   // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
     setLanguage(value.filter((item) => Object.values(item)));
-    // setLanguage(Object.values(value));
-    // setLanguage(value.map((obj)=> obj.name));
-    // value.map((obj) => setLanguage(obj.name));
-
-    // setLanguage(
-    //   value.map(({ title }) => {
-    //     return title;
-    //   })
-    // );
+  
   };
 
   // -------- Handle Volunteer  -------
@@ -318,7 +319,6 @@ export default function SignUpMentorPage() {
         }
       } catch (error) {
         console.log("error Submit new mentor", error.msg);
-
       }
     }
   };
@@ -537,34 +537,58 @@ export default function SignUpMentorPage() {
               />
             </Grid>
             <Grid item xs={12}>
-              <Tooltip disableFocusListener title="Please choise your fee">
-                <IconButton>
-                  <InfoIcon size="10px" />
-                </IconButton>
-              </Tooltip>
-              <TextField
-                style={{ width: "5rem" }}
-                size="small"
-                required
-                type=""
-                placeholder=""
-                id="fee"
-                label="Fee"
-                disabled={volunteer !== ""}
-                name="fee"
-                autoComplete="off"
-                // value={fee}
-                value={volunteer !== "" ? volunteer : fee}
-                onChange={(e) => setFee(e.target.value)}
-              />
-              <span style={{ padding: "0 0.5rem " }}>,00 EUR</span>
-              <span style={{ padding: "0 1rem " }}>or</span>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Volunteer"
-                value="Volunteer"
-                onClick={(e) => handleSelectVolunteerClick(e)}
-              />
+              <div className="fee-input-box">
+                <TextField
+                  style={{ width: "3.5rem" }}
+                  size="small"
+                  required
+                  type=""
+                  placeholder=""
+                  id="fee"
+                  label="Fee"
+                  disabled={volunteer !== ""}
+                  name="fee"
+                  autoComplete="off"
+                  // value={fee}
+                  value={volunteer !== "" ? volunteer : fee}
+                  onChange={(e) => setFee(e.target.value)}
+                />
+                <span style={{ padding: "0 0.2rem ", fontSize: "0.9rem" }}>
+                  ,00 EUR
+                </span>
+                <span style={{ paddingRight: "0.2rem ", fontSize: "0.9rem" }}>
+                  or
+                </span>
+                <FormControlLabel
+                  // componentsProps={{ typography: { margin: "0px" } }}
+                  control={<Checkbox />}
+                  label={
+                    <Typography  className="voluteer-box">
+                      Volunteer
+                    </Typography>
+                  }
+                  value="Volunteer"
+                  onClick={(e) => handleSelectVolunteerClick(e)}
+                  sx={{ marginRight: "0.1rem" }}
+                />
+            
+
+                <ClickAwayListener onClickAway={handleTooltipClose}>
+                  <Tooltip
+                    PopperProps={{
+                      disablePortal: true,
+                    }}
+                    open={openTooltip}
+                    onClose={handleTooltipClose}
+                    disableFocusListener
+                    title="Please choise your fee"
+                  >
+                    <IconButton onClick={handleTooltipOpen}>
+                      <InfoIcon size="10px" />
+                    </IconButton>
+                  </Tooltip>
+                </ClickAwayListener>
+              </div>
             </Grid>
 
             <Grid item xs={12} className="couchingMedium-con">
