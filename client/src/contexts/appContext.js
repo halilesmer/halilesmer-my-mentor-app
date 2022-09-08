@@ -101,11 +101,12 @@ const AppProvider = (props) => {
     }
   };
   useEffect(() => {
-    let didCancel = false;
-    if (!didCancel) {
-      getAllMentorsData();
-    }
-    return () => (didCancel = true);
+
+      let didCancel = false;
+      if (!didCancel) {
+        getAllMentorsData();
+      }
+      return () => (didCancel = true);
   }, []);
   // ------- Get All Mentors -------------------//
 
@@ -193,11 +194,14 @@ const AppProvider = (props) => {
     }
   };
   useEffect(() => {
+    if(token){
+
     let didCancel = false;
     if (!didCancel) {
       getAllComments();
     }
     return () => (didCancel = true);
+  }
   }, []);
   // ------- Get All Comments -------- ends --
 

@@ -5,6 +5,7 @@ import commentsRoute from "./routes/commentsRoute.js";
 import { connectMDB } from "./util/connectMDB.js";
 import cors from "cors";
 import express from "express";
+import filterRoute from "./routes/filterRoute.js";
 import menteesRoute from "./routes/menteesRoute.js";
 import mentorsRoute from "./routes/mentorsRoute.js";
 import passport from "passport";
@@ -43,6 +44,7 @@ const loadRoutes = () => {
   app.use("/api/mentors", mentorsRoute);
   app.use("/api/mentees", menteesRoute);
   app.use('/api/comments', commentsRoute)
+  app.use("/api/filter", filterRoute);
 };
 
 (function controller() {
