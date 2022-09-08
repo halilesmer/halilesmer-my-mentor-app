@@ -37,6 +37,7 @@
     cursor: pointer;
     background-color: #f8f8f8;
     border-radius: 50%;
+        position: relative;
 }
 
 .avatar-picture-box span {
@@ -61,8 +62,20 @@
     /* z-index: 5; */
 }
 
-
-
+.remove-image-btn{
+        height: 20px !important;
+        font-size: xx-small !important;
+        cursor: pointer !important;
+        padding: 15px !important;
+        background: red !important;
+        color: white !important;
+        border: none !important;
+}
+.img-warn-txt{
+    position: absolute;
+        left: 0;
+        right: 0;
+}
 /* .image-events-con {
     margin-top: 2rem;
 } */

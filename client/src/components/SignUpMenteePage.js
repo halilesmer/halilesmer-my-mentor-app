@@ -95,6 +95,11 @@ export default function SignUpMenteePage() {
   const onButtonSelectPictureClick = () => {
     inputFile.current.click();
   };
+
+  // -------- Remove Selected Image  -------
+  const removeSelectedImage = () => {
+    setSelectedImage();
+  };
   const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
@@ -114,28 +119,6 @@ export default function SignUpMenteePage() {
     //     return title;
     //   })
     // );
-  };
-
-  // -------- Handle Volunteer  -------
-  const handleSelectVolunteerClick = (e) => {
-    const checked = e.target.checked;
-    const value = e.target.value;
-    // setVolunteer(value);
-    if (checked) {
-      setVolunteer(value);
-      setFee(0);
-    } else {
-      setVolunteer("");
-    }
-  };
-  // ---- Handle Couching Medium -------
-  let couchMd = ["Presence", "Video", "Audio"];
-  const handleCouchingMediumClick = (button) => {
-    if (couchingMedium.includes(button)) {
-      setCouchingMedium(couchingMedium.filter((item) => item !== button));
-    } else {
-      setCouchingMedium([...couchingMedium, button]);
-    }
   };
 
   // ---- Handle Skills  starts -------
@@ -175,16 +158,11 @@ export default function SignUpMenteePage() {
 
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    // e.preventDefault();
-    // if (!selectedImage) {
-    //   setSnackBarAlert("Please select a picture first!");
-    //   handleClick();
-    // } else {
-const avatarPicture =
-  "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
+    const avatarPicture =
+      "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
     if (!selectedImage) {
-     return avatarPicture;
-    } 
+      return avatarPicture;
+    }
 
     const formData = new FormData();
     formData.append("image", selectedImage);
@@ -379,15 +357,17 @@ const avatarPicture =
               className="avatar-picture-box"
               onClick={onButtonSelectPictureClick}
             >
-              {newUser.avatar_picture && (
-                <img src={newUser.avatar_picture} alt="avatar" width="300" />
-              )}
-              {!newUser.avatar_picture && (
-                <span>Please choose a profile image (optional)</span>
+              <img
+                src={selectedImage && URL.createObjectURL(selectedImage)}
+                alt={selectedImage && "Thumb"}
+                width="300"
+              />
+              
+              {!selectedImage && (
+                <span className="img-warn-txt">Please choose a profile image (optional)</span>
               )}
             </div>
             <div className="image-events-con">
-              {/* <input type="file" onChange={handleAttachFileOnchange} /> */}
               <input
                 type="file"
                 id="file"
@@ -395,8 +375,16 @@ const avatarPicture =
                 ref={inputFile}
                 style={{ display: "none" }}
               />
-              {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-              <button onClick={handleSubmitPictureClick}>Upload Picture</button>
+
+              {selectedImage && (
+                <Button
+                  size="small"
+                  onClick={removeSelectedImage}
+                  className="remove-image-btn"
+                >
+                  Remove This Image
+                </Button>
+              )}
             </div>
           </div>
 

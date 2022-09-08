@@ -42,7 +42,6 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 
-
 export default function EditMentee() {
   const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
@@ -106,6 +105,10 @@ export default function EditMentee() {
     inputFile.current.click();
   };
 
+  // -------- Remove Selected Image  -------
+  const removeSelectedImage = () => {
+    setSelectedImage();
+  };
   // -------- Handle Input Value   ends -------
   const handleInputValueChange = (e) => {
     console.log("e.target.value: ", e.target.value);
@@ -187,16 +190,6 @@ export default function EditMentee() {
 
   // ----   Handle ------
   const handleSelectFileChange = (e) => {
-    // setSelectedImage(e.target.files[0]);
-
-    //  if (!e.target.files || e.target.files.length === 0) {
-    //    setSelectedImage(undefined);
-    //    return;
-    //  }
-
-    //  // I've kept this example simple by using the first image instead of multiple
-    //  setSelectedImage(e.target.files[0]);
-
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
@@ -204,16 +197,12 @@ export default function EditMentee() {
 
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-    // e.preventDefault();
-    // if (!selectedImage) {
-    //   setSnackBarAlert("Please select a picture first!");
-    //   handleClick();
-    // } else {
-const avatarPicture =
-  "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
-if (!selectedImage) {
-  return avatarPicture;
-} 
+   
+    const avatarPicture =
+      "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
+    if (!selectedImage) {
+      return avatarPicture;
+    }
     const formData = new FormData();
     formData.append("image", selectedImage);
     console.log("formData: ", formData);
@@ -245,10 +234,20 @@ if (!selectedImage) {
   }; // ---- Avatar Picture ---- ends ---- //
 
   // ---- Send Form Handle ------
-  // const handleEditSubmit = async (e) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     /* ---- Email Check ---- starts*/
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (re.test(editedUserData.email)) {
+      console.log("valid email :>> ");
+      setIsEmailValid(true);
+    } else {
+      console.log("invalid email");
+      setIsEmailValid(false);
+    }
+
     const checkEmail = emailCheck(editedUserData.email);
     if (checkEmail) {
       console.log("valid email :>> ");
@@ -287,7 +286,6 @@ if (!selectedImage) {
         ...editedUserData,
         avatar_picture: img,
       };
-      console.log("avatar pic changed");
       let requestOptions = {
         method: "put",
         headers: {
@@ -359,14 +357,7 @@ if (!selectedImage) {
   }, []);
   // ------ Get profile data  ----------- ends--
 
-  //  React.useEffect(() => {
-  //    // create the preview
-  //    const objectUrl = URL.createObjectURL(selectedImage);
-  //    setPreview(objectUrl);
 
-  //    // free memory when ever this component is unmounted
-  //    return () => URL.revokeObjectURL(objectUrl);
-  //  }, [selectedImage]);
 
   // console.log("selectedSkills: ", selectedSkills);
   // console.log("typedSkill: ", typedSkill);
@@ -461,20 +452,6 @@ if (!selectedImage) {
                     alt="avatar"
                   />
 
-                  {/* {selectedImage && (
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="avatar"
-                      width="300"
-                    />
-                  )}
-                  {editedUserData.avatar_picture && (
-                    <img
-                      src={editedUserData.avatar_picture}
-                      alt="avatar"
-                      width="300"
-                    />
-                  )} */}
                   {!editedUserData.avatar_picture && !selectedImage && (
                     <span>Please choose a profile image (optional)</span>
                   )}
@@ -489,17 +466,15 @@ if (!selectedImage) {
                     ref={inputFile}
                     style={{ display: "none" }}
                   />{" "}
-                  {/* <input
-                    type="file"
-                    id="file"
-                    onChange={handleSelectFileChange}
-                    ref={inputFile}
-                    style={{ display: "none" }}
-                  /> */}
-                  {/* <button onClick={onButtonSelectPictureClick}>Open file upload window</button> */}
-                  {/* <button onClick={handleSubmitPictureClick}>
-                    Upload Picture
-                  </button> */}
+                  {selectedImage && (
+                    <Button
+                      size="small"
+                      onClick={removeSelectedImage}
+                      className="remove-image-btn"
+                    >
+                      Remove This Image
+                    </Button>
+                  )}
                 </div>
               </div>
 
