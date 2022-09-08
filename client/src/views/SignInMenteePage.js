@@ -93,7 +93,7 @@ export default function SignInMenteePage() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 0,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -115,6 +115,7 @@ export default function SignInMenteePage() {
             sx={{ mt: 1 }}
           >
             <TextField
+            size="small"
               margin="normal"
               required
               fullWidth
@@ -125,6 +126,7 @@ export default function SignInMenteePage() {
               autoFocus
             />
             <TextField
+            size="small"
               margin="normal"
               required
               fullWidth
@@ -135,6 +137,7 @@ export default function SignInMenteePage() {
               autoComplete="current-password"
             />
             <TextField
+            size="small"
               margin="normal"
               required
               fullWidth
@@ -146,10 +149,10 @@ export default function SignInMenteePage() {
               // value={userLogIn.password2 ? userLogIn.password2 : ""}
               // onChange={handleValueChange}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -159,20 +162,26 @@ export default function SignInMenteePage() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/mentees/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
+              <Grid item>
+                <Link href="/mentees/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+
+              
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

@@ -164,13 +164,20 @@ const MentorsCard = ({ mentor }) => {
             <br />
             If you are not yet a member, we would be very glad to have you as a
             member.
+            <br />
+          </DialogContentText>
+          <br />
+          <LoginRegisterBtn href="/signup" text="Sign Up" />
+          <br />
+          <br />
+          <DialogContentText className="redirection-txt">
+            <Link to="/mentees/signin">
+              <i> Already have an account? Sign in</i>
+            </Link>
+            .
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <DialogActions>
-            <LoginRegisterBtn href="/signin" text="Sign In" />
-            <LoginRegisterBtn href="/signup" text="Sign Up" />
-          </DialogActions>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>

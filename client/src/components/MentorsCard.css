@@ -41,3 +41,11 @@
     height: 20px;
     margin-right: 0.5rem !important;
 }
+.redirection-txt{
+    margin: 0 !important;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+        font-weight: 400 !important;
+        font-size: 0.875rem !important;
+        line-height: 1.43 !important;
+        letter-spacing: 0.01071em !important;
+}
