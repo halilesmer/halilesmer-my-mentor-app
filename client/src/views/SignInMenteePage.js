@@ -115,7 +115,7 @@ export default function SignInMenteePage() {
             sx={{ mt: 1 }}
           >
             <TextField
-            size="small"
+              size="small"
               margin="normal"
               required
               fullWidth
@@ -126,7 +126,7 @@ export default function SignInMenteePage() {
               autoFocus
             />
             <TextField
-            size="small"
+              size="small"
               margin="normal"
               required
               fullWidth
@@ -137,7 +137,7 @@ export default function SignInMenteePage() {
               autoComplete="current-password"
             />
             <TextField
-            size="small"
+              size="small"
               margin="normal"
               required
               fullWidth
@@ -172,13 +172,7 @@ export default function SignInMenteePage() {
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="/mentees/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-
-              
+            
             </Grid>
           </Box>
         </Box>

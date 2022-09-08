@@ -146,10 +146,10 @@ export default function SignInMentorPage() {
               // value={userLogIn.password2 ? userLogIn.password2 : ""}
               // onChange={handleValueChange}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            {/* <FormControlLabel
+              // control={<Checkbox value="remember" color="primary" />}
+              // label="Remember me"
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -159,20 +159,19 @@ export default function SignInMentorPage() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/mentors/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
