@@ -160,7 +160,10 @@ export default function MentorsProfilePage() {
               <span>Website: {mentorsProfile.website}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Fee for one houer: {mentorsProfile.fee} €</span>
+              <span>
+                Fee for one houer:{" "}
+                {mentorsProfile.fee === 0 ? "Volunteer" : mentorsProfile.fee + " €"}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>
@@ -187,7 +190,7 @@ export default function MentorsProfilePage() {
 
             <Paper elevation={4}>
               <span>User Type:</span>{" "}
-              <span style={{textTransform:'capitalize'}}>
+              <span style={{ textTransform: "capitalize" }}>
                 {mentorsProfile.user_type}
               </span>
             </Paper>

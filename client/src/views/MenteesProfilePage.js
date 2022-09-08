@@ -100,7 +100,10 @@ export default function MenteesProfilePage() {
             </Paper>
 
             <Paper elevation={4}>
-              <span>Fee for one houer: {menteesData.fee}</span>
+              <span>
+                Fee for one houer:{" "}
+                {menteesData.fee === 0 ? "Volunteer" : menteesData.fee + " €"}
+              </span>
             </Paper>
             <Paper elevation={4}>
               <span>Couching Medium: {menteesData.couching_medium}</span>

@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 import Chat from "./Chat";
-import EditMentee from "../components/EditMentee";
-import EditMentor from "../components/EditMentor";
+import EditMentee from "./EditMentee";
+import EditMentor from "./EditMentor";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
 import Home from "./Home";
@@ -15,8 +15,8 @@ import React from "react";
 import SignInMenteePage from "./SignInMenteePage";
 import SignInMentorPage from "./SignInMentorPage";
 import SignInPage from "./SignInPage";
-import SignUpMenteePage from "../components/SignUpMenteePage";
-import SignUpMentorPage from "../components/SignUpMentorPage";
+import SignUpMenteePage from "../views/SignUpMenteePage";
+import SignUpMentorPage from "../views/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
 
 // import Grid from "@mui/material/Grid";

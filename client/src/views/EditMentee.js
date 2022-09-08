@@ -27,7 +27,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
 import CloseIcon from "@mui/icons-material/Close";
 import CssBaseline from "@mui/material/CssBaseline";
-import ErrorPage from "../views/ErrorPage";
+import ErrorPage from "./ErrorPage";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";

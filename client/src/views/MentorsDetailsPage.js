@@ -116,7 +116,8 @@ export default function MentorsDetailsPage() {
               <span>Website: {mentor.website}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Fee for one houer: {mentor.fee} €</span>
+              {/* <span>Fee for one houer: {mentor.fee} €</span> */}
+              <span>Fee for one houer: {mentor.fee === 0 ? 'Volunteer' : (mentor.fee + " €")}</span>
             </Paper>
             <Paper elevation={4}>
               <span>
