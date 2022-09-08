@@ -92,7 +92,7 @@ const AppProvider = (props) => {
         "http://localhost:5001/api/mentors/allmentors"
       );
       const result = await response.json();
-      // console.log("result: ", result);
+      console.log("getAllMentorsData: ", result);
       // setMentorsProfile(result)
       setAllMentorsData(result);
       setUserType("mentor");
@@ -100,14 +100,14 @@ const AppProvider = (props) => {
       console.log("error getting prifile data: ", error);
     }
   };
-  useEffect(() => {
+  // useEffect(() => {
 
-      let didCancel = false;
-      if (!didCancel) {
-        getAllMentorsData();
-      }
-      return () => (didCancel = true);
-  }, []);
+  //     let didCancel = false;
+  //     if (!didCancel) {
+  //       getAllMentorsData();
+  //     }
+  //     return () => (didCancel = true);
+  // }, []);
   // ------- Get All Mentors -------------------//
 
   // ------ Get Mentor Data -------- starts ---
@@ -193,12 +193,14 @@ const AppProvider = (props) => {
       }
     }
   };
+  
   useEffect(() => {
     if(token){
 
     let didCancel = false;
     if (!didCancel) {
-      getAllComments();
+      // getAllComments();
+      // getAllMentorsData();
     }
     return () => (didCancel = true);
   }
@@ -209,6 +211,8 @@ const AppProvider = (props) => {
   // console.log("likes", likes);
   // console.log("decodedToken: ", decodedToken);
   // console.log("menteesData", menteesData && menteesData);
+  // console.log('token', token)
+  // console.log('allMentorsData,',allMentorsData,)
   return (
     <AppContext.Provider
       value={{

@@ -1,10 +1,10 @@
-import { Button, ClickAwayListener } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { AppContext } from "../contexts/appContext.js";
+import { Button, } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -20,18 +20,21 @@ const Mentors = () => {
   const { allMentorsData, getAllMentorsData } = React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
   const [gender, setGender] = useState("");
-const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
+  const [filteredMentors, setFilteredMentors] = useState(allMentorsData && allMentorsData);
+  const [fee, setFee] = useState("");
+const [filterObj, setFilterObj] = useState(null);
 
   const token = getToken();
 
   // ------- Get allMentorsData ------- starts//
-  React.useEffect(() => {
-    let didCancel = false;
-    if (!didCancel) {
-      getAllMentorsData && getAllMentorsData();
-    }
-    return () => (didCancel = true);
-  }, []);
+  // React.useEffect(() => {
+  //   let didCancel = false;
+  //   if (!didCancel) {
+  //     getAllMentorsData && getAllMentorsData();
+
+  //   }
+  //   return () => (didCancel = true);
+  // }, []);
   // ------- Get allMentorsData ------- ends//
 
   // ------- Handle Accordion ------- starts//
@@ -39,29 +42,17 @@ const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
     console.log("isExpanded: ", isExpanded);
     setExpanded(isExpanded ? true : false);
   };
-
-  // ------- Handle Gender Select  ------- starts//
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
-
   // ------- Filter Gender ------- starts //
-  const filterGender = async () => {
-     const filteredMentors =
-       allMentorsData &&
-       allMentorsData.filter(
-         (mentor) => mentor.gender.toLowerCase() === "Male".toLowerCase()
-       );
-console.log("filteredMentors: ", filteredMentors);
-
+  const fetchSetFilter = async () => {
+  
 
     const fetchOption = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        // body: JSON.stringify(filterObj)
       },
-      // body: JSON.stringify(gender),
     };
 
     try {
@@ -70,26 +61,38 @@ console.log("filteredMentors: ", filteredMentors);
         fetchOption
       );
       const resultFilteredGender = await response.json();
-      console.log("data of filterGender: ", resultFilteredGender);
-setFilteredMentors(resultFilteredGender)
+      console.log("data of fetchSetFilter: ", resultFilteredGender);
+      setFilteredMentors(resultFilteredGender);
     } catch (error) {
       console.log("error, getting filter gender failed: ", error);
-      
     }
   };
   // ------- Filter Gender ------- ends //
+
   useEffect(() => {
-setFilteredMentors(allMentorsData)
-  },[])
+    let didCancel = false;
+    if (!didCancel) {
+      getAllMentorsData && getAllMentorsData();
+     allMentorsData && setFilteredMentors(allMentorsData);
+    }
+    console.log("allMentorsData: ", allMentorsData && allMentorsData);
+    return () => (didCancel = true);
+  }, []);
 
+  // ------- Apply Filter  ------- starts//
+  const applyFilter = async (e) => {
+    // handleAccordionChange(false);
+    await fetchSetFilter();
 
- 
+    setExpanded(false);
+  };
 
   console.log("gender: ", gender);
-  console.log("allMentorsData: ", allMentorsData);
+  console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
+  console.log("fee: ", fee);
+      console.log("filteredMentors: ", filteredMentors);
 
-  
   return (
     <>
       <div>
@@ -111,7 +114,7 @@ setFilteredMentors(allMentorsData)
               eget.
             </Typography>
             {/* --- Select Gender ---- starts //  */}
-            <FormControl sx={{ minWidth: 120 }} size="small">
+            <FormControl sx={{ minWidth: "6rem" }} size="small">
               <InputLabel id="gender">Gender</InputLabel>
               <Select
                 labelId="gender"
@@ -119,9 +122,10 @@ setFilteredMentors(allMentorsData)
                 name="gender"
                 value={gender}
                 label="Gender"
-                onChange={handleGenderChange}
+                // onChange={handleGenderChange}
+                onChange={(e) => setGender(e.target.value)}
               >
-                <MenuItem value="">
+                <MenuItem value={false}>
                   <em>All</em>
                 </MenuItem>
                 <MenuItem value={"Female"}>Female</MenuItem>
@@ -130,12 +134,32 @@ setFilteredMentors(allMentorsData)
               </Select>
             </FormControl>
             {/* --- Select Gender ---- ends //  */}
+            {/* --- Select Fee ---- starts //  */}
+            <FormControl sx={{ minWidth: "4rem" }} size="small">
+              <InputLabel id="fee">Fee</InputLabel>
+              <Select
+                labelId="fee"
+                id="fee"
+                name="fee"
+                value={fee}
+                label="Fee"
+                // onChange={handleGenderChange}
+                onChange={(e) => setFee(e.target.value)}
+              >
+                <MenuItem value="All">
+                  <em>All</em>
+                </MenuItem>
+                <MenuItem value={"Volunteer"}>Volunteer</MenuItem>
+                <MenuItem value={"Fee"}>Fee</MenuItem>
+              </Select>
+            </FormControl>
+            {/* --- Select Fee ---- ends //  */}
           </AccordionDetails>
           <Button
             variant="outlined"
             color="primary"
             size="small"
-            onClick={filterGender}
+            onClick={applyFilter}
           >
             Apply
           </Button>
