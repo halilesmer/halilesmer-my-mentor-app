@@ -50,7 +50,7 @@ const Comments = (mentorsId) => {
       const body = {
         first_name: menteesData.first_name,
         last_name: menteesData.last_name,
-        menteeId: menteesData.id,
+        menteeId: menteesData._id,
         mentorId: mentorsId.mentorsId,
         avatar_picture: menteesData?.avatar_picture,
         commentText: typedComment,
@@ -146,6 +146,7 @@ const Comments = (mentorsId) => {
   };
   
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
+  console.log('menteesData :>> ', menteesData);
   console.log("commentsData: ", commentsData);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);

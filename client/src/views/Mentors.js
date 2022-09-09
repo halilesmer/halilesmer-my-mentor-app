@@ -20,9 +20,8 @@ const Mentors = () => {
   const { allMentorsData, getAllMentorsData } = React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
   const [gender, setGender] = useState("");
-  const [filteredMentors, setFilteredMentors] = useState(
-    allMentorsData && allMentorsData
-  );
+  const [filteredMentors, setFilteredMentors] = useState(null);
+  
   const [fee, setFee] = useState("");
   const [filterObj, setFilterObj] = useState(null);
 
@@ -60,19 +59,19 @@ const Mentors = () => {
         `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
         fetchOption
       );
-      const resultFilteredGender = await response.json();
-      console.log("data of fetchSetFilter: ", resultFilteredGender);
-      setFilteredMentors(resultFilteredGender);
+      const resultFilter = await response.json();
+      console.log("data of fetchSetFilter: ", resultFilter);
+      setFilteredMentors(resultFilter);
     } catch (error) {
       console.log("error, getting filter gender failed: ", error);
     }
   };
   // ------- Filter Gender ------- ends //
-
+ 
   useEffect(() => {
     let didCancel = false;
     if (!didCancel) {
-      getAllMentorsData && getAllMentorsData();
+      getAllMentorsData &&  getAllMentorsData();
       allMentorsData && setFilteredMentors(allMentorsData);
     }
     console.log("allMentorsData: ", allMentorsData && allMentorsData);
@@ -81,9 +80,7 @@ const Mentors = () => {
 
   // ------- Apply Filter  ------- starts//
   const applyFilter = async (e) => {
-    // handleAccordionChange(false);
     await fetchSetFilter();
-
     setExpanded(false);
   };
 

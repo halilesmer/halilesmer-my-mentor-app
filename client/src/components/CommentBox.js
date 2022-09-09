@@ -15,7 +15,7 @@ const CommentBox = ({
 
   console.log("comment: ", comment);
   // console.log("comment.menteeId: ", comment.menteeId);
-  // // console.log("decodedToken: ", decodedToken);
+  console.log("decodedToken: ", decodedToken);
   // console.log("isSameMentee: ", isSameMentee);
 
   return (
@@ -53,7 +53,7 @@ const CommentBox = ({
           <p>{comment?.commentText}</p>
         </div>
         {decodedToken.role === "mentee" &&
-          comment.menteeId === decodedToken.sub && (
+          (comment.menteeId === decodedToken.sub) && (
             <div className="comments-cards-footer">
               <IconButton onClick={() => handleDeleteOneComment(comment)}>
                 <DeleteIcon size="small" className="deleteIcon" />
