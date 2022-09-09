@@ -131,6 +131,7 @@ const MentorsCard = ({ mentor }) => {
               </p>
             </Paper>
           </Box>
+        </Link>
           <div className="mentor-cards-footer" style={{ width: "100%" }}>
             <div className="mentor-cards-like-con">
               {decodedToken && decodedToken.role === "mentee" && (
@@ -147,7 +148,6 @@ const MentorsCard = ({ mentor }) => {
               )}
             </div>
           </div>
-        </Link>
       </Paper>
       <Dialog
         open={open}

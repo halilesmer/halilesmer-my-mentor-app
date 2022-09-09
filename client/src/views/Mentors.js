@@ -4,7 +4,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { AppContext } from "../contexts/appContext.js";
-import { Button, } from "@mui/material";
+import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -20,9 +20,11 @@ const Mentors = () => {
   const { allMentorsData, getAllMentorsData } = React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
   const [gender, setGender] = useState("");
-  const [filteredMentors, setFilteredMentors] = useState(allMentorsData && allMentorsData);
+  const [filteredMentors, setFilteredMentors] = useState(
+    allMentorsData && allMentorsData
+  );
   const [fee, setFee] = useState("");
-const [filterObj, setFilterObj] = useState(null);
+  const [filterObj, setFilterObj] = useState(null);
 
   const token = getToken();
 
@@ -44,8 +46,6 @@ const [filterObj, setFilterObj] = useState(null);
   };
   // ------- Filter Gender ------- starts //
   const fetchSetFilter = async () => {
-  
-
     const fetchOption = {
       method: "GET",
       headers: {
@@ -57,7 +57,7 @@ const [filterObj, setFilterObj] = useState(null);
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/filter/filtergender/${gender}`,
+        `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
         fetchOption
       );
       const resultFilteredGender = await response.json();
@@ -73,7 +73,7 @@ const [filterObj, setFilterObj] = useState(null);
     let didCancel = false;
     if (!didCancel) {
       getAllMentorsData && getAllMentorsData();
-     allMentorsData && setFilteredMentors(allMentorsData);
+      allMentorsData && setFilteredMentors(allMentorsData);
     }
     console.log("allMentorsData: ", allMentorsData && allMentorsData);
     return () => (didCancel = true);
@@ -87,11 +87,11 @@ const [filterObj, setFilterObj] = useState(null);
     setExpanded(false);
   };
 
-  console.log("gender: ", gender);
+  // console.log("gender: ", gender);
   console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
   console.log("fee: ", fee);
-      console.log("filteredMentors: ", filteredMentors);
+  console.log("filteredMentors: ", filteredMentors);
 
   return (
     <>
@@ -101,68 +101,82 @@ const [filterObj, setFilterObj] = useState(null);
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            sx={{ minHeight: "10px", background: "#c4c6c7" }}
           >
             <FilterAltIcon />
             <Typography> Filter</Typography>
-            <CloseIcon onClick={handleAccordionChange(true)} />
           </AccordionSummary>
-
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
             {/* --- Select Gender ---- starts //  */}
-            <FormControl sx={{ minWidth: "6rem" }} size="small">
-              <InputLabel id="gender">Gender</InputLabel>
-              <Select
-                labelId="gender"
-                id="gender"
-                name="gender"
-                value={gender}
-                label="Gender"
-                // onChange={handleGenderChange}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <MenuItem value={false}>
-                  <em>All</em>
-                </MenuItem>
-                <MenuItem value={"Female"}>Female</MenuItem>
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Other"}>Other</MenuItem>
-              </Select>
-            </FormControl>
-            {/* --- Select Gender ---- ends //  */}
-            {/* --- Select Fee ---- starts //  */}
-            <FormControl sx={{ minWidth: "4rem" }} size="small">
-              <InputLabel id="fee">Fee</InputLabel>
-              <Select
-                labelId="fee"
-                id="fee"
-                name="fee"
-                value={fee}
-                label="Fee"
-                // onChange={handleGenderChange}
-                onChange={(e) => setFee(e.target.value)}
-              >
-                <MenuItem value="All">
-                  <em>All</em>
-                </MenuItem>
-                <MenuItem value={"Volunteer"}>Volunteer</MenuItem>
-                <MenuItem value={"Fee"}>Fee</MenuItem>
-              </Select>
-            </FormControl>
+            <div className="filter-inputs-con" style={{ display:'flex',justifyContent:'space-evenly', marginTop: "0.5rem" }}>
+              <FormControl sx={{ minWidth: "6rem" }} size="small">
+                <InputLabel id="gender">Gender</InputLabel>
+                <Select
+                  labelId="gender"
+                  id="gender"
+                  name="gender"
+                  value={gender}
+                  label="Gender"
+                  // onChange={handleGenderChange}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <MenuItem value={false}>
+                    <em>All</em>
+                  </MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
+                </Select>
+              </FormControl>
+              {/* --- Select Gender ---- ends //  */}
+              {/* --- Select Fee ---- starts //  */}
+              <FormControl sx={{ minWidth: "4rem" }} size="small">
+                <InputLabel id="fee">Fee</InputLabel>
+                <Select
+                  labelId="fee"
+                  id="fee"
+                  name="fee"
+                  value={fee}
+                  label="Fee"
+                  // onChange={handleGenderChange}
+                  onChange={(e) => setFee(e.target.value)}
+                >
+                  <MenuItem value={false}>
+                    <em>All</em>
+                  </MenuItem>
+                  <MenuItem value={"Volunteer"}>Volunteer</MenuItem>
+                  <MenuItem value={"Fee"}>Fee</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
             {/* --- Select Fee ---- ends //  */}
           </AccordionDetails>
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            onClick={applyFilter}
+          <hr style={{ width: "90%", marginTop: 0 }}></hr>
+          <div
+            className="accordion-btn-con"
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              marginBottom: "0.2rem",
+            }}
           >
-            Apply
-          </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={applyFilter}
+            >
+              Apply
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => setExpanded(false)}
+            >
+              Close
+            </Button>
+          </div>
         </Accordion>
       </div>
       {filteredMentors &&
