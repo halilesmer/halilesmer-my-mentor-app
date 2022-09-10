@@ -40,8 +40,13 @@ export default function SignInMenteePage() {
   const navigate = useNavigate();
   // const [password2, setPassword2] = React.useState('')
 
-  const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
-    React.useContext(AppContext);
+  const {
+    setIsUserLoggedIn,
+    userLogIn,
+    setUserLogIn,
+    setUserType,
+    setGlobalToken,
+  } = React.useContext(AppContext);
 
   // const [password2, setPassword2] = React.useState("");
   // console.log("password2: ", password2);
@@ -78,8 +83,8 @@ export default function SignInMenteePage() {
         setUserLogIn(user);
         setIsUserLoggedIn(true);
         setUserType('mentee');
-        console.log("login succesfull: ", result);
         navigate("/mentees/profile");
+        console.log("login succesfull: ", result);
       }
     } catch (error) {
       console.log("error during signIn: ", error);

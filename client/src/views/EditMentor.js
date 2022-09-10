@@ -159,6 +159,7 @@ export default function EditMentor() {
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
+    console.log("button: ", button);
     if (button === "") {
       return null;
     }

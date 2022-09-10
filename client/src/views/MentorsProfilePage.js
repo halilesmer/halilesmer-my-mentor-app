@@ -21,10 +21,11 @@ export default function MentorsProfilePage() {
 
  
   React.useEffect(() => {
+    console.log('useEffect-MentorsProfilePage');
     let didCancel = false;
     if (!didCancel) {
       getMentorsProfile();
-      getAllMentorsData && getAllMentorsData();
+      // getAllMentorsData && getAllMentorsData();
     }
     return () => (didCancel = true);
   }, []);

@@ -24,19 +24,30 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { getToken } from "../utils/getToken";
+import jwt_decode from "jwt-decode";
 
 // import { signOut } from "firebase/auth";
 
 export default function NavBar() {
   const [drawerKey, setDrawerKey] = React.useState(false);
+  const [decodedToken, setDecodedToken] = React.useState("");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const token = getToken();
-  
-  const { handleLogoutClick,  decodedToken } = React.useContext(AppContext);
-  
- 
+  const { handleLogoutClick, isUserLoggedIn } = React.useContext(AppContext);
+
+  const token = localStorage.getItem("token");
+
+  // -------- Check is User logged in starts ----------
+  React.useEffect(() => {
+    if (token) {
+      const decodeToken = jwt_decode(token);
+      setDecodedToken(decodeToken);
+    } else {
+      setDecodedToken("");
+    }
+  }, []);
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -59,6 +70,8 @@ export default function NavBar() {
   // console.log("userType: ", userType);
   // console.log("token: ", token);
   // console.log("decodedToken: ", decodedToken);
+  console.log("decodedToken: ", decodedToken);
+  console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("drawerKey: ", drawerKey);
   return (
     <Box
@@ -106,10 +119,19 @@ export default function NavBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleMenu}
-              color="inherit"
+          // the profile photos color changed regarding of users type
+              style={{
+                color: `${
+                  decodedToken && decodedToken.role === "mentee" ? "#2fd373"
+                    : decodedToken.role === 'mentor' ? "orange"
+                    : 'black'
+                }`,
+              }}
+              // style={{ color: {decodedToken ? "#2fd373" : 'orange'} }}
             >
               <AccountCircle />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
@@ -149,58 +171,53 @@ export default function NavBar() {
               )}
               {/* )} */}
 
-              {/* ----------------- Sign Up Page Link  --------------------- */}
+              {/* ----------------- Sign Up Page && Profile Link  --------------------- */}
 
               {/* {!user && ( */}
-              {!token && (
-                <List onClick={handleClose}>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon style={{ minWidth: "2.5rem" }}>
-                        <LockOpenIcon />
-                      </ListItemIcon>
+              {/* {!token && ( */}
+              <List onClick={handleClose}>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    {!isUserLoggedIn && (
+                      <>
+                        <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                          <LockOpenIcon />
+                        </ListItemIcon>
 
-                      <NavLink
-                        to="/signup"
-                        style={({ isActive }) =>
-                          isActive ? activeStyle : noActive
-                        }
-                      >
-                        <ListItemText primary="Sign up" />
-                      </NavLink>
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              )}
-              {/* )} */}
+                        <NavLink
+                          to="/signup"
+                          style={({ isActive }) =>
+                            isActive ? activeStyle : noActive
+                          }
+                        >
+                          <ListItemText primary="Sign up" />
+                        </NavLink>
+                      </>
+                    )}
 
-              {/* ----------------- Profile Page Link  --------------------- */}
-
-              {token && (
-                <List onClick={handleClose}>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon style={{ minWidth: "2.5rem" }}>
-                        <ManageAccountsIcon />
-                      </ListItemIcon>
-
-                      <NavLink
-                        to={
-                          decodedToken.role === "mentor"
-                            ? "/mentors/profile"
-                            : "/mentees/profile"
-                        }
-                        // to="/mentors/profile"
-                        style={({ isActive }) =>
-                          isActive ? activeStyle : noActive
-                        }
-                      >
-                        <ListItemText primary="Profile" />
-                      </NavLink>
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              )}
+                    {isUserLoggedIn && (
+                      <>
+                        <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                          <ManageAccountsIcon />
+                        </ListItemIcon>
+                        <NavLink
+                          to={
+                            decodedToken.role === "mentor"
+                              ? "/mentors/profile"
+                              : "/mentees/profile"
+                          }
+                          // to="/mentors/profile"
+                          style={({ isActive }) =>
+                            isActive ? activeStyle : noActive
+                          }
+                        >
+                          <ListItemText primary="Profile" />
+                        </NavLink>
+                      </>
+                    )}
+                  </ListItemButton>
+                </ListItem>
+              </List>
             </Menu>
           </div>
 
@@ -214,7 +231,7 @@ export default function NavBar() {
             }}
             onClick={handleLogoutClick}
           >
-            {(token || token !== false) && <LogoutIcon fontSize="small" />}
+            {token && <LogoutIcon fontSize="small" />}
           </Box>
           {/* ) : ( */}
           {/* "" */}

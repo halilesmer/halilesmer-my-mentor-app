@@ -147,6 +147,7 @@ export default function EditMentee() {
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
+    console.log("button: ", button);
     if (button === "") {
       return null;
     }
@@ -162,20 +163,21 @@ export default function EditMentee() {
       setTypedSkill("");
     }
   };
-
+  
   const handleSkillsEnter = (e) => {
     e.preventDefault();
-
+    
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
     }
   };
-
+  
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, skills: selectedSkills });
-  }, [selectedSkills]);
+  }, []);
   // ---- Handle Skills  ends -------
-
+  
+  console.log("selectedSkills: ", selectedSkills);
   // ----   Handle ------
   const handleSelectFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {

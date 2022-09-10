@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 
-router.get("/filterGender/:gender/:fee", jwtAuth, filterGender);
+router.get("/filterGender/:gender/:fee", filterGender);
 export default router;
 
 

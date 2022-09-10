@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import Loading from "../components/Loading.js";
 import MentorsCard from "../components/MentorsCard.js";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -17,14 +18,18 @@ import Typography from "@mui/material/Typography";
 import { getToken } from "../utils/getToken.js";
 
 const Mentors = () => {
-  const { allMentorsData, getAllMentorsData } = React.useContext(AppContext);
+  const { allMentorsData, getAllMentorsData, loader, setLoader } =
+    React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
   const [gender, setGender] = useState("");
-  const [filteredMentors, setFilteredMentors] = useState(null);
-  
+  const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
+
   const [fee, setFee] = useState("");
   const [filterObj, setFilterObj] = useState(null);
 
+  useEffect(() => {
+    if (allMentorsData) setFilteredMentors(allMentorsData);
+  }, [allMentorsData]);
   const token = getToken();
 
   // ------- Get allMentorsData ------- starts//
@@ -45,6 +50,7 @@ const Mentors = () => {
   };
   // ------- Filter Gender ------- starts //
   const fetchSetFilter = async () => {
+    setLoader(true);
     const fetchOption = {
       method: "GET",
       headers: {
@@ -62,16 +68,18 @@ const Mentors = () => {
       const resultFilter = await response.json();
       console.log("data of fetchSetFilter: ", resultFilter);
       setFilteredMentors(resultFilter);
+      setLoader(false);
     } catch (error) {
+      setLoader(false);
       console.log("error, getting filter gender failed: ", error);
     }
   };
   // ------- Filter Gender ------- ends //
- 
+
   useEffect(() => {
     let didCancel = false;
     if (!didCancel) {
-      getAllMentorsData &&  getAllMentorsData();
+      getAllMentorsData && getAllMentorsData();
       allMentorsData && setFilteredMentors(allMentorsData);
     }
     console.log("allMentorsData: ", allMentorsData && allMentorsData);
@@ -92,7 +100,16 @@ const Mentors = () => {
 
   return (
     <>
-      <div>
+      <div
+        className="accordion-con"
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          position: "fixed",
+          left: "0",
+        }}
+      >
         <Accordion expanded={expanded} onChange={handleAccordionChange(true)}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -100,12 +117,32 @@ const Mentors = () => {
             id="panel1a-header"
             sx={{ minHeight: "10px", background: "#c4c6c7" }}
           >
-            <FilterAltIcon />
-            <Typography> Filter</Typography>
+            <FilterAltIcon style={{ width: "30px" }}></FilterAltIcon>
+
+            <Typography sx={{ width: "50px" }}> Filter</Typography>
+            {filteredMentors && (
+              <Typography
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  width: "calc(100% - (80px + 1em))",
+                }}
+              >
+                {" "}
+                ({filteredMentors.length}) Results
+              </Typography>
+            )}
           </AccordionSummary>
           <AccordionDetails>
             {/* --- Select Gender ---- starts //  */}
-            <div className="filter-inputs-con" style={{ display:'flex',justifyContent:'space-evenly', marginTop: "0.5rem" }}>
+            <div
+              className="filter-inputs-con"
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                marginTop: "0.5rem",
+              }}
+            >
               <FormControl sx={{ minWidth: "6rem" }} size="small">
                 <InputLabel id="gender">Gender</InputLabel>
                 <Select
@@ -176,10 +213,16 @@ const Mentors = () => {
           </div>
         </Accordion>
       </div>
-      {filteredMentors &&
-        filteredMentors.map((mentor) => {
-          return <MentorsCard key={mentor._id} mentor={mentor} />;
-        })}
+      {loader ? (
+        <Loading height="70vh" />
+      ) : (
+        <div className="mentors-card-con" style={{marginTop:'4rem'}}>
+          {filteredMentors &&
+            filteredMentors.map((mentor) => {
+              return <MentorsCard key={mentor._id} mentor={mentor} />;
+            })}
+        </div>
+      )}
     </>
   );
 };

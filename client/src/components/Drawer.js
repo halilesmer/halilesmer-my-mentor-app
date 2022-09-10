@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
+import { AppContext } from "../contexts/appContext";
 import { Badge } from "@mui/material";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Box from "@mui/material/Box";
@@ -17,7 +18,8 @@ import MessageIcon from "@mui/icons-material/Message";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 export default function Drawer({ drawerKey, setDrawerKey }) {
-const [loading, setLoading] = React.useState(false)
+  const { handleLogoutClick } = React.useContext(AppContext);
+  const [loading, setLoading] = React.useState(false);
   const navigateTo = useNavigate();
   const toggleDrawer = (open) => (event) => {
     if (
@@ -76,65 +78,10 @@ const [loading, setLoading] = React.useState(false)
           </ListItemButton>
         </ListItem>
       </List>
-      {/* ----------------- Favorit Mentors  Page Link  --------------------- */}
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <BookmarkBorderIcon />
-            </ListItemIcon>
-            <NavLink
-              to="/favorit-mentors"
-              style={({ isActive }) => (isActive ? activeStyle : noActive)}
-            >
-              <Badge
-                sx={{
-                  "& .MuiBadge-badge": {
-                    fontSize: 9,
-                    height: 18,
-                    minWidth: 18,
-                    right: -15,
-                    top: 18,
-                    // border: `2px solid ${theme.palette.background.paper}`,
-                    padding: "0 4px",
-                  },
-                }}
-                //   badgeContent={
-                //     favoritCards.length > 0 ? favoritCards.length : "0"
-                //   }
-                //   color="primary"
-                // >
-                badgeContent={0}
-                color="primary"
-              >
-                <ListItemText primary={"Favorit Mentors"} />
-              </Badge>{" "}
-            </NavLink>
-          </ListItemButton>
-        </ListItem>
-      </List>
-
-      {/* --------- Message Icon/ Menu -------- starts */}
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <MessageIcon />
-            </ListItemIcon>
-            <NavLink
-              to="chat/"
-              style={({ isActive }) => (isActive ? activeStyle : noActive)}
-            >
-              <ListItemText primary={"Chat"} />
-            </NavLink>
-          </ListItemButton>
-        </ListItem>
-      </List>
-      {/* --------- Message Icon/ Menu -------- ends */}
 
       <Divider />
-      <List>
-        <ListItem disablePadding onClick={logout}>
+      <List onClick={handleLogoutClick}>
+        <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
               <LogoutIcon />
