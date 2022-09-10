@@ -2,10 +2,10 @@ import MenteesModel from "../models/menteesModel.js";
 import MentorsModel from "../models/mentorsModel.js";
 import { request } from "express";
 
-const filterGender = async (req, res) => {
-  console.log("req.body in filterGender: ", req.body);
-  console.log("req.params in filterGender: ", req.params);
-  // console.log("req.user- filterGender Controller", req.user);
+const filterMentors = async (req, res) => {
+  console.log("req.body in filterMentors: ", req.body);
+  console.log("req.params in filterMentors: ", req.params);
+  // console.log("req.user- filterMentors Controller", req.user);
 let fees = req.params.fee === "Volunteer" ? 0 : req.params.fee;
 
   let gender ={};
@@ -31,7 +31,7 @@ gender = {gender: req.params.gender};
  
     res.status(200).json(filterByGender);
   } catch (error) {
-    console.log("error: get data by gender in filterGender failed!!!: ", error);
+    console.log("error: get data by gender in filterMentors failed!!!: ", error);
   }
 };
-export { filterGender, };
+export { filterMentors, };

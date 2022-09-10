@@ -25,38 +25,40 @@ const Mentors = () => {
   const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
 
   const [fee, setFee] = useState("");
-  const [filterObj, setFilterObj] = useState(null);
+  const [filterObj, setFilterObj] = useState({
+    gender: '',
+    fee: '',
+  });
 
   useEffect(() => {
     if (allMentorsData) setFilteredMentors(allMentorsData);
   }, [allMentorsData]);
   const token = getToken();
 
-  // ------- Get allMentorsData ------- starts//
-  // React.useEffect(() => {
-  //   let didCancel = false;
-  //   if (!didCancel) {
-  //     getAllMentorsData && getAllMentorsData();
-
-  //   }
-  //   return () => (didCancel = true);
-  // }, []);
-  // ------- Get allMentorsData ------- ends//
-
+ 
   // ------- Handle Accordion ------- starts//
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     console.log("isExpanded: ", isExpanded);
     setExpanded(isExpanded ? true : false);
   };
-  // ------- Filter Gender ------- starts //
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    // setFilterObj([...filterObj, {e.target.name: e.target.value}])
+    console.log(`Name: ${name} and value: ${value}`);
+    setFilterObj({...filterObj, [name]: value});
+  };
+  // ------- Filter  ------- starts //
   const fetchSetFilter = async () => {
     setLoader(true);
+
+
     const fetchOption = {
-      method: "GET",
+      method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-        // body: JSON.stringify(filterObj)
+        body: JSON.stringify(filterObj)
       },
     };
 
@@ -68,10 +70,10 @@ const Mentors = () => {
       const resultFilter = await response.json();
       console.log("data of fetchSetFilter: ", resultFilter);
       setFilteredMentors(resultFilter);
-      setLoader(false);
     } catch (error) {
-      setLoader(false);
       console.log("error, getting filter gender failed: ", error);
+    }finally{
+      setLoader(false);
     }
   };
   // ------- Filter Gender ------- ends //
@@ -95,7 +97,8 @@ const Mentors = () => {
   // console.log("gender: ", gender);
   console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
-  console.log("fee: ", fee);
+      console.log("filterObj: ", filterObj);
+
   console.log("filteredMentors: ", filteredMentors);
 
   return (
@@ -119,7 +122,7 @@ const Mentors = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
-            sx={{ minHeight: "10px", height:'25px', background: "#c4c6c7",  }}
+            sx={{ minHeight: "10px", height: "25px", background: "#c4c6c7" }}
           >
             <FilterAltIcon style={{ width: "30px" }}></FilterAltIcon>
 
@@ -153,10 +156,12 @@ const Mentors = () => {
                   labelId="gender"
                   id="gender"
                   name="gender"
-                  value={gender}
+                  // defaultValue={filterObj.gender}
+                  value={filterObj.gender ? filterObj.gender : ""}
                   label="Gender"
                   // onChange={handleGenderChange}
-                  onChange={(e) => setGender(e.target.value)}
+                  // onChange={(e) => setGender(e.target.value)}
+                  onChange={handleInputChange}
                 >
                   <MenuItem value={false}>
                     <em>All</em>
@@ -174,10 +179,12 @@ const Mentors = () => {
                   labelId="fee"
                   id="fee"
                   name="fee"
-                  value={fee}
+                  value={filterObj.fee ? filterObj.fee : ""}
+                  // defaultValue={filterObj.fee}
                   label="Fee"
                   // onChange={handleGenderChange}
-                  onChange={(e) => setFee(e.target.value)}
+                  // onChange={(e) => setFee(e.target.value)}
+                  onChange={handleInputChange}
                 >
                   <MenuItem value={false}>
                     <em>All</em>

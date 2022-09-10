@@ -519,7 +519,6 @@ export default function EditMentee() {
                       labelId="gender"
                       id="gender"
                       name="gender"
-                      // value={gender}
                       label="Gender"
                       value={editedUserData.gender ? editedUserData.gender : ""}
                       onChange={handleInputValueChange}

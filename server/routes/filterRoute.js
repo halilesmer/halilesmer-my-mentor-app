@@ -1,6 +1,6 @@
 import express from "express";
 import {
- filterGender,
+ filterMentors,
 } from "../controllers/filterController.js";
 import { jwtAuth } from "../util/jwtAuth.js";
 
@@ -8,7 +8,9 @@ const router = express.Router();
 
 
 
-router.get("/filterGender/:gender/:fee", filterGender);
+router.get("/filterMentors", filterMentors);
+// router.get("/filterMentors/:gender/:fee", filterMentors);
+
 export default router;
 
 
