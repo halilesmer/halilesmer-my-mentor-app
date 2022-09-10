@@ -15,6 +15,7 @@ import MentorsCard from "../components/MentorsCard.js";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
+import { display } from "@mui/system";
 import { getToken } from "../utils/getToken.js";
 
 const Mentors = () => {
@@ -50,27 +51,26 @@ const Mentors = () => {
   // ------- Filter  ------- starts //
   const fetchSetFilter = async () => {
     setLoader(true);
-let filterObj = {};
-for (const key in inputValue) {
-  console.log("key: ", key);
+    // adjust filter obj befor sending ---- starts//
+    let filterObj = {};
+    for (const key in inputValue) {
+      if (inputValue[key] !== "All" && inputValue[key] !== "") {
+        filterObj[key] = inputValue[key];
+      }
+    }
+    console.log("filterObj", filterObj);
+    // adjust filter obj befor sending ---- starts//
 
-  if (inputValue[key] !== "All") {
-    filterObj[key] = inputValue[key];
-  }
-}
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-console.log("filterObj", filterObj);  
-
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-var requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: JSON.stringify(filterObj),
-  // body: JSON.stringify(inputValue),
-  // redirect: "follow",
-};
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(filterObj),
+      // body: JSON.stringify(inputValue),
+      // redirect: "follow",
+    };
 
     try {
       // `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
@@ -106,11 +106,11 @@ var requestOptions = {
   };
 
   // console.log("gender: ", gender);
-  console.log("allMentorsData: ", allMentorsData && allMentorsData);
+  // console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
-  console.log("inputValue: ", inputValue);
+  // console.log("inputValue: ", inputValue);
 
-  console.log("filteredMentors: ", filteredMentors);
+  // console.log("filteredMentors: ", filteredMentors);
 
   return (
     <>
@@ -167,14 +167,14 @@ var requestOptions = {
                   labelId="gender"
                   id="gender"
                   name="gender"
-                  // defaultValue={inputValue.gender}
-                  value={inputValue.gender ? inputValue.gender : ""}
+                  defaultValue="All"
+                  value={inputValue.gender ? inputValue.gender : "All"}
                   label="Gender"
                   // onChange={handleGenderChange}
                   // onChange={(e) => setGender(e.target.value)}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value='All'>
+                  <MenuItem value="All">
                     <em>All</em>
                   </MenuItem>
                   <MenuItem value={"Female"}>Female</MenuItem>
@@ -190,19 +190,17 @@ var requestOptions = {
                   labelId="fee"
                   id="fee"
                   name="fee"
-                  value={inputValue.fee ? inputValue.fee : ""}
+                  value={inputValue.fee ? inputValue.fee : "All"}
                   // defaultValue={inputValue.fee}
                   label="Fee"
                   // onChange={handleGenderChange}
                   // onChange={(e) => setFee(e.target.value)}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value='All'>
+                  <MenuItem value="All">
                     <em>All</em>
                   </MenuItem>
-                  <MenuItem value='0'>
-                    Volunteer
-                  </MenuItem>{" "}
+                  <MenuItem value="0">Volunteer</MenuItem>{" "}
                   {/* <MenuItem value={"0"}>Volunteer</MenuItem> */}
                   {/* <MenuItem value={"Volunteer"}>Volunteer</MenuItem> */}
                   <MenuItem value={Number.parseInt("1", 10)}>Fee</MenuItem>{" "}
@@ -248,6 +246,21 @@ var requestOptions = {
             filteredMentors.map((mentor) => {
               return <MentorsCard key={mentor._id} mentor={mentor} />;
             })}
+        </div>
+      )}
+      {filteredMentors && filteredMentors.length < 1 && (
+        <div
+          style={{
+            border: "9px dashed rgb(79 154 203)",
+            borderRadius: "40px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "30px",
+            marginTop: "35vh",
+          }}
+        >
+          No result found
         </div>
       )}
     </>
