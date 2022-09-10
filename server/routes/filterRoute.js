@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 
-router.get("/filterMentors", filterMentors);
+router.post("/filter-mentors", filterMentors);
 // router.get("/filterMentors/:gender/:fee", filterMentors);
 
 export default router;

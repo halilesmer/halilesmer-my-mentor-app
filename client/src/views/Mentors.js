@@ -25,9 +25,9 @@ const Mentors = () => {
   const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
 
   const [fee, setFee] = useState("");
-  const [filterObj, setFilterObj] = useState({
-    gender: '',
-    fee: '',
+  const [inputValue, setInputValue] = useState({
+    gender: "",
+    fee: "",
   });
 
   useEffect(() => {
@@ -35,7 +35,6 @@ const Mentors = () => {
   }, [allMentorsData]);
   const token = getToken();
 
- 
   // ------- Handle Accordion ------- starts//
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     console.log("isExpanded: ", isExpanded);
@@ -44,35 +43,47 @@ const Mentors = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // setFilterObj([...filterObj, {e.target.name: e.target.value}])
-    console.log(`Name: ${name} and value: ${value}`);
-    setFilterObj({...filterObj, [name]: value});
+    // console.log(`Name: ${name} and value: ${value}`);
+
+    setInputValue({ ...inputValue, [name]: value });
   };
   // ------- Filter  ------- starts //
   const fetchSetFilter = async () => {
     setLoader(true);
+let filterObj = {};
+for (const key in inputValue) {
+  console.log("key: ", key);
 
+  if (inputValue[key] !== "All") {
+    filterObj[key] = inputValue[key];
+  }
+}
 
-    const fetchOption = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        body: JSON.stringify(filterObj)
-      },
-    };
+console.log("filterObj", filterObj);  
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: JSON.stringify(filterObj),
+  // body: JSON.stringify(inputValue),
+  // redirect: "follow",
+};
 
     try {
+      // `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
       const response = await fetch(
-        `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
-        fetchOption
+        `http://localhost:5001/api/filter/filter-mentors`,
+        requestOptions
       );
       const resultFilter = await response.json();
       console.log("data of fetchSetFilter: ", resultFilter);
       setFilteredMentors(resultFilter);
     } catch (error) {
       console.log("error, getting filter gender failed: ", error);
-    }finally{
+    } finally {
       setLoader(false);
     }
   };
@@ -97,7 +108,7 @@ const Mentors = () => {
   // console.log("gender: ", gender);
   console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
-      console.log("filterObj: ", filterObj);
+  console.log("inputValue: ", inputValue);
 
   console.log("filteredMentors: ", filteredMentors);
 
@@ -156,14 +167,14 @@ const Mentors = () => {
                   labelId="gender"
                   id="gender"
                   name="gender"
-                  // defaultValue={filterObj.gender}
-                  value={filterObj.gender ? filterObj.gender : ""}
+                  // defaultValue={inputValue.gender}
+                  value={inputValue.gender ? inputValue.gender : ""}
                   label="Gender"
                   // onChange={handleGenderChange}
                   // onChange={(e) => setGender(e.target.value)}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value={false}>
+                  <MenuItem value='All'>
                     <em>All</em>
                   </MenuItem>
                   <MenuItem value={"Female"}>Female</MenuItem>
@@ -179,18 +190,23 @@ const Mentors = () => {
                   labelId="fee"
                   id="fee"
                   name="fee"
-                  value={filterObj.fee ? filterObj.fee : ""}
-                  // defaultValue={filterObj.fee}
+                  value={inputValue.fee ? inputValue.fee : ""}
+                  // defaultValue={inputValue.fee}
                   label="Fee"
                   // onChange={handleGenderChange}
                   // onChange={(e) => setFee(e.target.value)}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value={false}>
+                  <MenuItem value='All'>
                     <em>All</em>
                   </MenuItem>
-                  <MenuItem value={"Volunteer"}>Volunteer</MenuItem>
-                  <MenuItem value={"Fee"}>Fee</MenuItem>
+                  <MenuItem value='0'>
+                    Volunteer
+                  </MenuItem>{" "}
+                  {/* <MenuItem value={"0"}>Volunteer</MenuItem> */}
+                  {/* <MenuItem value={"Volunteer"}>Volunteer</MenuItem> */}
+                  <MenuItem value={Number.parseInt("1", 10)}>Fee</MenuItem>{" "}
+                  {/* <MenuItem value={"1"}>Fee</MenuItem> */}
                 </Select>
               </FormControl>
             </div>
