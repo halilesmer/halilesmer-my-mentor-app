@@ -110,12 +110,16 @@ const Mentors = () => {
           left: "0",
         }}
       >
-        <Accordion expanded={expanded} onChange={handleAccordionChange(true)}>
+        <Accordion
+          expanded={expanded}
+          onChange={handleAccordionChange(true)}
+          sx={{ minHeight: "10px", width: "95%" }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
-            sx={{ minHeight: "10px", background: "#c4c6c7" }}
+            sx={{ minHeight: "10px", height:'25px', background: "#c4c6c7",  }}
           >
             <FilterAltIcon style={{ width: "30px" }}></FilterAltIcon>
 
@@ -216,7 +220,7 @@ const Mentors = () => {
       {loader ? (
         <Loading height="70vh" />
       ) : (
-        <div className="mentors-card-con" style={{marginTop:'4rem'}}>
+        <div className="mentors-card-con" style={{ marginTop: "4rem" }}>
           {filteredMentors &&
             filteredMentors.map((mentor) => {
               return <MentorsCard key={mentor._id} mentor={mentor} />;
