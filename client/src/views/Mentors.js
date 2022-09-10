@@ -15,17 +15,13 @@ import MentorsCard from "../components/MentorsCard.js";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { display } from "@mui/system";
-import { getToken } from "../utils/getToken.js";
 
 const Mentors = () => {
   const { allMentorsData, getAllMentorsData, loader, setLoader } =
     React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
-  const [gender, setGender] = useState("");
   const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
 
-  const [fee, setFee] = useState("");
   const [inputValue, setInputValue] = useState({
     gender: "",
     fee: "",
@@ -34,18 +30,14 @@ const Mentors = () => {
   useEffect(() => {
     if (allMentorsData) setFilteredMentors(allMentorsData);
   }, [allMentorsData]);
-  const token = getToken();
 
   // ------- Handle Accordion ------- starts//
   const handleAccordionChange = (panel) => (event, isExpanded) => {
-    console.log("isExpanded: ", isExpanded);
     setExpanded(isExpanded ? true : false);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // console.log(`Name: ${name} and value: ${value}`);
-
     setInputValue({ ...inputValue, [name]: value });
   };
   // ------- Filter  ------- starts //
@@ -95,7 +87,7 @@ const Mentors = () => {
       getAllMentorsData && getAllMentorsData();
       allMentorsData && setFilteredMentors(allMentorsData);
     }
-    console.log("allMentorsData: ", allMentorsData && allMentorsData);
+    // console.log("allMentorsData: ", allMentorsData && allMentorsData);
     return () => (didCancel = true);
   }, []);
 
@@ -108,7 +100,7 @@ const Mentors = () => {
   // console.log("gender: ", gender);
   // console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
-  // console.log("inputValue: ", inputValue);
+  console.log("inputValue: ", inputValue.length >0);
 
   // console.log("filteredMentors: ", filteredMentors);
 
@@ -167,11 +159,9 @@ const Mentors = () => {
                   labelId="gender"
                   id="gender"
                   name="gender"
-                  defaultValue="All"
+                  // defaultValue=""
                   value={inputValue.gender ? inputValue.gender : "All"}
                   label="Gender"
-                  // onChange={handleGenderChange}
-                  // onChange={(e) => setGender(e.target.value)}
                   onChange={handleInputChange}
                 >
                   <MenuItem value="All">
