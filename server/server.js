@@ -28,12 +28,12 @@ const addMiddelWare = () => {
   app.use(passport.initialize());
   passportConfig(passport);
 
-  // Versel
+  // Vercel
 app.use(express.static(path.join(__dirname, "./client/build")));
 
 };
 
-// Versel
+// Vercel
 app.get("*", function (_, res) {
   res.sendFile(
     path.join(__dirname, "./client/build/index.html"),
