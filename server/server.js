@@ -27,7 +27,23 @@ const addMiddelWare = () => {
   cloudinaryConfig();
   app.use(passport.initialize());
   passportConfig(passport);
+
+  // Versel
+app.use(express.static(path.join(__dirname, "./client/build")));
+
 };
+
+// Versel
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
 
 const startServer = () => {
   app.listen(port, (req, res) => {
