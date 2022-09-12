@@ -10,6 +10,7 @@ import menteesRoute from "./routes/menteesRoute.js";
 import mentorsRoute from "./routes/mentorsRoute.js";
 import passport from "passport";
 import { passportConfig } from "./config/passport.js";
+import path from 'path';
 
 const port = process.env.PORT || 5001;
 
@@ -29,7 +30,8 @@ const addMiddelWare = () => {
   passportConfig(passport);
 
   // Vercel
-app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(path.join("./client/build")));
+// app.use(express.static(path.join(__dirname, "./client/build")));
 
 };
 
