@@ -26,11 +26,11 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
+import DialogAlert from "../components/DialogAlert";
 import ErrorPage from "./ErrorPage";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import SnackbarMui from "../components/SnackbarMui";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
@@ -268,7 +268,6 @@ export default function EditMentee() {
         console.log("results- handleEditSubmit: ", results);
         navigate("/mentees/profile");
         setOpenSnackBar(true);
-
       } catch (error) {
         console.log("error Submit edited mentee", error.msg);
       }

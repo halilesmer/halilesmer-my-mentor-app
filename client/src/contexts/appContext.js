@@ -18,6 +18,8 @@ const AppProvider = (props) => {
   const [allMentorsData, setAllMentorsData] = useState(null);
   const [loader, setLoader] = useState(false);
   const [globalToken, setGlobalToken] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+      const [snackBarText, setSnackBarText] = useState("");
 
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
@@ -249,6 +251,10 @@ const AppProvider = (props) => {
         globalToken,
         openSnackBar,
         setOpenSnackBar,
+        openDialog,
+        setOpenDialog,
+        snackBarText,
+        setSnackBarText,
       }}
     >
       {props.children}

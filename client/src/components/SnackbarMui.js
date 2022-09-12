@@ -18,8 +18,9 @@ const SnackbarStyle = {
 };
 
 
-const SnackbarMui = ({text}) => {
-  const { openSnackBar, setOpenSnackBar } = useContext(AppContext);
+const SnackbarMui = () => {
+  const { openSnackBar, setOpenSnackBar, snackBarText } =
+    useContext(AppContext);
 
   const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -55,9 +56,9 @@ const SnackbarMui = ({text}) => {
       <Alert
         onClose={handleSnackBarClose}
         severity="warning"
-        sx={{ width: "100%" }}
+        sx={{ width: "100%", textAlign:'center' }}
       >
-        {text}
+        {snackBarText}
       </Alert>
     </Snackbar>
   );

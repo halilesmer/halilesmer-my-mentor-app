@@ -17,16 +17,22 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
+import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 
 export default function MenteesProfilePage() {
-  const { menteesData, getMenteeData, setOpenSnackBar } =
-    React.useContext(AppContext);
-  const [open, setOpen] = React.useState(false);
-  console.log("open: ", open);
-  const [display, setDisplay] = React.useState("block");
+  const {
+    menteesData,
+    getMenteeData,
+    setOpenSnackBar,
+    setOpenDialog,
+    setSnackBarText,
+    snackBarText,
+  } = React.useContext(AppContext);
+
+  
   const [error, setError] = React.useState(null);
  
 
@@ -34,21 +40,8 @@ export default function MenteesProfilePage() {
   const token = getToken();
   const navigate = useNavigate();
 
-  // ------- Transition for Delete Confirming Alert-------
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
-  const handleClose = (e) => {
-    setOpen(false);
-    setDisplay("none");
-  };
-
-  const handleOpen = (e) => {
-    setDisplay("block");
-    setOpen(!open);
-    // setOpen(prev => !prev );
-  };
+ 
+ 
 
   React.useEffect(() => {
     getMenteeData();
@@ -73,18 +66,23 @@ export default function MenteesProfilePage() {
       localStorage.removeItem("token");
       navigate("/");
       setOpenSnackBar(true);
-      
+      setSnackBarText('Your account hase been deleted!')
     } catch (error) {
       console.log("error deleting Mentees Account: ", error);
     }
   };
   // ------- Delete Mentees Account -------  ends //
 
-
+const handleSave=()=>{
+   navigate("/");
+   setOpenSnackBar(true);
+   setSnackBarText("Your account hase been deleted!");
+}
   console.log("menteesData: ", menteesData && menteesData);
 
   return (
     <>
+    <Button onClick={handleSave}>save</Button>
       {menteesData && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           <Typography variant="h5" component="h5" textAlign="center" mb={1}>
@@ -175,39 +173,7 @@ export default function MenteesProfilePage() {
                 Register Date: {formatDateDdMmYyyy(menteesData.createdAt)}
               </span>
             </Paper>
-            <Dialog
-              sx={{ display: { display } }}
-              open={open}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleClose}
-              aria-describedby="alert-delete-account"
-            >
-              <DialogTitle style={{ textAlign: "center" }}>
-                Are you sure you want to delete your account?
-              </DialogTitle>
 
-              <DialogActions style={{    justifyContent: 'space-evenly'}}>
-                <Button
-                  onClick={handleClose}
-                  // href="/mentees/profile"
-                  // type="submit"
-                  variant="contained"
-                  color="inherit"
-                  sx={{ mt: 3, mb: 2, width: "30px" }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={deleteMenteesAccount}
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  color="error"
-                >
-                  Save
-                </Button>
-              </DialogActions>
-            </Dialog>
             <Button
               href="/mentee/edit-mentee"
               className="edit-profile-btn"
@@ -218,7 +184,7 @@ export default function MenteesProfilePage() {
             </Button>
             <Button
               // onClick={deleteMenteesAccount}
-              onClick={handleOpen}
+              onClick={setOpenDialog}
               style={{ borderRadius: "50px" }}
               className="delete-profile-btn"
               variant="contained"
@@ -230,7 +196,8 @@ export default function MenteesProfilePage() {
           </Box>
         </Box>
       )}
-      <SnackbarMui text={"Editing succeed!"} />
+      <DialogAlert dangerFunction={deleteMenteesAccount} />
+      <SnackbarMui snackBarText={snackBarText} />
     </>
   );
 }

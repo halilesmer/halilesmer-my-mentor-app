@@ -23,9 +23,10 @@ const styleMentorMenteesBox = {
 };
 
 const Home = () => {
-  const { openSnackBar } = useContext(AppContext);
+  const { openSnackBar, snackBarText } = useContext(AppContext);
 
   console.log("openSnackBar: ", openSnackBar);
+      console.log("snackBarText: ", snackBarText);
 
   return (
     <div className="home">
@@ -41,9 +42,7 @@ const Home = () => {
         important to us. Our coaches are trained professionals ready to assist
         you in your growth.
       </Typography>
-
       {/* Click for Searching a Mentor */}
-
       <Typography
         style={styleMentorMenteesBox}
         className="mentor-mentee-con"
@@ -60,7 +59,6 @@ const Home = () => {
           More Info
         </Button>
       </Typography>
-
       {/* Click for Register as Mentor */}
       <Typography
         style={styleMentorMenteesBox}
@@ -82,8 +80,8 @@ const Home = () => {
       {/* 
       <Button onClick={handleSnackbarOpenClick}>Open</Button>
       <Button onClick={handleSnackBarClose}>Close</Button> */}
-
-      <SnackbarMui text={"You are logged out."} />
+      <SnackbarMui snackBarText={snackBarText} />
+      {/* <SnackbarMui text={"You are logged out."} /> */}
     </div>
   );
 };
