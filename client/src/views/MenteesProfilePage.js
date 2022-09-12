@@ -2,20 +2,53 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Paper,
+  Slide,
+  Typography,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
-import { useNavigate } from "react-router-dom";
 
 export default function MenteesProfilePage() {
-  const { menteesData, getMenteeData } = React.useContext(AppContext);
-
+  const { menteesData, getMenteeData, setOpenSnackBar } =
+    React.useContext(AppContext);
+  const [open, setOpen] = React.useState(false);
+  console.log("open: ", open);
+  const [display, setDisplay] = React.useState("block");
   const [error, setError] = React.useState(null);
+ 
+
+
   const token = getToken();
   const navigate = useNavigate();
-  
+
+  // ------- Transition for Delete Confirming Alert-------
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+  const handleClose = (e) => {
+    setOpen(false);
+    setDisplay("none");
+  };
+
+  const handleOpen = (e) => {
+    setDisplay("block");
+    setOpen(!open);
+    // setOpen(prev => !prev );
+  };
+
   React.useEffect(() => {
     getMenteeData();
   }, []);
@@ -28,7 +61,7 @@ export default function MenteesProfilePage() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ menteeId: menteesData.id }),
+      body: JSON.stringify({ menteeId: menteesData._id }),
     };
     try {
       const response = await fetch(
@@ -36,13 +69,17 @@ export default function MenteesProfilePage() {
         deleteOptions
       );
       console.log("response-deleteMenteesAccount: ", response);
+      localStorage.removeItem("token");
       navigate("/");
+      setOpenSnackBar(true);
+      
     } catch (error) {
       console.log("error deleting Mentees Account: ", error);
     }
   };
-
   // ------- Delete Mentees Account -------  ends //
+
+
 
   console.log("menteesData: ", menteesData && menteesData);
 
@@ -101,12 +138,11 @@ export default function MenteesProfilePage() {
 
             <Paper elevation={4}>
               <span>
-                Fee for one houer:{" "}
-                {menteesData.fee === 0 ? "Volunteer" : menteesData.fee + " €"}
+                Couching Medium:{" "}
+                {menteesData.couching_medium.map((item, i) => (
+                  <span key={i}>{item}, </span>
+                ))}
               </span>
-            </Paper>
-            <Paper elevation={4}>
-              <span>Couching Medium: {menteesData.couching_medium}</span>
             </Paper>
             <Paper elevation={4}>
               <span>
@@ -139,6 +175,56 @@ export default function MenteesProfilePage() {
                 Register Date: {formatDateDdMmYyyy(menteesData.createdAt)}
               </span>
             </Paper>
+            <Dialog
+              sx={{ display: { display } }}
+              open={open}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogTitle>{"You are not logged in."}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  You need to be a member to see the detailed information of the
+                  mentors and to write a comment. <br />
+                  <br />
+                  If you are not yet a member, we would be very glad to have you
+                  as a member.
+                  <br />
+                </DialogContentText>
+                <br />
+
+                <br />
+                <br />
+                <DialogContentText className="redirection-txt">
+                  <Link to="/mentees/signin">
+                    <i> Already have an account? Sign in</i>
+                  </Link>
+                </DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+                <Button
+                  onClick={handleClose}
+                  // href="/mentees/profile"
+                  // type="submit"
+                  variant="contained"
+                  color="inherit"
+                  sx={{ mt: 3, mb: 2, width: "30px" }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={deleteMenteesAccount}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  color="error"
+                >
+                  Save
+                </Button>
+              </DialogActions>
+            </Dialog>
             <Button
               href="/mentee/edit-mentee"
               className="edit-profile-btn"
@@ -148,7 +234,8 @@ export default function MenteesProfilePage() {
               Edit
             </Button>
             <Button
-              onClick={deleteMenteesAccount}
+              // onClick={deleteMenteesAccount}
+              onClick={handleOpen}
               style={{ borderRadius: "50px" }}
               className="delete-profile-btn"
               variant="contained"
@@ -163,14 +250,3 @@ export default function MenteesProfilePage() {
     </>
   );
 }
-
-/*  {menteesData &&
-          menteesData.map((user) => {
-            return (
-              <Paper elevation={4}>
-                <span>
-                  {user.last_name}
-                </span>
-              </Paper>
-            );
-          })} */

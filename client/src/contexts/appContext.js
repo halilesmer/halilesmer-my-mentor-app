@@ -29,6 +29,9 @@ const AppProvider = (props) => {
   const onBlur = () => setFocused(false);
   const token = localStorage.getItem("token");
   const [likes, setLikes] = useState(null);
+   const [openSnackBar, setOpenSnackBar] = useState(false);
+
+
 
   // -------- Check is User logged in starts ----------
   useEffect(() => {
@@ -82,7 +85,7 @@ const AppProvider = (props) => {
         const result = await response.json();
         setMenteesData(result);
         setUserType(result.user_type);
-        console.log("result: ", result);
+        console.log("result, getMenteeData: ", result);
         setLoader(false);
       } catch (error) {
         console.log("error getting prifile data: ", error);
@@ -131,7 +134,7 @@ const AppProvider = (props) => {
         const result = await response.json();
         setMentorsProfile(result);
         setUserType(result.user_type);
-        console.log("result: ", result);
+        console.log("result, getMentorsProfile:", result);
         setLoader(false);
       } catch (error) {
         setError(true);
@@ -215,8 +218,8 @@ setLoader(false);
   // ------- Get All Comments -------- ends --
 
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
-  // console.log("likes", likes);
-  console.log("decodedToken: ", decodedToken);
+  // console.log("mentorsProfile", mentorsProfile);
+  // console.log("decodedToken: ", decodedToken);
   // console.log("menteesData", menteesData && menteesData);
   // console.log('token', token)
   // console.log('allMentorsData,',allMentorsData,)
@@ -247,6 +250,8 @@ setLoader(false);
         loader,
         setLoader,
         globalToken,
+        openSnackBar,
+        setOpenSnackBar,
       }}
     >
       {props.children}

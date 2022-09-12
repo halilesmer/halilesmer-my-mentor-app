@@ -3,7 +3,6 @@ import "./MentorsCard.css";
 import { IconButton, Paper } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
-import AlertDialogSlide from "./AlertDialogSlide";
 import { AppContext } from "../contexts/appContext";
 import { Box } from "@mui/system";
 import Button from "@mui/material/Button";
@@ -22,21 +21,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
-
 const MentorsCard = ({ mentor }) => {
-  const {
-    handlePostLikeClick,
+  const { handlePostLikeClick, menteesData, decodedToken, getMenteeData } =
+    useContext(AppContext);
 
-    menteesData,
-    decodedToken,
-    getMenteeData,
-  } = useContext(AppContext);
-  
   const [likedIconColor, setLikedIconColor] = useState(null);
 
-
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,8 +37,6 @@ const MentorsCard = ({ mentor }) => {
     setOpen(false);
   };
 
-
-  
   // --------- Get mentees data --------- starts //
   useEffect(() => {
     getMenteeData();
@@ -73,9 +62,7 @@ const MentorsCard = ({ mentor }) => {
         <div
           className="mentor-cards-header"
           style={{ width: "100%", height: "10px" }}
-        >
-          
-        </div>
+        ></div>
 
         <Link
           onClick={!decodedToken ? handleClickOpen : null}
@@ -132,22 +119,22 @@ const MentorsCard = ({ mentor }) => {
             </Paper>
           </Box>
         </Link>
-          <div className="mentor-cards-footer" style={{ width: "100%" }}>
-            <div className="mentor-cards-like-con">
-              {decodedToken && decodedToken.role === "mentee" && (
-                <IconButton
-                  aria-label="Like Button"
-                  onClick={() => handlePostLikeClick(mentor._id)}
-                >
-                  {likedIconColor ? (
-                    <ThumbUpAltIcon fontSize="small" />
-                  ) : (
-                    <ThumbUpOffAltIcon fontSize="small" />
-                  )}
-                </IconButton>
-              )}
-            </div>
+        <div className="mentor-cards-footer" style={{ width: "100%" }}>
+          <div className="mentor-cards-like-con">
+            {decodedToken && decodedToken.role === "mentee" && (
+              <IconButton
+                aria-label="Like Button"
+                onClick={() => handlePostLikeClick(mentor._id)}
+              >
+                {likedIconColor ? (
+                  <ThumbUpAltIcon fontSize="small" />
+                ) : (
+                  <ThumbUpOffAltIcon fontSize="small" />
+                )}
+              </IconButton>
+            )}
           </div>
+        </div>
       </Paper>
       <Dialog
         open={open}
@@ -174,7 +161,6 @@ const MentorsCard = ({ mentor }) => {
             <Link to="/mentees/signin">
               <i> Already have an account? Sign in</i>
             </Link>
-            .
           </DialogContentText>
         </DialogContent>
         <DialogActions>

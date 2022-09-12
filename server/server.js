@@ -30,22 +30,22 @@ const addMiddelWare = () => {
   passportConfig(passport);
 
   // Vercel
-app.use(express.static(path.join("./client/build")));
+// app.use(express.static(path.join("./client/build")));
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
 };
 
 // Vercel
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "./client/build/index.html"),
-    function (err) {
-      if (err) {
-        res.status(500).send(err);
-      }
-    }
-  );
-});
+// app.get("*", function (_, res) {
+//   res.sendFile(
+//     path.join(__dirname, "./client/build/index.html"),
+//     function (err) {
+//       if (err) {
+//         res.status(500).send(err);
+//       }
+//     }
+//   );
+// });
 
 const startServer = () => {
   app.listen(port, (req, res) => {

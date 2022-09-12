@@ -191,10 +191,8 @@ const Mentors = () => {
                     <em>All</em>
                   </MenuItem>
                   <MenuItem value="0">Volunteer</MenuItem>{" "}
-                  {/* <MenuItem value={"0"}>Volunteer</MenuItem> */}
-                  {/* <MenuItem value={"Volunteer"}>Volunteer</MenuItem> */}
+                 
                   <MenuItem value={Number.parseInt("1", 10)}>Fee</MenuItem>{" "}
-                  {/* <MenuItem value={"1"}>Fee</MenuItem> */}
                 </Select>
               </FormControl>
             </div>
