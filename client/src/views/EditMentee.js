@@ -25,12 +25,12 @@ import Button from "@mui/material/Button";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
-import CloseIcon from "@mui/icons-material/Close";
 import CssBaseline from "@mui/material/CssBaseline";
 import ErrorPage from "./ErrorPage";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import SnackbarMui from "../components/SnackbarMui";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
@@ -43,7 +43,8 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 
 export default function EditMentee() {
-  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
+  const { handlePwInputFocus, onBlur, openSnackBar, setOpenSnackBar } =
+    React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
   const [preview, setPreview] = React.useState();
 
@@ -65,40 +66,13 @@ export default function EditMentee() {
 
   // const [editedUserData, setEditedUserData] = React.useState({});
 
-  const [open, setOpen] = React.useState(false);
-  const [snackBarAlert, setSnackBarAlert] = React.useState("");
+  
   const [spinner, setSpinner] = React.useState(true);
   const token = getToken();
   const navigate = useNavigate();
   const inputFile = React.useRef();
 
-  // -------- Handle  Close   -------
-  const handleSnackbarClick = () => {
-    setOpen(true);
-  };
-
-  const handleSnackBarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleSnackBarClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleSnackBarClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
+ 
 
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
@@ -293,6 +267,8 @@ export default function EditMentee() {
         const results = await response.json();
         console.log("results- handleEditSubmit: ", results);
         navigate("/mentees/profile");
+        setOpenSnackBar(true);
+
       } catch (error) {
         console.log("error Submit edited mentee", error.msg);
       }
@@ -335,6 +311,7 @@ export default function EditMentee() {
         };
         // setMtrsCurrData(profileData);
         setEditedUserData(profileData);
+        console.log("Getting prifile data succeed: ", error);
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }
@@ -348,8 +325,8 @@ export default function EditMentee() {
   // ------ Get profile data  ----------- ends--
 
 
-  console.log("selectedImage :>> ", selectedImage);
-  console.log("editedUserData", editedUserData);
+  // console.log("selectedImage :>> ", selectedImage);
+  // console.log("editedUserData", editedUserData);
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
 
@@ -383,33 +360,6 @@ export default function EditMentee() {
             <Typography component="h1" variant="h5">
               Mentee
             </Typography>
-            <Snackbar
-              open={open}
-              autoHideDuration={6000}
-              onClose={handleSnackBarClose}
-              message="Note archived"
-              action={action}
-              style={{
-                width: "fitContent",
-                height: "5rem",
-                maxWidth: "70%",
-                bottom: "45vh",
-                margin: "auto",
-                left: "unset",
-                right: "unset",
-                border: "dotted red 2px",
-                borderRadius: "5px",
-                background: "rgb(255, 244, 229)",
-              }}
-            >
-              <Alert
-                onClose={handleSnackBarClose}
-                severity="warning"
-                sx={{ width: "100%" }}
-              >
-                {snackBarAlert}
-              </Alert>
-            </Snackbar>
             <Box
               component="form"
               noValidate

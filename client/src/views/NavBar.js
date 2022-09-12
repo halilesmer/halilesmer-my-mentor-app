@@ -70,8 +70,8 @@ export default function NavBar() {
   // console.log("userType: ", userType);
   // console.log("token: ", token);
   // console.log("decodedToken: ", decodedToken);
-  console.log("decodedToken: ", decodedToken);
-  console.log("isUserLoggedIn: ", isUserLoggedIn);
+  // console.log("decodedToken: ", decodedToken);
+  // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("drawerKey: ", drawerKey);
   return (
     <Box

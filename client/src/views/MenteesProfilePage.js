@@ -17,6 +17,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
+import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 
@@ -78,7 +79,6 @@ export default function MenteesProfilePage() {
     }
   };
   // ------- Delete Mentees Account -------  ends //
-
 
 
   console.log("menteesData: ", menteesData && menteesData);
@@ -181,30 +181,13 @@ export default function MenteesProfilePage() {
               TransitionComponent={Transition}
               keepMounted
               onClose={handleClose}
-              aria-describedby="alert-dialog-slide-description"
+              aria-describedby="alert-delete-account"
             >
-              <DialogTitle>{"You are not logged in."}</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
-                  You need to be a member to see the detailed information of the
-                  mentors and to write a comment. <br />
-                  <br />
-                  If you are not yet a member, we would be very glad to have you
-                  as a member.
-                  <br />
-                </DialogContentText>
-                <br />
+              <DialogTitle style={{ textAlign: "center" }}>
+                Are you sure you want to delete your account?
+              </DialogTitle>
 
-                <br />
-                <br />
-                <DialogContentText className="redirection-txt">
-                  <Link to="/mentees/signin">
-                    <i> Already have an account? Sign in</i>
-                  </Link>
-                </DialogContentText>
-              </DialogContent>
-
-              <DialogActions>
+              <DialogActions style={{    justifyContent: 'space-evenly'}}>
                 <Button
                   onClick={handleClose}
                   // href="/mentees/profile"
@@ -247,6 +230,7 @@ export default function MenteesProfilePage() {
           </Box>
         </Box>
       )}
+      <SnackbarMui text={"Editing succeed!"} />
     </>
   );
 }

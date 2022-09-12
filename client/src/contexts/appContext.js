@@ -16,10 +16,9 @@ const AppProvider = (props) => {
   const [decodedToken, setDecodedToken] = useState("");
   const [allComments, setAllComments] = useState(null);
   const [allMentorsData, setAllMentorsData] = useState(null);
-    const [loader, setLoader] = useState(false);
-    const [globalToken, setGlobalToken] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [globalToken, setGlobalToken] = useState(false);
 
-    
   const [url, setUrl] = useState("");
   const [focused, setFocused] = useState(false);
 
@@ -29,9 +28,7 @@ const AppProvider = (props) => {
   const onBlur = () => setFocused(false);
   const token = localStorage.getItem("token");
   const [likes, setLikes] = useState(null);
-   const [openSnackBar, setOpenSnackBar] = useState(false);
-
-
+  const [openSnackBar, setOpenSnackBar] = useState(false);
 
   // -------- Check is User logged in starts ----------
   useEffect(() => {
@@ -58,7 +55,7 @@ const AppProvider = (props) => {
 
   // -------- Log out in starts ----------
   const handleLogoutClick = () => {
-    console.log('Logout func');
+    console.log("Logout func");
     localStorage.removeItem("token");
     setIsUserLoggedIn(false);
     setUserType("");
@@ -113,7 +110,7 @@ const AppProvider = (props) => {
       setLoader(false);
     }
   };
-  
+
   // ------ Get Mentor Data -------- starts ---
   const getMentorsProfile = async () => {
     // setLoader(true);
@@ -168,11 +165,11 @@ const AppProvider = (props) => {
       setMenteesData(result.mentee);
 
       console.log("result likes: ", result);
-setLoader(false);
+      setLoader(false);
     } catch (error) {
       console.log("error like mentor: ", error);
-    setLoader(false);
-  }
+      setLoader(false);
+    }
   };
   // ------- like a mentor -------- ends --
 
@@ -196,24 +193,23 @@ setLoader(false);
         const result = await response.json();
         console.log("All Comments: ", result);
         setAllComments(result);
-    setLoader(false);
+        setLoader(false);
       } catch (error) {
         console.log("error getting all comments: ", error);
-    setLoader(false);
+        setLoader(false);
       }
     }
   };
-  
-  useEffect(() => {
-    if(token){
 
-    let didCancel = false;
-    if (!didCancel) {
-      // getAllComments();
-      // getAllMentorsData();
+  useEffect(() => {
+    if (token) {
+      let didCancel = false;
+      if (!didCancel) {
+        // getAllComments();
+        // getAllMentorsData();
+      }
+      return () => (didCancel = true);
     }
-    return () => (didCancel = true);
-  }
   }, []);
   // ------- Get All Comments -------- ends --
 
@@ -222,6 +218,7 @@ setLoader(false);
   // console.log("decodedToken: ", decodedToken);
   // console.log("menteesData", menteesData && menteesData);
   // console.log('token', token)
+  console.log("openSnackBar: ", openSnackBar);
   // console.log('allMentorsData,',allMentorsData,)
   return (
     <AppContext.Provider
