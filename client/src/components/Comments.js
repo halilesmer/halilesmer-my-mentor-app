@@ -32,6 +32,7 @@ const Comments = (mentorsId) => {
 
   useEffect(() => {
     getMenteeData();
+    // eslint-disable-next-line
   }, []);
   // ------- Sending comments by pressing 'Enter' button ------- //
   const onKeyUp = (e) => {
@@ -105,6 +106,7 @@ const Comments = (mentorsId) => {
   };
   useEffect(() => {
     getSpecificMentorsComments();
+    // eslint-disable-next-line
   }, []);
   // ------- Get all comments from one specific mentor ------- ends //
 

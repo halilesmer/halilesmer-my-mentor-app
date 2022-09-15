@@ -21,28 +21,11 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
-// function Copyright(props) {
-//   return (
-//     <Typography
-//       variant="body2"
-//       color="text.secondary"
-//       align="center"
-//       {...props}
-//     >
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
-
 const theme = createTheme();
 export default function SignInMenteePage() {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [dialogText, setDialogText] = React.useState("");
 
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
@@ -79,6 +62,7 @@ export default function SignInMenteePage() {
       // ---- dialog alert if no user ---- starts //
       if (result.msg === "User not found.") {
         setOpenDialog(true);
+        setDialogText("User not found. Please try again.");
       }
       // ---- dialog alert if no user ---- ends //
 
@@ -201,7 +185,7 @@ export default function SignInMenteePage() {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            You are not logged in. Please login and try again.
+            {dialogText}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

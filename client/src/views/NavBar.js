@@ -13,7 +13,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { AppContext } from "../contexts/appContext";
@@ -23,7 +23,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
-import { getToken } from "../utils/getToken";
 import jwt_decode from "jwt-decode";
 
 // import { signOut } from "firebase/auth";
@@ -46,6 +45,7 @@ export default function NavBar() {
     } else {
       setDecodedToken("");
     }
+    // eslint-disable-next-line
   }, []);
 
   const handleMenu = (event) => {
@@ -119,12 +119,14 @@ export default function NavBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleMenu}
-          // the profile photos color changed regarding of users type
+              // the profile photos color changed regarding of users type
               style={{
                 color: `${
-                  decodedToken && decodedToken.role === "mentee" ? "#2fd373"
-                    : decodedToken.role === 'mentor' ? "orange"
-                    : 'black'
+                  decodedToken && decodedToken.role === "mentee"
+                    ? "#2fd373"
+                    : decodedToken.role === "mentor"
+                    ? "orange"
+                    : "black"
                 }`,
               }}
               // style={{ color: {decodedToken ? "#2fd373" : 'orange'} }}

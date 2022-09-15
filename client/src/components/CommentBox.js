@@ -1,5 +1,5 @@
 import { Box, IconButton, Paper } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { AppContext } from "../contexts/appContext";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -53,7 +53,7 @@ const CommentBox = ({
           <p>{comment?.commentText}</p>
         </div>
         {decodedToken.role === "mentee" &&
-          (comment.menteeId === decodedToken.sub) && (
+          comment.menteeId === decodedToken.sub && (
             <div className="comments-cards-footer">
               <IconButton onClick={() => handleDeleteOneComment(comment)}>
                 <DeleteIcon size="small" className="deleteIcon" />

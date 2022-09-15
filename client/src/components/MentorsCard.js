@@ -40,6 +40,7 @@ const MentorsCard = ({ mentor }) => {
   // --------- Get mentees data --------- starts //
   useEffect(() => {
     getMenteeData();
+     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const MentorsCard = ({ mentor }) => {
       menteesData.likes.filter(
         (id) => id.includes(mentor._id) && setLikedIconColor(true)
       );
+       // eslint-disable-next-line
   }, [menteesData]);
   // --------- Get mentees data --------- ends //
 

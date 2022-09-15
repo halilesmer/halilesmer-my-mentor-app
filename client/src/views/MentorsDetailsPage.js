@@ -47,6 +47,7 @@ export default function MentorsDetailsPage() {
   };
   React.useEffect(() => {
     getMentorsProfile();
+    // eslint-disable-next-line
   }, []);
 
   // console.log("mentor: ", mentor && mentor.mentor.first_name);

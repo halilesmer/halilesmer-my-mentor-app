@@ -87,8 +87,8 @@ const Mentors = () => {
       getAllMentorsData && getAllMentorsData();
       allMentorsData && setFilteredMentors(allMentorsData);
     }
-    // console.log("allMentorsData: ", allMentorsData && allMentorsData);
     return () => (didCancel = true);
+    // eslint-disable-next-line
   }, []);
 
   // ------- Apply Filter  ------- starts//

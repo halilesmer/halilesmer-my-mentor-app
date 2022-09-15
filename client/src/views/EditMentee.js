@@ -116,6 +116,7 @@ export default function EditMentee() {
 
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, couching_medium: couchingMedium });
+    // eslint-disable-next-line
   }, [couchingMedium]);
   // ---- Handle Couching Medium  / ends -------
 
@@ -148,6 +149,7 @@ export default function EditMentee() {
   
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, skills: selectedSkills });
+    // eslint-disable-next-line
   }, []);
   // ---- Handle Skills  ends -------
   
@@ -317,9 +319,8 @@ export default function EditMentee() {
     }
   };
   React.useEffect(() => {
-    //  getMenteeData();
     getMenteesProfile();
-    // setEditedUserData(menteesData && menteesData);
+    // eslint-disable-next-line
   }, []);
   // ------ Get profile data  ----------- ends--
 

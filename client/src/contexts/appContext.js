@@ -17,11 +17,11 @@ const AppProvider = (props) => {
   const [allComments, setAllComments] = useState(null);
   const [allMentorsData, setAllMentorsData] = useState(null);
   const [loader, setLoader] = useState(false);
-  const [globalToken, setGlobalToken] = useState(false);
+  const [globalToken] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-      const [snackBarText, setSnackBarText] = useState("");
+  const [snackBarText, setSnackBarText] = useState("");
 
-  const [url, setUrl] = useState("");
+  const [url] = useState("");
   const [focused, setFocused] = useState(false);
 
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AppProvider = (props) => {
   const handlePwInputFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
   const token = localStorage.getItem("token");
-  const [likes, setLikes] = useState(null);
+  const [likes] = useState(null);
   const [openSnackBar, setOpenSnackBar] = useState(false);
 
   // -------- Check is User logged in starts ----------
@@ -40,6 +40,7 @@ const AppProvider = (props) => {
     } else {
       setDecodedToken("");
     }
+    // eslint-disable-next-line
   }, []);
 
   // -------- Check is User logged in starts ----------
@@ -52,6 +53,7 @@ const AppProvider = (props) => {
   };
   useEffect(() => {
     isUsrLoggIn();
+    // eslint-disable-next-line
   }, [isUserLoggedIn]);
   // -------- Check is User logged in ends ----------
 
@@ -212,6 +214,7 @@ const AppProvider = (props) => {
       }
       return () => (didCancel = true);
     }
+    // eslint-disable-next-line
   }, []);
   // ------- Get All Comments -------- ends --
 

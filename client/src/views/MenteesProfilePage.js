@@ -45,6 +45,7 @@ export default function MenteesProfilePage() {
 
   React.useEffect(() => {
     getMenteeData();
+    // eslint-disable-next-line
   }, []);
 
   // ------- Delete Mentees Account ------- starts //

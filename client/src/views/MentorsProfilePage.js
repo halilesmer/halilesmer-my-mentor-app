@@ -2,7 +2,7 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext.js";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
@@ -13,21 +13,20 @@ export default function MentorsProfilePage() {
   const {
     mentorsProfile,
     getMentorsProfile,
-    allMentorsData,
-    getAllMentorsData,
   } = React.useContext(AppContext);
   const token = getToken();
   const navigate = useNavigate();
 
  
   React.useEffect(() => {
-    console.log('useEffect-MentorsProfilePage');
+    console.log("useEffect-MentorsProfilePage");
     let didCancel = false;
     if (!didCancel) {
       getMentorsProfile();
       // getAllMentorsData && getAllMentorsData();
     }
     return () => (didCancel = true);
+    // eslint-disable-next-line
   }, []);
   // ------- Delete Mentors Account ------- starts //
   const deleteMentorsAccount = async (commentId) => {

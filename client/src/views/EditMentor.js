@@ -154,6 +154,7 @@ export default function EditMentor() {
 
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, couching_medium: couchingMedium });
+    // eslint-disable-next-line
   }, [couchingMedium]);
   // ---- Handle Couching Medium  / ends -------
 
@@ -186,6 +187,7 @@ export default function EditMentor() {
 
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, skills: selectedSkills });
+    // eslint-disable-next-line
   }, [selectedSkills]);
   // ---- Handle Skills  ends -------
 
@@ -345,6 +347,7 @@ export default function EditMentor() {
   };
   React.useEffect(() => {
     getMentorsProfile();
+    // eslint-disable-next-line
   }, []);
   // ------ Get profile data  ----------- ends--
 
