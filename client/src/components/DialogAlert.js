@@ -15,31 +15,27 @@ import React, { useContext } from "react";
 import { AppContext } from "../contexts/appContext";
 
 const DialogAlert = ({ dangerFunction }) => {
-  const { openDialog, setOpenDialog } = useContext(AppContext);
+  const { openDialog, setOpenDialog, handleOpenDialog, testOpen } =
+    useContext(AppContext);
 
   const [display, setDisplay] = React.useState("block");
-  console.log("openDialog: ", openDialog);
 
   // ------- Transition for Delete Confirming Alert-------
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
 
   const handleClose = (e) => {
     setOpenDialog(false);
-    setDisplay("none");
   };
 
-//   const handleOpen = (e) => {
-//     setDisplay("block");
-//     setOpenDialog(!openDialog);
-//     // setOpenDialog(prev => !prev );
-//   };
+  console.log("openDialog: ", openDialog);
+
   return (
     <Dialog
       sx={{ display: { display } }}
       open={openDialog}
-      TransitionComponent={Transition}
+      // TransitionComponent={Transition}
       keepMounted
       onClose={handleClose}
       aria-describedby="alert-delete-account"

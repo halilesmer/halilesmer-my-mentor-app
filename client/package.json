@@ -1,6 +1,7 @@
 {
+  "homepage": "https://my-it-mentor",
+  "version": "1.0.0",
   "name": "my-mentor",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",

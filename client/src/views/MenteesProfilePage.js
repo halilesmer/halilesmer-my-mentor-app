@@ -2,46 +2,28 @@ import "./MentorsProfilePage.css";
 
 import * as React from "react";
 
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Paper,
-  Slide,
-  Typography,
-} from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Button, Paper, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext";
 import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
+import { useNavigate } from "react-router-dom";
 
 export default function MenteesProfilePage() {
   const {
     menteesData,
     getMenteeData,
     setOpenSnackBar,
-    setOpenDialog,
     setSnackBarText,
     snackBarText,
+    handleOpenDialog,
   } = React.useContext(AppContext);
 
-  
   const [error, setError] = React.useState(null);
- 
-
-
   const token = getToken();
   const navigate = useNavigate();
-
- 
- 
 
   React.useEffect(() => {
     getMenteeData();
@@ -67,23 +49,16 @@ export default function MenteesProfilePage() {
       localStorage.removeItem("token");
       navigate("/");
       setOpenSnackBar(true);
-      setSnackBarText('Your account hase been deleted!')
+      setSnackBarText("Your account hase been deleted!");
     } catch (error) {
       console.log("error deleting Mentees Account: ", error);
     }
   };
   // ------- Delete Mentees Account -------  ends //
 
-const handleSave=()=>{
-   navigate("/");
-   setOpenSnackBar(true);
-   setSnackBarText("Your account hase been deleted!");
-}
-  console.log("menteesData: ", menteesData && menteesData);
-
+  // console.log("menteesData: ", menteesData && menteesData);
   return (
     <>
-    <Button onClick={handleSave}>save</Button>
       {menteesData && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           <Typography variant="h5" component="h5" textAlign="center" mb={1}>
@@ -184,13 +159,11 @@ const handleSave=()=>{
               Edit
             </Button>
             <Button
-              // onClick={deleteMenteesAccount}
-              onClick={setOpenDialog}
+              onClick={handleOpenDialog}
               style={{ borderRadius: "50px" }}
               className="delete-profile-btn"
               variant="contained"
               color="error"
-              fullWidth
             >
               Delete Account
             </Button>

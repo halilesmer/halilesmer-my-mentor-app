@@ -218,6 +218,9 @@ const AppProvider = (props) => {
   }, []);
   // ------- Get All Comments -------- ends --
 
+  const handleOpenDialog=()=>{
+ setOpenDialog(true);
+  }
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("mentorsProfile", mentorsProfile);
   // console.log("decodedToken: ", decodedToken);
@@ -258,6 +261,7 @@ const AppProvider = (props) => {
         setOpenDialog,
         snackBarText,
         setSnackBarText,
+        handleOpenDialog,
       }}
     >
       {props.children}
