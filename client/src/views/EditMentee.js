@@ -43,16 +43,11 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentee() {
   const {
-    handlePwInputFocus,
-    onBlur,
-    openSnackBar,
     setOpenSnackBar,
-    dialogTxt1,
     setDialogTxt1,
     setSnackBarText,
   } = React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
-  const [preview, setPreview] = React.useState();
 
   const [error, setError] = React.useState(null);
 
@@ -164,7 +159,7 @@ export default function EditMentee() {
     }
   };
 
-  // ---- Hndle Avatar Picture ---- starts ----
+  // ---- Handle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     const avatarPicture =
       "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";

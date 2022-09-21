@@ -44,7 +44,12 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentor() {
-  const [mtrsCurrData, setMtrsCurrData] = React.useState({});
+  const {
+    setOpenSnackBar,
+    setDialogTxt1,
+    setSnackBarText,
+  } = React.useContext(AppContext);
+
   const [editedUserData, setEditedUserData] = React.useState({});
 
   const [error, setError] = React.useState(null);
@@ -235,6 +240,7 @@ export default function EditMentor() {
   // ---- Send Form Handle ------
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    setDialogTxt1("");
 
     /* ---- Email Check ---- starts*/
     let re =
@@ -279,27 +285,36 @@ export default function EditMentor() {
     }
     /* ---- Password Check ---- ends*/
 
-    let requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(editedUserData),
-    };
+    const img = await handleSubmitPictureClick();
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentors/editmentor",
-        requestOptions
-      );
-      const results = await response.json();
+    if (img) {
+      const userData = {
+        ...editedUserData,
+        avatar_picture: img,
+      };
+      let requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+        // body: JSON.stringify(editedUserData),
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/mentors/editmentor",
+          requestOptions
+        );
+        const results = await response.json();
         console.log("results- handleEditSubmit: ", results);
-      navigate("/mentors/profile");
-    } catch (error) {
+        navigate("/mentors/profile");
+      } catch (error) {
         console.log("error Submit edited mentor", error.msg);
+      }
     }
-  };
+  }
 
   // ------ Get profile data  ----------- starts--
   const getMentorsProfile = async () => {
@@ -336,10 +351,8 @@ export default function EditMentor() {
           register_Date: result.register_Date,
           avatar_picture: result.avatar_picture,
         };
-        setMtrsCurrData(profileData);
         setEditedUserData(profileData);
 
-        // setMtrsCurrData(result)
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }
