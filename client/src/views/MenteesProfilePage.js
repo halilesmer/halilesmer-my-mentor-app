@@ -19,6 +19,7 @@ export default function MenteesProfilePage() {
     setSnackBarText,
     snackBarText,
     handleOpenDialog,
+    setDialogTxt1,
   } = React.useContext(AppContext);
 
   const [error, setError] = React.useState(null);
@@ -56,6 +57,9 @@ export default function MenteesProfilePage() {
   };
   // ------- Delete Mentees Account -------  ends //
 
+  const handleDeleteClick=()=>{
+    handleOpenDialog();
+setDialogTxt1("Are you sure you want to delete your account?");  }
   // console.log("menteesData: ", menteesData && menteesData);
   return (
     <>
@@ -159,7 +163,7 @@ export default function MenteesProfilePage() {
               Edit
             </Button>
             <Button
-              onClick={handleOpenDialog}
+              onClick={handleDeleteClick}
               style={{ borderRadius: "50px" }}
               className="delete-profile-btn"
               variant="contained"

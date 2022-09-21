@@ -31,6 +31,7 @@ const AppProvider = (props) => {
   const token = localStorage.getItem("token");
   const [likes] = useState(null);
   const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [dialogTxt1, setDialogTxt1] = useState("second");
 
   // -------- Check is User logged in starts ----------
   useEffect(() => {
@@ -262,6 +263,8 @@ const AppProvider = (props) => {
         snackBarText,
         setSnackBarText,
         handleOpenDialog,
+        setDialogTxt1,
+        dialogTxt1
       }}
     >
       {props.children}

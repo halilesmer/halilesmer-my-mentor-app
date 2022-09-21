@@ -47,7 +47,7 @@ const SnackbarMui = () => {
   return (
     <Snackbar
       open={openSnackBar}
-      autoHideDuration={2000}
+      autoHideDuration={3000}
       onClose={() => handleSnackBarClose()}
       message="Note archived"
       // action={ action}

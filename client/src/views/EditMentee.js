@@ -41,10 +41,16 @@ const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
 export default function EditMentee() {
-  const { handlePwInputFocus, onBlur, openSnackBar, setOpenSnackBar } =
-    React.useContext(AppContext);
+  const {
+    handlePwInputFocus,
+    onBlur,
+    openSnackBar,
+    setOpenSnackBar,
+    dialogTxt1,
+    setDialogTxt1,
+    setSnackBarText,
+  } = React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
   const [preview, setPreview] = React.useState();
 
@@ -66,13 +72,10 @@ export default function EditMentee() {
 
   // const [editedUserData, setEditedUserData] = React.useState({});
 
-  
   const [spinner, setSpinner] = React.useState(true);
   const token = getToken();
   const navigate = useNavigate();
   const inputFile = React.useRef();
-
- 
 
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
@@ -138,21 +141,21 @@ export default function EditMentee() {
       setTypedSkill("");
     }
   };
-  
+
   const handleSkillsEnter = (e) => {
     e.preventDefault();
-    
+
     if (e.key === "Enter" && typedSkill) {
       handleSkillsClick(typedSkill);
     }
   };
-  
+
   React.useEffect(() => {
     setEditedUserData({ ...editedUserData, skills: selectedSkills });
     // eslint-disable-next-line
   }, []);
   // ---- Handle Skills  ends -------
-  
+
   console.log("selectedSkills: ", selectedSkills);
   // ----   Handle ------
   const handleSelectFileChange = (e) => {
@@ -163,7 +166,6 @@ export default function EditMentee() {
 
   // ---- Hndle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
-   
     const avatarPicture =
       "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
     if (!selectedImage) {
@@ -202,6 +204,7 @@ export default function EditMentee() {
   // ---- Send Form Handle ------
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    setDialogTxt1("");
     /* ---- Email Check ---- starts*/
     let re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -270,6 +273,7 @@ export default function EditMentee() {
         console.log("results- handleEditSubmit: ", results);
         navigate("/mentees/profile");
         setOpenSnackBar(true);
+        setSnackBarText("Your changes have been saved");
       } catch (error) {
         console.log("error Submit edited mentee", error.msg);
       }
@@ -323,7 +327,6 @@ export default function EditMentee() {
     // eslint-disable-next-line
   }, []);
   // ------ Get profile data  ----------- ends--
-
 
   // console.log("selectedImage :>> ", selectedImage);
   // console.log("editedUserData", editedUserData);
