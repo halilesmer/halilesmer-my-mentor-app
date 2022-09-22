@@ -57,9 +57,10 @@ export default function MenteesProfilePage() {
   };
   // ------- Delete Mentees Account -------  ends //
 
-  const handleDeleteClick=()=>{
+  const handleDeleteClick = () => {
     handleOpenDialog();
-setDialogTxt1("Are you sure you want to delete your account?");  }
+    setDialogTxt1("Are you sure you want to delete your account?");
+  };
   // console.log("menteesData: ", menteesData && menteesData);
   return (
     <>

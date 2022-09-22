@@ -6,17 +6,24 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext.js";
 import DialogAlert from "../components/DialogAlert";
+import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
 import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {
-  const { mentorsProfile, getMentorsProfile, handleOpenDialog, setDialogTxt1 } =
-    React.useContext(AppContext);
+  const {
+    mentorsProfile,
+    getMentorsProfile,
+    handleOpenDialog,
+    setDialogTxt1,
+    setOpenSnackBar,
+    snackBarText,
+    setSnackBarText,
+  } = React.useContext(AppContext);
   const token = getToken();
   const navigate = useNavigate();
 
- 
   React.useEffect(() => {
     console.log("useEffect-MentorsProfilePage");
     let didCancel = false;
@@ -42,6 +49,9 @@ export default function MentorsProfilePage() {
         "http://localhost:5001/api/mentors/delete-account/",
         deleteOptions
       );
+      localStorage.removeItem("token");
+      setOpenSnackBar(true);
+      setSnackBarText("Your account hase been deleted!");
       console.log("response-deleteMenteesAccount: ", response);
       navigate("/");
     } catch (error) {
@@ -51,11 +61,11 @@ export default function MentorsProfilePage() {
 
   // ------- Delete Mentors Account -------  ends //
 
-   const handleDeleteClick = () => {
-     handleOpenDialog();
-     setDialogTxt1("Are you sure you want to delete your account?");
-   };
-  
+  const handleDeleteClick = () => {
+    handleOpenDialog();
+    setDialogTxt1("Are you sure you want to delete your account?");
+  };
+
   console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
 
   return (
@@ -226,7 +236,7 @@ export default function MentorsProfilePage() {
         </Box>
       )}
       <DialogAlert dangerFunction={deleteMentorsAccount} />
+      <SnackbarMui snackBarText={snackBarText} />
     </>
   );
 }
-
