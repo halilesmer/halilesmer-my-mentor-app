@@ -5,15 +5,14 @@ import * as React from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext.js";
+import DialogAlert from "../components/DialogAlert";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
 import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {
-  const {
-    mentorsProfile,
-    getMentorsProfile,
-  } = React.useContext(AppContext);
+  const { mentorsProfile, getMentorsProfile, handleOpenDialog, setDialogTxt1 } =
+    React.useContext(AppContext);
   const token = getToken();
   const navigate = useNavigate();
 
@@ -52,7 +51,10 @@ export default function MentorsProfilePage() {
 
   // ------- Delete Mentors Account -------  ends //
 
-  
+   const handleDeleteClick = () => {
+     handleOpenDialog();
+     setDialogTxt1("Are you sure you want to delete your account?");
+   };
   
   console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
 
@@ -162,7 +164,9 @@ export default function MentorsProfilePage() {
             <Paper elevation={4}>
               <span>
                 Fee for one houer:{" "}
-                {mentorsProfile.fee === 0 ? "Volunteer" : mentorsProfile.fee + " €"}
+                {mentorsProfile.fee === 0
+                  ? "Volunteer"
+                  : mentorsProfile.fee + " €"}
               </span>
             </Paper>
             <Paper elevation={4}>
@@ -209,8 +213,7 @@ export default function MentorsProfilePage() {
               Edit
             </Button>
             <Button
-              onClick={deleteMentorsAccount}
-              // href="/mentees/edit-mentees"
+              onClick={handleDeleteClick}
               className="delete-profile-btn"
               variant="contained"
               color="error"
@@ -222,17 +225,8 @@ export default function MentorsProfilePage() {
           </Box>
         </Box>
       )}
+      <DialogAlert dangerFunction={deleteMentorsAccount} />
     </>
   );
 }
 
-/*  {mentorsProfile &&
-          mentorsProfile.map((user) => {
-            return (
-              <Paper elevation={4}>
-                <span>
-                  {user.last_name}
-                </span>
-              </Paper>
-            );
-          })} */

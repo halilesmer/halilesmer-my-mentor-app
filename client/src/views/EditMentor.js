@@ -200,7 +200,7 @@ export default function EditMentor() {
   const handleSelectFileChange = (e) => {
     setSelectedImage(e.target.files[0]);
   };
-  // ---- Hndle Avatar Picture ---- starts ----
+  // ---- Handle Avatar Picture ---- starts ----
   const handleSubmitPictureClick = async (e) => {
     const avatarPicture =
       "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
