@@ -59,7 +59,7 @@ export default function SignUpMentorPage() {
 
   const [newUser, setNewUser] = React.useState({});
 
-  const [termsAgr, setTermsAgr] = React.useState(false);
+  // const [termsAgr, setTermsAgr] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ export default function SignUpMentorPage() {
     setSelectedImage();
   };
 
-  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
+  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
 
   // -------- Handle Gender  -------
   const handleGenderChange = (e) => {
@@ -120,7 +120,6 @@ export default function SignUpMentorPage() {
   // -------- Handle Language  -------
   const handleLanguageOnChange = (e, value) => {
     setLanguage(value.filter((item) => Object.values(item)));
-  
   };
 
   // -------- Handle Volunteer  -------
@@ -171,10 +170,10 @@ export default function SignUpMentorPage() {
   }; // ---- Handle Skills  ends -------
 
   //  ------- Handle Terms --------
-  const handleTermsChange = (e) => {
-    const checked = e.target.checked;
-    checked ? setTermsAgr(true) : setTermsAgr(false);
-  };
+  // const handleTermsChange = (e) => {
+  //   const checked = e.target.checked;
+  //   // checked ? setTermsAgr(true) : setTermsAgr(false);
+  // };
   // ----   Handle ------
   const handleAttachFileOnchange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -199,7 +198,7 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/imageupload",
+        "https://my-it-mentor-backend.vercel.app/api/mentors/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -305,7 +304,7 @@ export default function SignUpMentorPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/signup",
+          "https://my-it-mentor-backend.vercel.app/api/mentors/signup",
           requestOptions
         );
         const results = await response.json();
@@ -563,15 +562,12 @@ export default function SignUpMentorPage() {
                   // componentsProps={{ typography: { margin: "0px" } }}
                   control={<Checkbox />}
                   label={
-                    <Typography  className="voluteer-box">
-                      Volunteer
-                    </Typography>
+                    <Typography className="voluteer-box">Volunteer</Typography>
                   }
                   value="Volunteer"
                   onClick={(e) => handleSelectVolunteerClick(e)}
                   sx={{ marginRight: "0.1rem" }}
                 />
-            
 
                 <ClickAwayListener onClickAway={handleTooltipClose}>
                   <Tooltip
@@ -755,7 +751,7 @@ export default function SignUpMentorPage() {
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I agree to the terms and conditions."
-                onClick={(e) => handleTermsChange(e)}
+                // onClick={(e) => handleTermsChange(e)}
               />
             </Grid>
           </Grid>

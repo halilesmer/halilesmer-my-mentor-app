@@ -12,9 +12,9 @@ const AppProvider = (props) => {
   const [userType, setUserType] = useState("");
   const [menteesData, setMenteesData] = useState(null);
   const [mentorsProfile, setMentorsProfile] = useState(null);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [decodedToken, setDecodedToken] = useState("");
-  const [allComments, setAllComments] = useState(null);
+  // const [allComments, setAllComments] = useState(null);
   const [allMentorsData, setAllMentorsData] = useState(null);
   const [loader, setLoader] = useState(false);
   const [globalToken] = useState(false);
@@ -81,7 +81,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/menteesprofile",
+          "https://my-it-mentor-backend.vercel.app/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();
@@ -102,7 +102,7 @@ const AppProvider = (props) => {
     setLoader(true);
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/allmentors"
+        "https://my-it-mentor-backend.vercel.app/api/mentors/allmentors"
       );
       const result = await response.json();
       console.log("getAllMentorsData: ", result);
@@ -130,7 +130,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
+          "https://my-it-mentor-backend.vercel.app/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();
@@ -139,7 +139,7 @@ const AppProvider = (props) => {
         console.log("result, getMentorsProfile:", result);
         setLoader(false);
       } catch (error) {
-        setError(true);
+        // setError(true);
         console.log("error getting prifile data: ", error);
         setLoader(false);
       }
@@ -163,7 +163,7 @@ const AppProvider = (props) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentees/postLikes",
+        "https://my-it-mentor-backend.vercel.app/api/mentees/postLikes",
         requestOptions
       );
       const result = await response.json();
@@ -192,12 +192,12 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/comments/getAllComments",
+          "https://my-it-mentor-backend.vercel.app/api/comments/getAllComments",
           requestOptions
         );
         const result = await response.json();
         console.log("All Comments: ", result);
-        setAllComments(result);
+        // setAllComments(result);
         setLoader(false);
       } catch (error) {
         console.log("error getting all comments: ", error);

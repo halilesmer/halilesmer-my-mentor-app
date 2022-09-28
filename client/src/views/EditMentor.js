@@ -45,9 +45,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentor() {
   const {
-    setOpenSnackBar,
     setDialogTxt1,
-    setSnackBarText,
   } = React.useContext(AppContext);
 
   const [editedUserData, setEditedUserData] = React.useState({});
@@ -68,8 +66,6 @@ export default function EditMentor() {
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
 
-  // const [editedUserData, setEditedUserData] = React.useState({});
-
   const [open, setOpen] = React.useState(false);
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const [spinner, setSpinner] = React.useState(true);
@@ -78,9 +74,9 @@ export default function EditMentor() {
   const inputFile = React.useRef();
 
   // -------- Handle  Close   -------
-  const handleClick = () => {
-    setOpen(true);
-  };
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -115,7 +111,7 @@ export default function EditMentor() {
     setSelectedImage();
   };
 
-  // -------- Handle Input Value   ends -------
+  // -------- Handle Input Value   starts -------
   const handleInputValueChange = (e) => {
     setEditedUserData({
       ...editedUserData,
@@ -219,7 +215,7 @@ export default function EditMentor() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "http://localhost:5001/api/mentors/imageupload",
+        "https://my-it-mentor-backend.vercel.app/api/mentors/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -304,7 +300,7 @@ export default function EditMentor() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/editmentor",
+          "https://my-it-mentor-backend.vercel.app/api/mentors/editmentor",
           requestOptions
         );
         const results = await response.json();
@@ -328,7 +324,7 @@ export default function EditMentor() {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
+          "https://my-it-mentor-backend.vercel.app/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();
@@ -374,16 +370,7 @@ export default function EditMentor() {
   console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
-  const obj = [
-    {
-      title: "Afar",
-      nativeTitle: "Afaraf",
-    },
-    {
-      title: "Afrikaans",
-      nativeTitle: "Afrikaans",
-    },
-  ];
+  
   return (
     <>
       <ThemeProvider theme={theme}>

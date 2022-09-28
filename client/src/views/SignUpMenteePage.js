@@ -4,15 +4,9 @@ import * as React from "react";
 
 import {
   Alert,
-  Autocomplete,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
   Snackbar,
-  Tooltip,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -152,7 +146,7 @@ export default function SignUpMenteePage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentees/imageupload",
+        "https://my-it-mentor-backend.vercel.app/api/mentees/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -246,7 +240,7 @@ export default function SignUpMenteePage() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/signup",
+          "https://my-it-mentor-backend.vercel.app/api/mentees/signup",
           requestOptions
         );
         const results = await response.json();

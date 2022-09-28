@@ -65,7 +65,7 @@ const Comments = (mentorsId) => {
         body: JSON.stringify(body),
       };
       const response = await fetch(
-        "http://localhost:5001/api/comments",
+        "https://my-it-mentor-backend.vercel.app/api/comments",
         requestOptions
       );
       const result = await response.json();
@@ -93,7 +93,7 @@ const Comments = (mentorsId) => {
     };
     try {
       const response = await fetch(
-        `http://localhost:5001/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
+        `https://my-it-mentor-backend.vercel.app/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
         requestOptions
       );
       const comments = await response.json();
@@ -122,7 +122,7 @@ const Comments = (mentorsId) => {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/comments/delete-one-comment",
+        "https://my-it-mentor-backend.vercel.app/api/comments/delete-one-comment",
         deleteOptions
       );
       console.log("response-deleteOneComment: ", response);

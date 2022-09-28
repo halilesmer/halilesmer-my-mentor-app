@@ -33,7 +33,7 @@ export default function MentorsDetailsPage() {
       };
       try {
         const response = await fetch(
-          `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
+          `https://my-it-mentor-backend.vercel.app/api/mentors/getonementor/${mentorId}`,
           requestOptions
         );
         const result = await response.json();

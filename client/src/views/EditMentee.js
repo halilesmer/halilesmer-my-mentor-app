@@ -3,19 +3,14 @@ import "./signsEditsUser.css";
 import * as React from "react";
 
 import {
-  Alert,
   Autocomplete,
   FormControl,
-  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
-  Tooltip,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { formatDataYyMmDd, formatDateDdMmYyyy } from "../utils/formatData.js";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
 import { AppContext } from "../contexts/appContext";
@@ -26,7 +21,6 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import DialogAlert from "../components/DialogAlert";
 import ErrorPage from "./ErrorPage";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
@@ -34,6 +28,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
+import { formatDataYyMmDd } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
 import { useNavigate } from "react-router-dom";
 
@@ -42,14 +37,11 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentee() {
-  const {
-    setOpenSnackBar,
-    setDialogTxt1,
-    setSnackBarText,
-  } = React.useContext(AppContext);
+  const { setOpenSnackBar, setDialogTxt1, setSnackBarText } =
+    React.useContext(AppContext);
   const [editedUserData, setEditedUserData] = React.useState(null);
 
-  const [error, setError] = React.useState(null);
+  // const [error, setError] = React.useState(null);
 
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
@@ -60,7 +52,6 @@ export default function EditMentee() {
 
   const [couchingMedium, setCouchingMedium] = React.useState([]);
 
-  const [volunteer, setVolunteer] = React.useState(false);
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
@@ -178,7 +169,7 @@ export default function EditMentee() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "http://localhost:5001/api/mentees/imageupload",
+        "https://my-it-mentor-backend.vercel.app/api/mentees/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -261,7 +252,7 @@ export default function EditMentee() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/editmentee",
+          "https://my-it-mentor-backend.vercel.app/api/mentees/editmentee",
           requestOptions
         );
         const results = await response.json();
@@ -287,7 +278,7 @@ export default function EditMentee() {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/menteesprofile",
+          "https://my-it-mentor-backend.vercel.app/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();
@@ -311,7 +302,6 @@ export default function EditMentee() {
         };
         // setMtrsCurrData(profileData);
         setEditedUserData(profileData);
-        console.log("Getting prifile data succeed: ", error);
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }

@@ -46,7 +46,7 @@ export default function MentorsProfilePage() {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/delete-account/",
+        "https://my-it-mentor-backend.vercel.app/api/mentors/delete-account/",
         deleteOptions
       );
       localStorage.removeItem("token");
