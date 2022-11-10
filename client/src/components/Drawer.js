@@ -3,8 +3,6 @@ import * as React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
-import { Badge } from "@mui/material";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
@@ -14,7 +12,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MessageIcon from "@mui/icons-material/Message";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 export default function Drawer({ drawerKey, setDrawerKey }) {

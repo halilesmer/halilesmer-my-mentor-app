@@ -1,24 +1,23 @@
 import * as dotenv from "dotenv";
 
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
-import commentsRoute from "./routes/commentsRoute.js";
+import commentsRoute from "./api/commentsRoute.js";
 import { connectMDB } from "./util/connectMDB.js";
 import cors from "cors";
 import express from "express";
-import filterRoute from "./routes/filterRoute.js";
-import menteesRoute from "./routes/menteesRoute.js";
-import mentorsRoute from "./routes/mentorsRoute.js";
+import filterRoute from "./api/filterRoute.js";
+import menteesRoute from "./api/menteesRoute.js";
+import mentorsRoute from "./api/mentorsRoute.js";
 import passport from "passport";
 import { passportConfig } from "./config/passport.js";
-import path from 'path';
 
 const port = process.env.PORT || 5001;
 
 const app = express();
 dotenv.config();
+app.use(express.json({extended: false}));
 
 const addMiddelWare = () => {
-  app.use(express.json());
   app.use(
     express.urlencoded({
       extended: true,
@@ -47,10 +46,8 @@ const addMiddelWare = () => {
 //   );
 // });
 
+
 const startServer = () => {
-  app.listen(port, (req, res) => {
-    console.log(`Server is running on ${port} port`);
-  });
 };
 
 // ---------- connect to mongo db ----------
@@ -71,3 +68,8 @@ const loadRoutes = () => {
   connectMDB();
   loadRoutes();
 })();
+
+app.listen(port, (req, res) => {
+  console.log(`Server is running on ${port} port`);
+});
+export default app

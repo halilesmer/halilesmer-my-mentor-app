@@ -81,7 +81,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://my-it-mentor-backend.vercel.app/api/mentees/menteesprofile",
+          "https://server-halilesmer.vercel.app/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();
@@ -102,7 +102,7 @@ const AppProvider = (props) => {
     setLoader(true);
     try {
       const response = await fetch(
-        "https://my-it-mentor-backend.vercel.app/api/mentors/allmentors"
+        "https://server-halilesmer.vercel.app/api/mentors/allmentors"
       );
       const result = await response.json();
       console.log("getAllMentorsData: ", result);
@@ -130,7 +130,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://my-it-mentor-backend.vercel.app/api/mentors/mentorsprofile",
+          "https://server-halilesmer.vercel.app/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();
@@ -163,7 +163,7 @@ const AppProvider = (props) => {
 
     try {
       const response = await fetch(
-        "https://my-it-mentor-backend.vercel.app/api/mentees/postLikes",
+        "https://server-halilesmer.vercel.app/api/mentees/postLikes",
         requestOptions
       );
       const result = await response.json();
@@ -187,12 +187,13 @@ const AppProvider = (props) => {
       myHeaders.append("Authorization", `Bearer ${token}`);
 
       const requestOptions = {
+        mode: "no-cors",
         method: "GET",
         headers: myHeaders,
       };
       try {
         const response = await fetch(
-          "https://my-it-mentor-backend.vercel.app/api/comments/getAllComments",
+          "https://server-halilesmer.vercel.app/api/comments/getAllComments",
           requestOptions
         );
         const result = await response.json();

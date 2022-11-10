@@ -31,7 +31,7 @@ const EditComment = ({
     };
     try {
       const response = await fetch(
-        "https://my-it-mentor-backend.vercel.app/api/comments/editComment",
+        "https://server-halilesmer.vercel.app/api/comments/editComment",
         requestOptions
         );
         

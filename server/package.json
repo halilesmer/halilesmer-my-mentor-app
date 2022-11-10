@@ -1,12 +1,15 @@
 {
-  "name": "my-mentor-app",
+  "name": "my-it-mentor-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "find an IT mentor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "node":"node index.js"
+    "build": "",
+    "vercel-build": "node ./build.js"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "type": "module",
   "keywords": [],

@@ -33,7 +33,7 @@ export default function MentorsDetailsPage() {
       };
       try {
         const response = await fetch(
-          `https://my-it-mentor-backend.vercel.app/api/mentors/getonementor/${mentorId}`,
+          `https://server-halilesmer.vercel.app/api/mentors/getonementor/${mentorId}`,
           requestOptions
         );
         const result = await response.json();

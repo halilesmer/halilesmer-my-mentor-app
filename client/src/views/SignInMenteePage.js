@@ -54,7 +54,7 @@ export default function SignInMenteePage() {
     };
     try {
       const response = await fetch(
-        "https://my-it-mentor-backend.vercel.app/api/mentees/signin",
+        "https://server-halilesmer.vercel.app/api/mentees/signin",
         requestOptions
       );
       const result = await response.json();

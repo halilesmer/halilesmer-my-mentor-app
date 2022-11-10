@@ -68,7 +68,7 @@ export default function SignInMentorPage() {
     };
     try {
       const response = await fetch(
-        "https://my-it-mentor-backend.vercel.app/api/mentors/signin/",
+        "https://server-halilesmer.vercel.app/api/mentors/signin/",
         requestOptions
       );
       const result = await response.json();
