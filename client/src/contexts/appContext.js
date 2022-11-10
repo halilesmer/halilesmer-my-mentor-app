@@ -81,7 +81,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentees/menteesprofile",
+          "https://localhost:5001/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();
@@ -102,7 +102,7 @@ const AppProvider = (props) => {
     setLoader(true);
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentors/allmentors"
+        "http://localhost:5001/api/mentors/allmentors"
       );
       const result = await response.json();
       console.log("getAllMentorsData: ", result);
@@ -130,7 +130,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentors/mentorsprofile",
+          "http://localhost:5001/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();
@@ -163,7 +163,7 @@ const AppProvider = (props) => {
 
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentees/postLikes",
+        "http://localhost:5001/api/mentees/postLikes",
         requestOptions
       );
       const result = await response.json();
@@ -193,7 +193,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/comments/getAllComments",
+          "http://localhost:5001/api/comments/getAllComments",
           requestOptions
         );
         const result = await response.json();

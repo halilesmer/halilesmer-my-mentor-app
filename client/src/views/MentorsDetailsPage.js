@@ -6,15 +6,16 @@ import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext";
 import Comments from "../components/Comments.js";
+import ErrorPage from "./ErrorPage";
 import Loading from "../components/Loading";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 import { useParams } from "react-router-dom";
 
 export default function MentorsDetailsPage() {
-  const { loader, setLoader, setUserType } = React.useContext(AppContext);
+  const {  setUserType } = React.useContext(AppContext);
+  const [loader, setLoader] = React.useState(true)
   const [mentor, setMentor] = React.useState(null);
-  // const { mentor && mentor } = mentor;
   const [error, setError] = React.useState(null);
   const token = getToken();
   const { mentorId } = useParams();
@@ -33,14 +34,17 @@ export default function MentorsDetailsPage() {
       };
       try {
         const response = await fetch(
-          `https://server-halilesmer.vercel.app/api/mentors/getonementor/${mentorId}`,
+          `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
           requestOptions
         );
         const result = await response.json();
         setMentor(result.mentor);
         setUserType("mentor");
+        setLoader(false);
+
       } catch (error) {
         setError(true);
+        setLoader(false);
         console.log("error getting prifile data: ", error);
       }
     }
@@ -168,7 +172,15 @@ export default function MentorsDetailsPage() {
             </Box>
           )}
           {/* --------- Chat Component ---------- */}
-          <Comments mentorsId={mentorId} />
+          {loader ? (
+            <Loading height="70vh" />
+          ) : (
+            <Comments mentorsId={mentorId} />
+          )}
+
+          {error && (
+            <ErrorPage errorMsg="An error has occurred while fetching data. " />
+          )}
         </div>
       )}
     </>

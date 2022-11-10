@@ -169,7 +169,7 @@ export default function EditMentee() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentees/imageupload",
+        "http://localhost:5001/api/mentees/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -252,7 +252,7 @@ export default function EditMentee() {
 
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentees/editmentee",
+          "http://localhost:5001/api/mentees/editmentee",
           requestOptions
         );
         const results = await response.json();
@@ -278,7 +278,7 @@ export default function EditMentee() {
       };
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentees/menteesprofile",
+          "http://localhost:5001/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();

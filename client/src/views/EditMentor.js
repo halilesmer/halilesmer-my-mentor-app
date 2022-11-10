@@ -215,7 +215,7 @@ export default function EditMentor() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentors/imageupload",
+        "http://localhost:5001/api/mentors/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -300,7 +300,7 @@ export default function EditMentor() {
 
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentors/editmentor",
+          "http://localhost:5001/api/mentors/editmentor",
           requestOptions
         );
         const results = await response.json();
@@ -324,7 +324,7 @@ export default function EditMentor() {
       };
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentors/mentorsprofile",
+          "http://localhost:5001/api/mentors/mentorsprofile",
           requestOptions
         );
         const result = await response.json();

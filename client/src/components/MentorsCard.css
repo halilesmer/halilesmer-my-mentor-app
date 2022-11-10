@@ -24,7 +24,7 @@
     font-size: 0.9rem !important;
 }
 
-.mentor-cards-img-con {
+.mentor-card-img-con {
     width: 25% !important;
     text-align-last: center !important;
 }
@@ -35,7 +35,7 @@
     border-radius: 50% !important;
 }
 
-.mentor-cards-like-con {
+.mentor-card-like-con {
     display: flex !important;
     justify-content: end !important;
     height: 20px;

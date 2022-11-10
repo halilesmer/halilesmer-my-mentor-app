@@ -73,7 +73,7 @@ const MentorsCard = ({ mentor }) => {
           }
         >
           <Box className="mentor-card-body">
-            <Box className="mentor-cards-img-con">
+            <Box className="mentor-card-img-con">
               {mentor.avatar_picture ? (
                 <img
                   width="100px"
@@ -121,8 +121,8 @@ const MentorsCard = ({ mentor }) => {
             </Paper>
           </Box>
         </Link>
-        <div className="mentor-cards-footer" style={{ width: "100%" }}>
-          <div className="mentor-cards-like-con">
+        <div className="mentor-card-footer" style={{ width: "100%" }}>
+          <div className="mentor-card-like-con">
             {decodedToken && decodedToken.role === "mentee" && (
               <IconButton
                 aria-label="Like Button"

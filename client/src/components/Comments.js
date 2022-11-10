@@ -14,7 +14,7 @@ const Comments = (mentorsId) => {
   const [text, setText] = useState("");
   const [commentsData, setCommentsData] = useState(null);
   const token = getToken();
-  const { menteesData, getMenteeData, decodedToken, getAllComments } =
+  const { menteesData, getMenteeData, decodedToken } =
     useContext(AppContext);
   const [openEditField, setOpenEditField] = useState(false);
   // const [commentId, setCommentId] = useState("");
@@ -65,7 +65,7 @@ const Comments = (mentorsId) => {
         body: JSON.stringify(body),
       };
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/comments",
+        "http://localhost:5001/api/comments",
         requestOptions
       );
       const result = await response.json();
@@ -93,9 +93,10 @@ const Comments = (mentorsId) => {
     };
     try {
       const response = await fetch(
-        `https://server-halilesmer.vercel.app/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
+        `http://localhost:5001/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
         requestOptions
-      );
+        );
+        console.log("response: ", response);
       const comments = await response.json();
       console.log("comments: ", comments);
       setCommentsData(comments.oneMentorsComments);
@@ -122,7 +123,7 @@ const Comments = (mentorsId) => {
     };
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/comments/delete-one-comment",
+        "http://localhost:5001/api/comments/delete-one-comment",
         deleteOptions
       );
       console.log("response-deleteOneComment: ", response);

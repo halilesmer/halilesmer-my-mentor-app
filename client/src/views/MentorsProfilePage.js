@@ -46,7 +46,7 @@ export default function MentorsProfilePage() {
     };
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentors/delete-account/",
+        "http://localhost:5001/api/mentors/delete-account/",
         deleteOptions
       );
       localStorage.removeItem("token");

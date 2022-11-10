@@ -43,7 +43,7 @@ export default function MenteesProfilePage() {
     };
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentees/delete-account/",
+        "http://localhost:5001/api/mentees/delete-account/",
         deleteOptions
       );
       console.log("response-deleteMenteesAccount: ", response);

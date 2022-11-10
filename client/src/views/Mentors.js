@@ -65,9 +65,9 @@ const Mentors = () => {
     };
 
     try {
-      // `https://server-halilesmer.vercel.app/api/filter/filtergender/${gender}/${fee}`,
+      // `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
       const response = await fetch(
-        `https://server-halilesmer.vercel.app/api/filter/filter-mentors`,
+        `http://localhost:5001/api/filter/filter-mentors`,
         requestOptions
       );
       const resultFilter = await response.json();

@@ -198,7 +198,7 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentors/imageupload",
+        "http://localhost:5001/api/mentors/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -304,7 +304,7 @@ export default function SignUpMentorPage() {
 
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentors/signup",
+          "http://localhost:5001/api/mentors/signup",
           requestOptions
         );
         const results = await response.json();

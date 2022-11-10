@@ -146,7 +146,7 @@ export default function SignUpMenteePage() {
 
     try {
       const response = await fetch(
-        "https://server-halilesmer.vercel.app/api/mentees/imageupload",
+        "http://localhost:5001/api/mentees/imageupload",
         requestOptions
       );
       const result = await response.json();
@@ -240,7 +240,7 @@ export default function SignUpMenteePage() {
 
       try {
         const response = await fetch(
-          "https://server-halilesmer.vercel.app/api/mentees/signup",
+          "http://localhost:5001/api/mentees/signup",
           requestOptions
         );
         const results = await response.json();
