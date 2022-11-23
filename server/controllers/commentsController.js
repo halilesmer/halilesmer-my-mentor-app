@@ -69,9 +69,9 @@ const getAllComments = async (req, res) => {
     res.status(200).json(response);
     console.log('Getting all comments succeed!')
   } catch (error) {
-    console.log("error, getting all mentors failed: ", error);
+    console.log("error, getting all comments failed: ", error);
     res.status(400).json({
-      msg: "getting all mentors failed:",
+      msg: "getting all comments failed:",
       error: error,
     });
   }
@@ -91,7 +91,7 @@ const getSpecificMentorsComments = async (req, res) => {
       oneMentorsComments,
     });
   } catch (error) {
-    console.log("error get mentors comments: ", error);
+    console.log("error get comments comments: ", error);
   }
 };
 
