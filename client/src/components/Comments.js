@@ -149,14 +149,15 @@ const Comments = (mentorsId) => {
   };
   
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
-  console.log('menteesData :>> ', menteesData);
-  console.log("commentsData: ", commentsData);
+  // console.log('menteesData :>> ', menteesData);
+  // console.log("commentsData: ", commentsData);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);
 // const handleDeleteOneComment = (comment) => {
 //   console.log("comment in handleCancelClick: ", comment);
 //   getSpecificMentorsComments();
-// };
+  // console.log("mentorsId: ", mentorsId);
+
   return (
     <div className="comments-card-con">
       <h2 className="comment-card-header">{`(${

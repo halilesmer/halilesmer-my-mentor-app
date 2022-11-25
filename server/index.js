@@ -45,7 +45,6 @@ const loadRoutes = () => {
 
 (function controller() {
   addMiddelWare();
-  startServer();
   connectMDB();
   loadRoutes();
 })();

@@ -81,7 +81,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "https://localhost:5001/api/mentees/menteesprofile",
+          "http://localhost:5001/api/mentees/menteesprofile",
           requestOptions
         );
         const result = await response.json();
