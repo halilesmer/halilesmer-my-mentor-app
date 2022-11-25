@@ -9,6 +9,7 @@ import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {
@@ -23,9 +24,9 @@ export default function MentorsProfilePage() {
   } = React.useContext(AppContext);
   const token = getToken();
   const navigate = useNavigate();
+  const env = nodeEnv.env;
 
   React.useEffect(() => {
-    console.log("useEffect-MentorsProfilePage");
     let didCancel = false;
     if (!didCancel) {
       getMentorsProfile();
@@ -46,7 +47,7 @@ export default function MentorsProfilePage() {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/delete-account/",
+        `${env}/mentors/delete-account/`,
         deleteOptions
       );
       localStorage.removeItem("token");
@@ -112,26 +113,6 @@ export default function MentorsProfilePage() {
               {mentorsProfile.first_name} {mentorsProfile.last_name} <br />{" "}
               (Mentor)
             </Typography>
-
-            {/* {mentorsProfile.likes ? (
-              mentorsProfile.likes.length > 0 && (
-                <div className="mentor-follower-con">
-                 You have <strong>
-                    {mentorsProfile.likes.length}
-                  </strong>{" "}
-                  follower.
-                </div>
-              )
-            ) : (
-              <div className="mentor-follower-con">
-                You don't have any followers yet
-              </div>
-            )}
-            {!mentorsProfile && (
-              <div className="mentor-follower-con">
-                You don't have any followers yet
-              </div>
-            )} */}
 
             {mentorsProfile.likes.length > 0 ? (
               <div className="mentor-follower-con">

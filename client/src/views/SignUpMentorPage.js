@@ -35,6 +35,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import {nodeEnv} from "../configs/configs";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -64,6 +65,7 @@ export default function SignUpMentorPage() {
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const navigate = useNavigate();
   const inputFile = React.useRef();
+  const env = nodeEnv.env;
 
   // -------- Handle  Close   -------
   const handleClick = () => {
@@ -198,7 +200,7 @@ export default function SignUpMentorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentors/imageupload",
+        `${env}/mentors/imageupload`,
         requestOptions
       );
       const result = await response.json();
@@ -303,10 +305,7 @@ export default function SignUpMentorPage() {
       };
 
       try {
-        const response = await fetch(
-          "http://localhost:5001/api/mentors/signup",
-          requestOptions
-        );
+        const response = await fetch(`${env}/mentors/signup`, requestOptions);
         const results = await response.json();
         console.log("results: ", results);
 

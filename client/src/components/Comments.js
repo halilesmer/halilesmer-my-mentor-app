@@ -8,19 +8,20 @@ import CommentBox from "./CommentBox";
 import EditComment from "./EditComment";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
+import {nodeEnv} from "../configs/configs";
 
 const Comments = (mentorsId) => {
   const [typedComment, setTypedComment] = useState("");
   const [text, setText] = useState("");
   const [commentsData, setCommentsData] = useState(null);
   const token = getToken();
-  const { menteesData, getMenteeData, decodedToken } =
-    useContext(AppContext);
+  const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
   const [openEditField, setOpenEditField] = useState(false);
   // const [commentId, setCommentId] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
 
   const commentsInputFieldRef = useRef(null);
+  const env = nodeEnv.env;
 
   const scrollToElement = () => {
     if (commentsInputFieldRef.current) {
@@ -64,10 +65,7 @@ const Comments = (mentorsId) => {
         },
         body: JSON.stringify(body),
       };
-      const response = await fetch(
-        "http://localhost:5001/api/comments",
-        requestOptions
-      );
+      const response = await fetch(`${env}/comments`, requestOptions);
       const result = await response.json();
 
       console.log("result", result);
@@ -95,8 +93,8 @@ const Comments = (mentorsId) => {
       const response = await fetch(
         `http://localhost:5001/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
         requestOptions
-        );
-        console.log("response: ", response);
+      );
+      console.log("response: ", response);
       const comments = await response.json();
       console.log("comments: ", comments);
       setCommentsData(comments.oneMentorsComments);
@@ -119,11 +117,11 @@ const Comments = (mentorsId) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({"commentId": commentId})
+      body: JSON.stringify({ commentId: commentId }),
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/comments/delete-one-comment",
+        `${env}/comments/delete-one-comment`,
         deleteOptions
       );
       console.log("response-deleteOneComment: ", response);
@@ -147,15 +145,15 @@ const Comments = (mentorsId) => {
   const handleCancelClick = () => {
     setOpenEditField(false);
   };
-  
+
   // console.log("commentsInputFieldRef.current: ", commentsInputFieldRef.current);
   // console.log('menteesData :>> ', menteesData);
   // console.log("commentsData: ", commentsData);
   // console.log("commentId: ", commentId);
   // console.log("commentToEdit: ", commentToEdit);
-// const handleDeleteOneComment = (comment) => {
-//   console.log("comment in handleCancelClick: ", comment);
-//   getSpecificMentorsComments();
+  // const handleDeleteOneComment = (comment) => {
+  //   console.log("comment in handleCancelClick: ", comment);
+  //   getSpecificMentorsComments();
   // console.log("mentorsId: ", mentorsId);
 
   return (
@@ -167,10 +165,10 @@ const Comments = (mentorsId) => {
       {commentsData && commentsData.length < 1 && (
         <div className="no-comments">No comments yet...</div>
       )}
-      
-     {commentsData &&
-          !openEditField && <div className="comments-card-box">
-        {commentsData.map((comment) => {
+
+      {commentsData && !openEditField && (
+        <div className="comments-card-box">
+          {commentsData.map((comment) => {
             return (
               <CommentBox
                 key={comment._id}
@@ -181,8 +179,8 @@ const Comments = (mentorsId) => {
               />
             );
           })}
-      </div>
-     }
+        </div>
+      )}
 
       {/*-------- Edit Comment Box ----------- starts */}
       {openEditField && (

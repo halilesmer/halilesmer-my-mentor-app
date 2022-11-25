@@ -19,31 +19,15 @@ import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
-
-// function Copyright(props) {
-//   return (
-//     <Typography
-//       variant="body2"
-//       color="text.secondary"
-//       align="center"
-//       {...props}
-//     >
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
 
 const theme = createTheme();
 export default function SignInMentorPage() {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const navigate = useNavigate();
+  const env = nodeEnv.env;
 
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, userType, setUserType } =
     React.useContext(AppContext);
@@ -67,17 +51,14 @@ export default function SignInMentorPage() {
       body: urlencoded,
     };
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentors/signin/",
-        requestOptions
-      );
+      const response = await fetch(`${env}/mentors/signin/`, requestOptions);
       const result = await response.json();
       // ---- dialog alert if no user ---- starts //
       if (result.msg === "User not found.") {
         setOpenDialog(true);
       }
       // ---- dialog alert if no user ---- ends //
-      
+
       const { token, user } = result;
       if (token) {
         localStorage.setItem("token", token);
@@ -93,9 +74,9 @@ export default function SignInMentorPage() {
     }
   };
 
-   const handleClose = () => {
-     setOpenDialog(false);
-   };
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
 
   console.log("userLogIn: ", userLogIn);
   return (

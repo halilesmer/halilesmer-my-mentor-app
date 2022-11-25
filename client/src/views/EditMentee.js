@@ -30,6 +30,7 @@ import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
 import { formatDataYyMmDd } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -62,6 +63,7 @@ export default function EditMentee() {
   const token = getToken();
   const navigate = useNavigate();
   const inputFile = React.useRef();
+  const env = nodeEnv.env;
 
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
@@ -169,7 +171,7 @@ export default function EditMentee() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "http://localhost:5001/api/mentees/imageupload",
+        `${env}/mentees/imageupload`,
         requestOptions
       );
       const result = await response.json();
@@ -252,7 +254,7 @@ export default function EditMentee() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/editmentee",
+          `${env}/mentees/editmentee`,
           requestOptions
         );
         const results = await response.json();
@@ -278,7 +280,7 @@ export default function EditMentee() {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/menteesprofile",
+          `${env}/mentees/menteesprofile`,
           requestOptions
         );
         const result = await response.json();

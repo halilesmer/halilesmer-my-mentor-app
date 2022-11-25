@@ -9,6 +9,7 @@ import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 export default function MenteesProfilePage() {
@@ -25,6 +26,7 @@ export default function MenteesProfilePage() {
   const [error, setError] = React.useState(null);
   const token = getToken();
   const navigate = useNavigate();
+  const env = nodeEnv.env;
 
   React.useEffect(() => {
     getMenteeData();
@@ -43,7 +45,7 @@ export default function MenteesProfilePage() {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentees/delete-account/",
+        `${env}/mentees/delete-account/`,
         deleteOptions
       );
       console.log("response-deleteMenteesAccount: ", response);
@@ -62,6 +64,8 @@ export default function MenteesProfilePage() {
     setDialogTxt1("Are you sure you want to delete your account?");
   };
   // console.log("menteesData: ", menteesData && menteesData);
+  console.log("env: ", env);
+
   return (
     <>
       {menteesData && (

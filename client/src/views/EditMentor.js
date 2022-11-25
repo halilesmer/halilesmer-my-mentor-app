@@ -37,6 +37,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
 import { getToken } from "../utils/getToken";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -44,9 +45,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function EditMentor() {
-  const {
-    setDialogTxt1,
-  } = React.useContext(AppContext);
+  const { setDialogTxt1 } = React.useContext(AppContext);
 
   const [editedUserData, setEditedUserData] = React.useState({});
 
@@ -72,6 +71,7 @@ export default function EditMentor() {
   const token = getToken();
   const navigate = useNavigate();
   const inputFile = React.useRef();
+  const env = nodeEnv.env;
 
   // -------- Handle  Close   -------
   // const handleClick = () => {
@@ -215,7 +215,7 @@ export default function EditMentor() {
     try {
       setSpinner(true);
       const response = await fetch(
-        "http://localhost:5001/api/mentors/imageupload",
+        `${env}/mentors/imageupload`,
         requestOptions
       );
       const result = await response.json();
@@ -300,7 +300,7 @@ export default function EditMentor() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/editmentor",
+          `${env}/mentors/editmentor`,
           requestOptions
         );
         const results = await response.json();
@@ -310,7 +310,7 @@ export default function EditMentor() {
         console.log("error Submit edited mentor", error.msg);
       }
     }
-  }
+  };
 
   // ------ Get profile data  ----------- starts--
   const getMentorsProfile = async () => {
@@ -324,7 +324,7 @@ export default function EditMentor() {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
+          `${env}/mentors/mentorsprofile`,
           requestOptions
         );
         const result = await response.json();
@@ -348,7 +348,6 @@ export default function EditMentor() {
           avatar_picture: result.avatar_picture,
         };
         setEditedUserData(profileData);
-
       } catch (error) {
         console.log("error getting prifile data: ", error);
       }
@@ -360,7 +359,6 @@ export default function EditMentor() {
   }, []);
   // ------ Get profile data  ----------- ends--
 
-
   // console.log("selectedImage :>> ", selectedImage);
   console.log("editedUserData", editedUserData);
   // console.log("mtrsCurrData: ", mtrsCurrData);
@@ -370,7 +368,7 @@ export default function EditMentor() {
   console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
-  
+
   return (
     <>
       <ThemeProvider theme={theme}>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { getToken } from "../utils/getToken";
+import {nodeEnv} from '../configs/configs'
 
 const EditComment = ({
   handleSendClick,
@@ -16,6 +17,7 @@ const EditComment = ({
     commentToEdit && commentToEdit.commentText
     );
     const token = getToken();
+      const env = nodeEnv.env;
     
     const handleSubmitEditedCommentClick = async (e) => {
       var requestOptions = {
@@ -31,7 +33,7 @@ const EditComment = ({
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/comments/editComment",
+        `${env}/comments/editComment`,
         requestOptions
         );
         

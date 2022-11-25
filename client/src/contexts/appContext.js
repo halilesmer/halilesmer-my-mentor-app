@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 import { getToken } from "../utils/getToken";
 import jwt_decode from "jwt-decode";
+import { nodeEnv } from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
@@ -31,7 +32,8 @@ const AppProvider = (props) => {
   const token = localStorage.getItem("token");
   const [likes] = useState(null);
   const [openSnackBar, setOpenSnackBar] = useState(false);
-    const [dialogTxt1, setDialogTxt1] = useState("second");
+  const [dialogTxt1, setDialogTxt1] = useState("second");
+  const env = nodeEnv.env;
 
   // -------- Check is User logged in starts ----------
   useEffect(() => {
@@ -81,7 +83,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/menteesprofile",
+          `${env}/mentees/menteesprofile`,
           requestOptions
         );
         const result = await response.json();
@@ -101,9 +103,7 @@ const AppProvider = (props) => {
   const getAllMentorsData = async () => {
     setLoader(true);
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentors/allmentors"
-      );
+      const response = await fetch(`${env}/mentors/allmentors`);
       const result = await response.json();
       console.log("getAllMentorsData: ", result);
       // setMentorsProfile(result)
@@ -130,7 +130,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentors/mentorsprofile",
+          `${env}/mentors/mentorsprofile`,
           requestOptions
         );
         const result = await response.json();
@@ -162,10 +162,7 @@ const AppProvider = (props) => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentees/postLikes",
-        requestOptions
-      );
+      const response = await fetch(`${env}/mentees/postLikes`, requestOptions);
       const result = await response.json();
       setMenteesData(result.mentee);
 
@@ -193,7 +190,7 @@ const AppProvider = (props) => {
       };
       try {
         const response = await fetch(
-          "http://localhost:5001/api/comments/getAllComments",
+          `${env}/comments/getAllComments`,
           requestOptions
         );
         const result = await response.json();
@@ -220,16 +217,18 @@ const AppProvider = (props) => {
   }, []);
   // ------- Get All Comments -------- ends --
 
-  const handleOpenDialog=()=>{
- setOpenDialog(true);
-  }
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("mentorsProfile", mentorsProfile);
   // console.log("decodedToken: ", decodedToken);
   // console.log("menteesData", menteesData && menteesData);
   // console.log('token', token)
-  console.log("openSnackBar: ", openSnackBar);
+  // console.log("openSnackBar: ", openSnackBar);
   // console.log('allMentorsData,',allMentorsData,)
+  // console.log("env: ", env);
+
   return (
     <AppContext.Provider
       value={{
@@ -265,7 +264,7 @@ const AppProvider = (props) => {
         setSnackBarText,
         handleOpenDialog,
         setDialogTxt1,
-        dialogTxt1
+        dialogTxt1,
       }}
     >
       {props.children}

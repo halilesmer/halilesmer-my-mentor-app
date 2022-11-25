@@ -19,6 +19,7 @@ import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import {nodeEnv} from "../configs/configs";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -26,6 +27,7 @@ export default function SignInMenteePage() {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false);
   const [dialogText, setDialogText] = React.useState("");
+  const env = nodeEnv.env;
 
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
@@ -53,10 +55,7 @@ export default function SignInMenteePage() {
       // body: JSON.stringify(userLogIn),
     };
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/mentees/signin",
-        requestOptions
-      );
+      const response = await fetch(`${env}/mentees/signin`, requestOptions);
       const result = await response.json();
       console.log("result, sign in mentee: ", result);
       // ---- dialog alert if no user ---- starts //

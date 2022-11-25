@@ -24,10 +24,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
-import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import {nodeEnv} from "../configs/configs";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -50,6 +50,7 @@ export default function SignUpMenteePage() {
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const navigate = useNavigate();
   const inputFile = React.useRef();
+  const env = nodeEnv.env;
 
   // -------- Handle  Close   -------
   const handleClick = () => {
@@ -146,7 +147,7 @@ export default function SignUpMenteePage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/mentees/imageupload",
+        `${env}/mentees/imageupload`,
         requestOptions
       );
       const result = await response.json();
@@ -240,7 +241,7 @@ export default function SignUpMenteePage() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/mentees/signup",
+          `${env}/mentees/signup`,
           requestOptions
         );
         const results = await response.json();
