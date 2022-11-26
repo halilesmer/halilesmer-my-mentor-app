@@ -29,9 +29,7 @@ const env = nodeEnv.env;
     fee: "",
   });
 
-  useEffect(() => {
-    if (allMentorsData) setFilteredMentors(allMentorsData);
-  }, [allMentorsData]);
+ 
 
   // ------- Handle Accordion ------- starts//
   const handleAccordionChange = (panel) => (event, isExpanded) => {
@@ -85,13 +83,18 @@ const env = nodeEnv.env;
   useEffect(() => {
     let didCancel = false;
     if (!didCancel) {
-      getAllMentorsData && getAllMentorsData();
+      getAllMentorsData();
       allMentorsData && setFilteredMentors(allMentorsData);
     }
     return () => (didCancel = true);
     // eslint-disable-next-line
   }, []);
 
+   useEffect(() => {
+     if (allMentorsData) setFilteredMentors(allMentorsData);
+   }, [allMentorsData]);
+
+   
   // ------- Apply Filter  ------- starts//
   const applyFilter = async (e) => {
     await fetchSetFilter();
