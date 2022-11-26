@@ -4,7 +4,7 @@
   "description": "find an IT mentor",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "build": "",
     "vercel-build": "node ./build.js"
   },
@@ -34,6 +34,6 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }

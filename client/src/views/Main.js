@@ -5,6 +5,7 @@ import EditMentee from "./EditMentee";
 import EditMentor from "./EditMentor";
 import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
+import FavoriteMentorsPage from "./FavoriteMentorsPage";
 import Home from "./Home";
 import MenteesProfilePage from "./MenteesProfilePage";
 import Mentors from "./Mentors";
@@ -46,12 +47,15 @@ const Main = () => {
         <Route path="/mentees/signup" element={<SignUpMenteePage />} />
         <Route path="/signin" element={<SignInPage />} />
 
-        
         <Route path="/mentors/signin" element={<SignInMentorPage />} />
         <Route path="/mentees/signin" element={<SignInMenteePage />} />
 
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
         <Route path="/mentees/profile" element={<MenteesProfilePage />} />
+        <Route
+          path="/mentors/liked-mentors"
+          element={<FavoriteMentorsPage />}
+        />
         <Route path="/mentors/edit-mentor" element={<EditMentor />} />
         <Route path="/mentee/edit-mentee" element={<EditMentee />} />
 

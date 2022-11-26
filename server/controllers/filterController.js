@@ -19,6 +19,7 @@ const filterMentors = async (req, res) => {
 
   try {
      const filterMetrs = await MentorsModel.find(req.body);
+     console.log("req.body-filterMetrs: ", req.body);
     //  const filterMetrs = await MentorsModel.find({gender: req.body.gender});
 
     // const filterByGender = await MentorsModel.find({

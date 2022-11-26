@@ -30,7 +30,7 @@ import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
 import { formatDataYyMmDd } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
-import {nodeEnv} from "../configs/configs";
+import {nodeEnv} from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -316,7 +316,7 @@ export default function EditMentee() {
   // ------ Get profile data  ----------- ends--
 
   // console.log("selectedImage :>> ", selectedImage);
-  // console.log("editedUserData", editedUserData);
+  console.log("editedUserData", editedUserData);
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
 

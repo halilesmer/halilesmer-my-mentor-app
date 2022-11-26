@@ -15,12 +15,14 @@ import MentorsCard from "../components/MentorsCard.js";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
+import { nodeEnv } from "../utils/nodeEnv";
 
 const Mentors = () => {
   const { allMentorsData, getAllMentorsData, loader, setLoader } =
     React.useContext(AppContext);
   const [expanded, setExpanded] = React.useState(false);
   const [filteredMentors, setFilteredMentors] = useState(allMentorsData);
+const env = nodeEnv.env;
 
   const [inputValue, setInputValue] = useState({
     gender: "",
@@ -65,9 +67,8 @@ const Mentors = () => {
     };
 
     try {
-      // `http://localhost:5001/api/filter/filtergender/${gender}/${fee}`,
       const response = await fetch(
-        `http://localhost:5001/api/filter/filter-mentors`,
+        `${env}/filter/filter-mentors`,
         requestOptions
       );
       const resultFilter = await response.json();

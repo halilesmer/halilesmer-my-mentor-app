@@ -9,7 +9,7 @@ import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken";
-import {nodeEnv} from "../configs/configs";
+import {nodeEnv} from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 export default function MentorsProfilePage() {

@@ -68,7 +68,7 @@ export default function NavBar() {
   };
 
   // console.log("userType: ", userType);
-  console.log("token: ", token);
+  // console.log("token: ", token);
   // console.log("decodedToken: ", decodedToken);
   // console.log("decodedToken: ", decodedToken);
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
@@ -153,7 +153,7 @@ export default function NavBar() {
               {/* {!user && pathname.pathname !== "/login" && ( */}
               {!token && (
                 <List onClick={handleClose}>
-                  <ListItem disablePadding>
+                  <ListItem disablePadding sx={{ padding: "0" }}>
                     <ListItemButton>
                       <ListItemIcon style={{ minWidth: "2.5rem" }}>
                         <LoginIcon />
@@ -171,17 +171,18 @@ export default function NavBar() {
                   </ListItem>
                 </List>
               )}
-              {/* )} */}
 
               {/* ----------------- Sign Up Page && Profile Link  --------------------- */}
 
-              {/* {!user && ( */}
-              {/* {!token && ( */}
-              <List onClick={handleClose}>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    {!isUserLoggedIn && (
-                      <>
+              <List
+                disablePadding
+                onClick={handleClose}
+                className="profile-links"
+              >
+                {!isUserLoggedIn && (
+                  <>
+                    <ListItem disablePadding sx={{ padding: "0" }}>
+                      <ListItemButton>
                         <ListItemIcon style={{ minWidth: "2.5rem" }}>
                           <LockOpenIcon />
                         </ListItemIcon>
@@ -194,15 +195,20 @@ export default function NavBar() {
                         >
                           <ListItemText primary="Sign up" />
                         </NavLink>
-                      </>
-                    )}
+                      </ListItemButton>
+                    </ListItem>
+                  </>
+                )}
 
-                    {isUserLoggedIn && (
-                      <>
+                {isUserLoggedIn && (
+                  <>
+                    <ListItem sx={{ padding: "0" }}>
+                      <ListItemButton>
                         <ListItemIcon style={{ minWidth: "2.5rem" }}>
                           <ManageAccountsIcon />
                         </ListItemIcon>
                         <NavLink
+                          className="nav-link-profile"
                           to={
                             decodedToken.role === "mentor"
                               ? "/mentors/profile"
@@ -213,12 +219,37 @@ export default function NavBar() {
                             isActive ? activeStyle : noActive
                           }
                         >
-                          <ListItemText primary="Profile" />
+                          <ListItemText
+                            className="profile-text"
+                            primary="Profile"
+                          />
                         </NavLink>
-                      </>
+                      </ListItemButton>
+                    </ListItem>
+
+                    {decodedToken.role === "mentee" && (
+                      <ListItem sx={{ padding: "0" }}>
+                        <ListItemButton>
+                          <ListItemIcon style={{ minWidth: "2.5rem" }}>
+                            <ManageAccountsIcon />
+                          </ListItemIcon>
+                          <NavLink
+                            className="nav-link-liked-mentors"
+                            to={"/mentors/liked-mentors"}
+                            style={({ isActive }) =>
+                              isActive ? activeStyle : noActive
+                            }
+                          >
+                            <ListItemText
+                              className="liked-mentors-text"
+                              primary="Favorit Mentors"
+                            />
+                          </NavLink>
+                        </ListItemButton>
+                      </ListItem>
                     )}
-                  </ListItemButton>
-                </ListItem>
+                  </>
+                )}
               </List>
             </Menu>
           </div>
@@ -235,19 +266,9 @@ export default function NavBar() {
           >
             {token && <LogoutIcon fontSize="small" />}
           </Box>
-          {/* ) : ( */}
-          {/* "" */}
-          {/* )} */}
         </Toolbar>
       </AppBar>
-      <Drawer
-        // toggleDrawer={toggleDrawer}
-        // onClose={toggleDrawer('false')}
-        // onClose={() => setOpen(false)}
-        // open={open}
-        drawerKey={drawerKey}
-        setDrawerKey={setDrawerKey}
-      />
+      <Drawer drawerKey={drawerKey} setDrawerKey={setDrawerKey} />
     </Box>
   );
 }

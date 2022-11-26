@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { getToken } from "../utils/getToken";
-import {nodeEnv} from '../configs/configs'
+import {nodeEnv} from '../utils/nodeEnv'
 
 const EditComment = ({
   handleSendClick,

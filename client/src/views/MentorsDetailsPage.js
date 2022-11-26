@@ -10,6 +10,7 @@ import ErrorPage from "./ErrorPage";
 import Loading from "../components/Loading";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
+import { nodeEnv } from "../utils/nodeEnv";
 import { useParams } from "react-router-dom";
 
 export default function MentorsDetailsPage() {
@@ -19,6 +20,7 @@ export default function MentorsDetailsPage() {
   const [error, setError] = React.useState(null);
   const token = getToken();
   const { mentorId } = useParams();
+const env = nodeEnv.env;
 
   const getMentorsProfile = async () => {
     if (token) {
@@ -34,7 +36,7 @@ export default function MentorsDetailsPage() {
       };
       try {
         const response = await fetch(
-          `http://localhost:5001/api/mentors/getonementor/${mentorId}`,
+          `${env}/mentors/getonementor/${mentorId}`,
           requestOptions
         );
         const result = await response.json();

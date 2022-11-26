@@ -37,7 +37,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { emailCheck } from "../utils/validations.js";
 import { getToken } from "../utils/getToken";
-import {nodeEnv} from "../configs/configs";
+import {nodeEnv} from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -364,8 +364,8 @@ export default function EditMentor() {
   // console.log("mtrsCurrData: ", mtrsCurrData);
   // console.log("password1: ", password1);
   // console.log("password2: ", password2);
-  console.log("token :>> ", token);
-  console.log("languages: ", languages);
+  // console.log("token :>> ", token);
+  // console.log("languages: ", languages);
 
   //   console.log("test1: ", test2);
 

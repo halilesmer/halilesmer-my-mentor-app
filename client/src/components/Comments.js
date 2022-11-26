@@ -8,7 +8,7 @@ import CommentBox from "./CommentBox";
 import EditComment from "./EditComment";
 import SendIcon from "@mui/icons-material/Send";
 import { getToken } from "../utils/getToken";
-import {nodeEnv} from "../configs/configs";
+import { nodeEnv } from "../utils/nodeEnv";
 
 const Comments = (mentorsId) => {
   const [typedComment, setTypedComment] = useState("");
@@ -91,7 +91,7 @@ const Comments = (mentorsId) => {
     };
     try {
       const response = await fetch(
-        `http://localhost:5001/api/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
+        `${env}/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
         requestOptions
       );
       console.log("response: ", response);

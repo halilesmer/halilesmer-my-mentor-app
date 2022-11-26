@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 import { getToken } from "../utils/getToken";
 import jwt_decode from "jwt-decode";
-import { nodeEnv } from "../configs/configs";
+import { nodeEnv } from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
@@ -89,7 +89,6 @@ const AppProvider = (props) => {
         const result = await response.json();
         setMenteesData(result);
         setUserType(result.user_type);
-        console.log("result, getMenteeData: ", result);
         setLoader(false);
       } catch (error) {
         console.log("error getting prifile data: ", error);
@@ -136,7 +135,7 @@ const AppProvider = (props) => {
         const result = await response.json();
         setMentorsProfile(result);
         setUserType(result.user_type);
-        console.log("result, getMentorsProfile:", result);
+        // console.log("result, getMentorsProfile:", result);
         setLoader(false);
       } catch (error) {
         // setError(true);

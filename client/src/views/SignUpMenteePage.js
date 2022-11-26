@@ -27,7 +27,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {nodeEnv} from "../configs/configs";
+import {nodeEnv} from "../utils/nodeEnv";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;

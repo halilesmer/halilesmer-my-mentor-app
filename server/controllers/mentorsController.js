@@ -27,21 +27,6 @@ const uploadUserPicture = async (req, res) => {
 
 const signUp = async (req, res) => {
   console.log("req.body: ", req.body);
-  // console.log("Here is the backend : ", {
-  //   first_name: req.body.first_name,
-  //   last_name: req.body.last_name,
-  //   birthday: req.body.birthday,
-  //   gender: req.body.gender,
-  //   language: req.body.language,
-  //   experience: req.body.experience,
-  //   website: req.body.website,
-  //   fee: req.body.fee,
-  //   couching_medium: req.body.couching_medium,
-  //   email: req.body.email,
-  //   skills: req.body.skills,
-  //   password: req.body.password,
-  //   avatar_picture: req.body.avatar_picture,
-  // });
 
   try {
     const existingUser = await MentorsModel.findOne({ email: req.body.email });
@@ -104,7 +89,7 @@ const signUp = async (req, res) => {
 
 // ------- Get All Mentors ------------------- starts//
 const allMentors = async (req, res) => {
-  console.log("req.body: ", req.body);
+  console.log("req.body-allMentors: ", req.body);
   try {
     const response = await MentorsModel.find();
     res.status(200).json(response);
@@ -188,7 +173,6 @@ const getSpecificMentorData = async (req, res) => {
   try {
     // console.log('req.params :>> ', req.params);
     const mentor = await MentorsModel.findById(req.params.mentorId);
-    // const mentor = await MentorsModel.findById(req.body.mentorId);
 
     res.status(200).json({
       mentor,
@@ -209,7 +193,6 @@ const editMentor = async (req, res) => {
   console.log("request body:>> ", req.body);
   console.log("req.user- editMentor controller", req.user);
   const hashedPassword = await encryptPassword(req.body.password);
-  // const filter = { email: "test@mail.de" };
   const update = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -249,15 +232,12 @@ const editMentor = async (req, res) => {
   }
 };
 
-
 // ---------- Delete Mentors Account ----------- starts --//
 
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentee: ", req.body);
   try {
-    const mentor = await MentorsModel.findByIdAndDelete(
-      req.body.mentorId
-    );
+    const mentor = await MentorsModel.findByIdAndDelete(req.body.mentorId);
     console.log("Mentor delete account successfully.");
     res.status(200).json({
       msg: "Mentor delete account successfully.",
@@ -270,6 +250,30 @@ const deleteAccount = async (req, res) => {
     });
   }
 };
+
+const getLikedMentors = async (req, res) => {
+  console.log("res: in getLikedMentors: ", res);
+  console.log("req.body: in getLikedMentors: ", req.body.mentorId);
+ 
+  try {
+    // const filterMetrs = await MentorsModel.find({_id: '63038402f4076284079263d5'});
+    const filterMetrs = await MentorsModel.find({
+      _id: {
+        $in: req.body.mentorId,
+      },
+    });
+
+    res.status(200).json(filterMetrs);
+    console.log("filterMetrs: ", filterMetrs);
+    console.log("get liked mentors result succeed! :");
+  } catch (error) {
+    console.log(
+      "error: get data by gender in getLikedMentors failed!!!: ",
+      error
+    );
+  }
+};
+
 export {
   uploadUserPicture,
   signUp,
@@ -279,4 +283,5 @@ export {
   getSpecificMentorData,
   editMentor,
   deleteAccount,
+  getLikedMentors,
 };

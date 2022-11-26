@@ -2,6 +2,7 @@ import {
   allMentors,
   deleteAccount,
   editMentor,
+  getLikedMentors,
   getMentorsProfile,
   getSpecificMentorData,
   mentorsSignIn,
@@ -22,6 +23,7 @@ router.post("/imageupload", multerUploads.single("image"), uploadUserPicture);
 router.route("/signup").post(signUp);
 router.post("/signin", mentorsSignIn);
 router.get("/allmentors",allMentors);
+router.post("/likedmentors", jwtAuth, getLikedMentors);
 router.get("/mentorsprofile", jwtAuth, getMentorsProfile);
 router.post("/editmentor", jwtAuth, editMentor);
 router.get("/getonementor/:mentorId", jwtAuth, getSpecificMentorData);
