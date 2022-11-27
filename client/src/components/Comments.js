@@ -12,12 +12,10 @@ import { nodeEnv } from "../utils/nodeEnv";
 
 const Comments = (mentorsId) => {
   const [typedComment, setTypedComment] = useState("");
-  const [text, setText] = useState("");
   const [commentsData, setCommentsData] = useState(null);
   const token = getToken();
   const { menteesData, getMenteeData, decodedToken } = useContext(AppContext);
   const [openEditField, setOpenEditField] = useState(false);
-  // const [commentId, setCommentId] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
 
   const commentsInputFieldRef = useRef(null);
@@ -69,7 +67,6 @@ const Comments = (mentorsId) => {
       const result = await response.json();
 
       console.log("result", result);
-      // setText(commentsData);
       setOpenEditField(false);
       getSpecificMentorsComments();
       scrollToElement();

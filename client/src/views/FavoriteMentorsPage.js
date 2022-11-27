@@ -3,26 +3,24 @@ import React, { useEffect, useState } from "react";
 import { AppContext } from "../contexts/appContext.js";
 import Loading from "../components/Loading.js";
 import MentorsCard from "../components/MentorsCard.js";
+import { Typography } from "@mui/material";
 import { getToken } from "../utils/getToken.js";
 import { nodeEnv } from "../utils/nodeEnv";
 
 const FavoriteMentorsPage = () => {
-  const { loader, setLoader, getMentorsProfile, mentorsProfile, likes } =
-  React.useContext(AppContext);
+  const { getMentorsProfile, mentorsProfile, likes, menteesData } =
+    React.useContext(AppContext);
   const [filteredMentors, setFilteredMentors] = useState();
   const env = nodeEnv.env;
-  
-  console.log("likes: ", likes);
-  
+  const [loader, setLoader] = useState(true);
+
   const getLikedMentors = async () => {
-    // setLoader(true);
     console.log(
       "mentorsProfile.likes: ",
       mentorsProfile && mentorsProfile.likes
     );
 
     const token = getToken();
-
     if (token) {
       try {
         const body = {
@@ -45,12 +43,13 @@ const FavoriteMentorsPage = () => {
 
         console.log("result", result);
         // setText(commentsData);
+        setLoader(false);
       } catch (error) {
         console.log("error: ", error);
+      } finally {
       }
     }
   };
-  // ------- Filter Gender ------- ends //
 
   useEffect(() => {
     let didCancel = false;
@@ -59,28 +58,25 @@ const FavoriteMentorsPage = () => {
     }
     return () => (didCancel = true);
     // eslint-disable-next-line
-  }, []);
+  }, [menteesData]);
 
   useEffect(() => {
-    // if (mentorsProfile) {
-    //   setProfile(mentorsProfile);
-    // }
     mentorsProfile && getLikedMentors();
     // eslint-disable-next-line
   }, [mentorsProfile]);
-
-  // console.log("gender: ", gender);
-  // console.log("allMentorsData: ", allMentorsData && allMentorsData);
-  // console.log("token: ", token);
-  // console.log("mentorsProfile: ", mentorsProfile && mentorsProfile);
-  // console.log("filteredMentors: ", filteredMentors);
 
   return (
     <>
       {loader ? (
         <Loading height="70vh" />
       ) : (
-        <div className="mentors-card-con" style={{ marginTop: "4rem" }}>
+        <div
+          className="favorite-mentors-card-con"
+          style={{ marginTop: "1rem" }}
+        >
+          <Typography variant="h5" component="h5" textAlign="center" mb={1}>
+            My Favorites
+          </Typography>
           {filteredMentors &&
             filteredMentors.map((mentor) => {
               return <MentorsCard key={mentor._id} mentor={mentor} />;
@@ -99,7 +95,7 @@ const FavoriteMentorsPage = () => {
             marginTop: "35vh",
           }}
         >
-          No result found
+          No Favorite Mentors Yet!
         </div>
       )}
     </>

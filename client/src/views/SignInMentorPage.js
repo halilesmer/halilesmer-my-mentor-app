@@ -29,7 +29,7 @@ export default function SignInMentorPage() {
   const navigate = useNavigate();
   const env = nodeEnv.env;
 
-  const { setIsUserLoggedIn, userLogIn, setUserLogIn, userType, setUserType } =
+  const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
 
   // const [password2, setPassword2] = React.useState("");

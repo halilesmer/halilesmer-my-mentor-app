@@ -2,15 +2,9 @@ import "./signsEditsUser.css";
 
 import * as React from "react";
 
-import {
-  Alert,
-  IconButton,
-  InputAdornment,
-  Snackbar,
-} from "@mui/material";
+import { Alert, IconButton, InputAdornment, Snackbar } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { languages, predefinedSkills } from "../data.js/inputData.js";
 
 import { AppContext } from "../contexts/appContext";
 import Avatar from "@mui/material/Avatar";
@@ -27,7 +21,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {nodeEnv} from "../utils/nodeEnv";
+import { nodeEnv } from "../utils/nodeEnv";
+import { predefinedSkills } from "../data.js/inputData.js";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -89,9 +84,7 @@ export default function SignUpMenteePage() {
   const removeSelectedImage = () => {
     setSelectedImage();
   };
-  const { handlePwInputFocus, onBlur, focused } = React.useContext(AppContext);
-
-
+  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
@@ -199,7 +192,7 @@ export default function SignUpMenteePage() {
       setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
-    
+
     /* ---- Password Check ---- starts*/
     if (pw1 !== pw2) {
       console.log(
@@ -222,7 +215,6 @@ export default function SignUpMenteePage() {
         avatar_picture: img,
       };
 
-
       let requestOptions = {
         method: "POST",
         headers: {
@@ -240,10 +232,7 @@ export default function SignUpMenteePage() {
       };
 
       try {
-        const response = await fetch(
-          `${env}/mentees/signup`,
-          requestOptions
-        );
+        const response = await fetch(`${env}/mentees/signup`, requestOptions);
         const results = await response.json();
         console.log("results handleSignUpFormSubmit: ", results);
 
@@ -255,7 +244,6 @@ export default function SignUpMenteePage() {
         }
       } catch (error) {
         console.log("error Submit new mentee", error.msg);
-
       }
     }
   };
