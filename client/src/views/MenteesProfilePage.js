@@ -64,7 +64,7 @@ export default function MenteesProfilePage() {
     setDialogTxt1("Are you sure you want to delete your account?");
   };
   // console.log("menteesData: ", menteesData && menteesData);
-  console.log("env: ", env);
+  // console.log("env: ", env);
 
   return (
     <>

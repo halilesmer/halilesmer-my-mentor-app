@@ -16,18 +16,20 @@ import LoginRegisterBtn from "./LoginRegisterBtn";
 import Slide from "@mui/material/Slide";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import jwt_decode from "jwt-decode";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const MentorsCard = ({ mentor }) => {
-  const { handlePostLikeClick, menteesData, decodedToken, getMenteeData } =
+  const { handlePostLikeClick, menteesData, getMenteeData } =
     useContext(AppContext);
 
   const [likedIconColor, setLikedIconColor] = useState(null);
-
   const [open, setOpen] = React.useState(false);
+  const token = localStorage.getItem("token");
+  const decodedToken = token ? jwt_decode(token) : "";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,7 +42,7 @@ const MentorsCard = ({ mentor }) => {
   // --------- Get mentees data --------- starts //
   useEffect(() => {
     getMenteeData();
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -49,14 +51,13 @@ const MentorsCard = ({ mentor }) => {
       menteesData.likes.filter(
         (id) => id.includes(mentor._id) && setLikedIconColor(true)
       );
-       // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [menteesData]);
   // --------- Get mentees data --------- ends //
 
   // console.log("menteesData: ", menteesData);
   // console.log("decodedToken: ", decodedToken);
   // console.log("mentor: ", mentor);
-  // console.log("decodedToken: ", decodedToken);
 
   return (
     <>

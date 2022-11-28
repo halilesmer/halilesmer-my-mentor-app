@@ -29,24 +29,14 @@ import jwt_decode from "jwt-decode";
 
 export default function NavBar() {
   const [drawerKey, setDrawerKey] = React.useState(false);
-  const [decodedToken, setDecodedToken] = React.useState("");
+  // const [decodedToken, setDecodedToken] = React.useState("");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { handleLogoutClick, isUserLoggedIn } = React.useContext(AppContext);
 
   const token = localStorage.getItem("token");
-
-  // -------- Check is User logged in starts ----------
-  React.useEffect(() => {
-    if (token) {
-      const decodeToken = jwt_decode(token);
-      setDecodedToken(decodeToken);
-    } else {
-      setDecodedToken("");
-    }
-    // eslint-disable-next-line
-  }, []);
+const decodedToken = token ? jwt_decode(token) : '';
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,7 +59,9 @@ export default function NavBar() {
 
   // console.log("userType: ", userType);
   // console.log("token: ", token);
-  // console.log("decodedToken: ", decodedToken);
+  // console.log("decodedToken: ", token && jwt_decode(token),decodedToken);
+// console.log("decodedToken: ", decodedToken);
+
   // console.log("decodedToken: ", decodedToken);
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("drawerKey: ", drawerKey);

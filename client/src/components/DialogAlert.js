@@ -10,7 +10,7 @@ const DialogAlert = ({ dangerFunction }) => {
     setOpenDialog(false);
   };
 
-  console.log("openDialog: ", openDialog);
+  // console.log("openDialog: ", openDialog);
 
   return (
     <Dialog
