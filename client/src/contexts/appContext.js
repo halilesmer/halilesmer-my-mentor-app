@@ -203,17 +203,17 @@ const AppProvider = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      let didCancel = false;
-      if (!didCancel) {
-        // getAllComments();
-        // getAllMentorsData();
-      }
-      return () => (didCancel = true);
-    }
-    // eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   if (token) {
+  //     let didCancel = false;
+  //     if (!didCancel) {
+  //       // getAllComments();
+  //       // getAllMentorsData();
+  //     }
+  //     return () => (didCancel = true);
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
   // ------- Get All Comments -------- ends --
 
   const handleOpenDialog = () => {

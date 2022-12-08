@@ -104,7 +104,7 @@ const env = nodeEnv.env;
   // console.log("gender: ", gender);
   // console.log("allMentorsData: ", allMentorsData && allMentorsData);
   // console.log("token: ", token);
-  console.log("inputValue: ", inputValue.length >0);
+  // console.log("inputValue: ", inputValue.length >0);
 
   // console.log("filteredMentors: ", filteredMentors);
 
