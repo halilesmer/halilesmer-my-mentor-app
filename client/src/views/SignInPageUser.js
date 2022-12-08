@@ -23,7 +23,7 @@ import Typography from "@mui/material/Typography";
 import { nodeEnv } from "../utils/nodeEnv";
 
 const theme = createTheme();
-export default function SignInMenteePage() {
+export default function SignInPageUser() {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false);
   const [dialogText, setDialogText] = React.useState("");
@@ -65,7 +65,7 @@ export default function SignInMenteePage() {
         requestOptions
       );
       const result = await response.json();
-      console.log("result, sign in mentee: ", result);
+      // console.log("result, sign in mentee: ", result);
       // ---- dialog alert if no user ---- starts //
       if (result.msg === "User not found.") {
         setOpenDialog(true);

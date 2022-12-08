@@ -13,8 +13,8 @@ import MentorsDetailsPage from "./MentorsDetailsPage";
 import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
-import SignInMenteePage from "./SignInMenteePage";
 import SignInPage from "./SignInPage";
+import SignInPageUser from "./SignInPageUser";
 import SignUpMenteePage from "../views/SignUpMenteePage";
 import SignUpMentorPage from "../views/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
@@ -46,7 +46,7 @@ const Main = () => {
         <Route path="/mentees/signup" element={<SignUpMenteePage />} />
         <Route path="/signin" element={<SignInPage />} />
 
-        <Route path="/:userType/signin" element={<SignInMenteePage />} />
+        <Route path="/:userType/signin" element={<SignInPageUser />} />
 
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
         <Route path="/mentees/profile" element={<MenteesProfilePage />} />
