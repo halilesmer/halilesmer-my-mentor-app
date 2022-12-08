@@ -20,9 +20,6 @@ const SignInPage = () => {
             </i>
           </Link>
         </p>
-        {/* 
-          <LoginRegisterBtn text="Sign In" />
-        </Link> */}
 
         <LoginRegisterBtn href="/mentees/signin/" text="Sign In" />
       </div>

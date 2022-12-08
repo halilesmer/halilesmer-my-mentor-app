@@ -14,7 +14,6 @@ import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import SignInMenteePage from "./SignInMenteePage";
-import SignInMentorPage from "./SignInMentorPage";
 import SignInPage from "./SignInPage";
 import SignUpMenteePage from "../views/SignUpMenteePage";
 import SignUpMentorPage from "../views/SignUpMentorPage";
@@ -47,8 +46,7 @@ const Main = () => {
         <Route path="/mentees/signup" element={<SignUpMenteePage />} />
         <Route path="/signin" element={<SignInPage />} />
 
-        <Route path="/mentors/signin" element={<SignInMentorPage />} />
-        <Route path="/mentees/signin" element={<SignInMenteePage />} />
+        <Route path="/:userType/signin" element={<SignInMenteePage />} />
 
         <Route path="/mentors/profile" element={<MentorsProfilePage />} />
         <Route path="/mentees/profile" element={<MenteesProfilePage />} />
@@ -59,7 +57,6 @@ const Main = () => {
         <Route path="/mentors/edit-mentor" element={<EditMentor />} />
         <Route path="/mentee/edit-mentee" element={<EditMentee />} />
 
-        {/* <Route path="/comments/edit-comment/:commentId" element={<MentorsDetailsPage />} /> */}
         <Route
           path="*"
           element={<ErrorPage errorMsg="Something went wrong ..." />}

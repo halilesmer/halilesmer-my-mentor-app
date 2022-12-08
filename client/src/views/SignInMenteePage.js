@@ -7,6 +7,7 @@ import {
   DialogContentText,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
 import Avatar from "@mui/material/Avatar";
@@ -20,7 +21,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { nodeEnv } from "../utils/nodeEnv";
-import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 export default function SignInMenteePage() {
@@ -30,11 +30,12 @@ export default function SignInMenteePage() {
   const env = nodeEnv.env;
   const [isFieldFilled, setIsFieldFilled] = React.useState(true);
   const [isPasswordTrue, setIsPasswordTrue] = React.useState(true);
+  const params = useParams();
+  const [loggerType, setLoggerType] = React.useState("");
 
-  const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
+  const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType, userType } =
     React.useContext(AppContext);
 
-  // console.log("password2: ", password2);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsPasswordTrue(true);
@@ -59,7 +60,10 @@ export default function SignInMenteePage() {
       body: urlencoded,
     };
     try {
-      const response = await fetch(`${env}/mentees/signin`, requestOptions);
+      const response = await fetch(
+        `${env}/${loggerType}/signin`,
+        requestOptions
+      );
       const result = await response.json();
       console.log("result, sign in mentee: ", result);
       // ---- dialog alert if no user ---- starts //
@@ -77,8 +81,14 @@ export default function SignInMenteePage() {
         // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
-        setUserType("mentee");
-        navigate("/mentees/profile");
+
+        if (loggerType === "mentees") {
+          setUserType("mentee");
+        } else if (loggerType === "mentors") {
+          setUserType("mentors");
+        }
+
+        navigate(`/${loggerType}/profile`);
         console.log("login succesfull: ", result);
       }
     } catch (error) {
@@ -90,7 +100,16 @@ export default function SignInMenteePage() {
     setOpenDialog(false);
   };
 
-  console.log("userLogIn: ", userLogIn);
+  React.useEffect(() => {
+    setLoggerType(params.userType);
+    //eslint-disable-next-line
+  }, []);
+
+  // console.log("params: ", params);
+  // console.log("userLogIn: ", userLogIn);
+  // console.log("userType: ", userType);
+  // console.log("loggerType: ", loggerType);
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -111,11 +130,12 @@ export default function SignInMenteePage() {
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Typography component="h1" variant="h5">
-              Mentee
+            <Typography component="h1" variant="h5" align="center">
+              {/* Sign in header */}
+              Sign in as a <br />
+              {params.userType[0].toLocaleUpperCase() +
+                "" +
+                params.userType.slice(1, params.userType.length - 1)}
             </Typography>
             <Box
               component="form"
@@ -169,7 +189,7 @@ export default function SignInMenteePage() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/mentees/signup" variant="body2">
+                  <Link href={`/${params.userType}/signup`} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
