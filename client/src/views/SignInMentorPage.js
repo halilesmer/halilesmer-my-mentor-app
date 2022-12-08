@@ -127,22 +127,6 @@ export default function SignInMentorPage() {
                 id="password1"
                 autoComplete="current-password"
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password2"
-                label="Password"
-                type="password"
-                id="password2"
-                autoComplete="current-password"
-                // value={userLogIn.password2 ? userLogIn.password2 : ""}
-                // onChange={handleValueChange}
-              />
-              {/* <FormControlLabel
-              // control={<Checkbox value="remember" color="primary" />}
-              // label="Remember me"
-            /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -152,11 +136,6 @@ export default function SignInMentorPage() {
                 Sign In
               </Button>
               <Grid container>
-                {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
                 <Grid item>
                   <Link href="/mentors/signup" variant="body2">
                     {"Don't have an account? Sign Up"}

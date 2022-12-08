@@ -13,9 +13,9 @@ const CommentBox = ({
 }) => {
   const { decodedToken } = useContext(AppContext);
 
-  console.log("comment: ", comment);
+  // console.log("comment: ", comment);
+  // console.log("decodedToken: ", decodedToken);
   // console.log("comment.menteeId: ", comment.menteeId);
-  console.log("decodedToken: ", decodedToken);
   // console.log("isSameMentee: ", isSameMentee);
 
   return (

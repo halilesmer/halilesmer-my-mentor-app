@@ -91,11 +91,10 @@ const Comments = (mentorsId) => {
         `${env}/comments/getSpecificMentorsComments/${mentorsId.mentorsId}`,
         requestOptions
       );
-      console.log("response: ", response);
       const comments = await response.json();
-      console.log("comments: ", comments);
+      // console.log("comments: ", comments);
       setCommentsData(comments.oneMentorsComments);
-      console.log("comments: ", comments.oneMentorsComments);
+      // console.log("comments: ", comments.oneMentorsComments);
     } catch (error) {
       console.log("error getting mentors comments: ", error);
     }

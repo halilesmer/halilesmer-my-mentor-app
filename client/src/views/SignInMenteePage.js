@@ -19,7 +19,7 @@ import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {nodeEnv} from "../utils/nodeEnv";
+import { nodeEnv } from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -28,13 +28,13 @@ export default function SignInMenteePage() {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [dialogText, setDialogText] = React.useState("");
   const env = nodeEnv.env;
+  const [isFieldFilled, setIsFieldFilled] = React.useState(true);
 
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
 
   // const [password2, setPassword2] = React.useState("");
   // console.log("password2: ", password2);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -88,7 +88,11 @@ export default function SignInMenteePage() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container
+          className="sign-in-mentee-page-con"
+          component="main"
+          maxWidth="xs"
+        >
           <CssBaseline />
           <Box
             sx={{
@@ -109,6 +113,7 @@ export default function SignInMenteePage() {
             </Typography>
             <Box
               component="form"
+              className="sign-in-mentee-form"
               onSubmit={handleSubmit}
               noValidate
               sx={{ mt: 1 }}
@@ -135,23 +140,7 @@ export default function SignInMenteePage() {
                 id="password1"
                 autoComplete="current-password"
               />
-              <TextField
-                size="small"
-                margin="normal"
-                required
-                fullWidth
-                name="password2"
-                label="Password"
-                type="password"
-                id="password2"
-                autoComplete="current-password"
-                // value={userLogIn.password2 ? userLogIn.password2 : ""}
-                // onChange={handleValueChange}
-              />
-              {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+
               <Button
                 type="submit"
                 fullWidth
@@ -161,11 +150,6 @@ export default function SignInMenteePage() {
                 Sign In
               </Button>
               <Grid container>
-                {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
                 <Grid item>
                   <Link href="/mentees/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
