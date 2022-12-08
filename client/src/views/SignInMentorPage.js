@@ -32,14 +32,10 @@ export default function SignInMentorPage() {
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
 
-  // const [password2, setPassword2] = React.useState("");
-  // console.log("password2: ", password2);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const pw1 = data.get("password1").trim();
-    // const pw2 = data.get("password2").trim();
     const email = data.get("email").trim();
 
     const urlencoded = new URLSearchParams();
@@ -62,7 +58,6 @@ export default function SignInMentorPage() {
       const { token, user } = result;
       if (token) {
         localStorage.setItem("token", token);
-        // setIsUserLoggedIn(true);
         setUserLogIn(user);
         setIsUserLoggedIn(true);
         setUserType("mentor");

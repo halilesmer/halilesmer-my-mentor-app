@@ -29,30 +29,34 @@ export default function SignInMenteePage() {
   const [dialogText, setDialogText] = React.useState("");
   const env = nodeEnv.env;
   const [isFieldFilled, setIsFieldFilled] = React.useState(true);
+  const [isPasswordTrue, setIsPasswordTrue] = React.useState(true);
 
   const { setIsUserLoggedIn, userLogIn, setUserLogIn, setUserType } =
     React.useContext(AppContext);
 
-  // const [password2, setPassword2] = React.useState("");
   // console.log("password2: ", password2);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsPasswordTrue(true);
+    setIsFieldFilled(true);
+
     const data = new FormData(e.currentTarget);
-    const pw1 = data.get("password1").trim();
-    // const pw2 = data.get("password2").trim();
+    const password = data.get("password1").trim();
     const email = data.get("email").trim();
+
+    if (!password || !email) {
+      console.log("password: ", password);
+      return setIsFieldFilled(false);
+    } else {
+    }
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("email", email);
-    urlencoded.append("password", pw1);
+    urlencoded.append("password", password);
 
     const requestOptions = {
       method: "POST",
       body: urlencoded,
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      // body: JSON.stringify(userLogIn),
     };
     try {
       const response = await fetch(`${env}/mentees/signin`, requestOptions);
@@ -62,6 +66,8 @@ export default function SignInMenteePage() {
       if (result.msg === "User not found.") {
         setOpenDialog(true);
         setDialogText("User not found. Please try again.");
+      } else if (result.msg === "Password is incorrect!") {
+        setIsPasswordTrue(false);
       }
       // ---- dialog alert if no user ---- ends //
 
@@ -140,6 +146,18 @@ export default function SignInMenteePage() {
                 id="password1"
                 autoComplete="current-password"
               />
+
+              {!isFieldFilled && (
+                <Typography mt={2} color="red" textAlign="center">
+                  Please fill out all required fields.
+                </Typography>
+              )}
+
+              {!isPasswordTrue && (
+                <Typography mt={2} color="red" textAlign="center">
+                  Password is incorrect! <br /> Please try again.
+                </Typography>
+              )}
 
               <Button
                 type="submit"
