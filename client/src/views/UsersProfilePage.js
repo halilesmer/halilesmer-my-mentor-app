@@ -1,8 +1,9 @@
-import "./MentorsProfilePage.css";
+import "./usersProfilePage.css";
 
 import * as React from "react";
 
 import { Box, Button, Paper, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { AppContext } from "../contexts/appContext";
 import DialogAlert from "../components/DialogAlert";
@@ -10,12 +11,12 @@ import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
 import { nodeEnv } from "../utils/nodeEnv";
-import { useNavigate } from "react-router-dom";
 
-export default function MenteesProfilePage() {
+export default function UsersProfilePage() {
   const {
-    menteesData,
+    userData,
     getMenteeData,
+    getMentorsProfile,
     setOpenSnackBar,
     setSnackBarText,
     snackBarText,
@@ -27,9 +28,12 @@ export default function MenteesProfilePage() {
   const token = getToken();
   const navigate = useNavigate();
   const env = nodeEnv.env;
+  const { userType } = useParams();
 
   React.useEffect(() => {
-    getMenteeData();
+    userType === "mentees"
+      ? getMenteeData()
+      : getMentorsProfile();
     // eslint-disable-next-line
   }, []);
 
@@ -41,11 +45,19 @@ export default function MenteesProfilePage() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ menteeId: menteesData._id }),
+      // body: JSON.stringify(
+      //          if(userType === 'mentees'){
+      //            { menteeId: userData._id }
+      //          }else if(userType === 'mentees'){
+      // { menteeId: mentorsProfile.id }
+      //          }
+      //       )
+      body: JSON.stringify({ menteeId: userData.id }),
     };
     try {
       const response = await fetch(
-        `${env}/mentees/delete-account/`,
+        `${env}/${userType}/delete-account/`,
+        // `${env}/mentees/delete-account/`,
         deleteOptions
       );
       console.log("response-deleteMenteesAccount: ", response);
@@ -63,12 +75,13 @@ export default function MenteesProfilePage() {
     handleOpenDialog();
     setDialogTxt1("Are you sure you want to delete your account?");
   };
-  // console.log("menteesData: ", menteesData && menteesData);
+  console.log("userData: ", userData && userData);
   // console.log("env: ", env);
+  // console.log('userType', loggerType)
 
   return (
     <>
-      {menteesData && (
+      {userData && (
         <Box className="user-info-con" component="div" sx={{ mt: 0 }}>
           <Typography variant="h5" component="h5" textAlign="center" mb={1}>
             User Profile
@@ -76,12 +89,8 @@ export default function MenteesProfilePage() {
           {/* ------------ Avatar Picture ---------- */}
           <div className="avatar-picture-con">
             <div className="avatar-picture-box">
-              {menteesData.avatar_picture ? (
-                <img
-                  src={menteesData?.avatar_picture}
-                  alt="avatar"
-                  width="300"
-                />
+              {userData.avatar_picture ? (
+                <img src={userData?.avatar_picture} alt="avatar" width="300" />
               ) : (
                 <span>Please choose a profile image (optional)</span>
               )}
@@ -107,22 +116,57 @@ export default function MenteesProfilePage() {
 
           <Box className="profile-info-box">
             <Typography variant="h5" component="h5" textAlign="center" mb={3}>
-              {menteesData.first_name} {menteesData.last_name} <br /> (Mentee)
+              {userData.first_name} {userData.last_name} <br />
+              {userType === "mentees" ? "(Mentee)" : "(Mentor)"}
             </Typography>
+
+            {userType === "mentors" &&
+              (userData.likes.length > 0 ? (
+                <div className="mentor-follower-con">
+                  You have <strong>{userData.likes.length}</strong> follower.
+                </div>
+              ) : (
+                <div className="mentor-follower-con">
+                  You don't have any followers yet
+                </div>
+              ))}
+
+            {userType === "mentors" && (
+              <Paper elevation={4}>
+                <span>
+                  Fee for one houer:{" "}
+                  {userData.fee === 0 ? "Volunteer" : userData.fee + " €"}
+                </span>{" "}
+              </Paper>
+            )}
+
             <Paper elevation={4}>
-              <span>Birthday: {formatDateDdMmYyyy(menteesData.birthday)}</span>
+              <span>Birthday: {formatDateDdMmYyyy(userData.birthday)}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Gender: {menteesData.gender}</span>
+              <span>Gender: {userData.gender}</span>
             </Paper>
             <Paper elevation={4}>
-              <span>Languages: {menteesData.language}</span>
+              <span>
+                Languages:
+                {userData?.language?.map((item, i) => (
+                  <li className="profile-info-box-list" key={i}>
+                    {item}{" "}
+                  </li>
+                ))}
+              </span>
             </Paper>
+
+            {userType === "mentors" && (
+              <Paper elevation={4}>
+                <span>Experience in Years: {userData.experience}</span>
+              </Paper>
+            )}
 
             <Paper elevation={4}>
               <span>
                 Couching Medium:
-                {menteesData.couching_medium.map((item, i) => (
+                {userData.couching_medium.map((item, i) => (
                   <li className="profile-info-box-list" key={i}>
                     {item}{" "}
                   </li>
@@ -131,8 +175,8 @@ export default function MenteesProfilePage() {
             </Paper>
             <Paper elevation={4}>
               <span>
-                Interests:
-                {menteesData.skills.map((skill, i) => (
+                {userType === "mentees" ? "Interests:" : "Skills:"}
+                {userData.skills.map((skill, i) => (
                   <li className="profile-info-box-list" key={i}>
                     {skill}{" "}
                   </li>
@@ -140,10 +184,16 @@ export default function MenteesProfilePage() {
               </span>
             </Paper>
             <Paper elevation={4}>
-              <span>About: {menteesData.about}</span>
+              <span>About: {userData.about}</span>
             </Paper>
+            {userType === "mentors" && (
+              <Paper elevation={4}>
+                <span>Website: {userData?.website}</span>
+              </Paper>
+            )}
+
             <Paper elevation={4}>
-              <span>Email: {menteesData.email}</span>
+              <span>Email: {userData.email}</span>
             </Paper>
             <Paper elevation={4}>
               <span>Password: ***</span>
@@ -154,17 +204,17 @@ export default function MenteesProfilePage() {
                 className="user-type"
                 style={{ textTransform: "capitalize" }}
               >
-                {menteesData.user_type}
+                {userData.user_type}
               </span>
             </Paper>
             <Paper elevation={4}>
               <span>
-                Register Date: {formatDateDdMmYyyy(menteesData.createdAt)}
+                Register Date: {formatDateDdMmYyyy(userData.register_Date)}
               </span>
             </Paper>
 
             <Button
-              href="/mentee/edit-mentee"
+              href={`/${userType}/edit-mentee`}
               className="edit-profile-btn"
               variant="contained"
               fullWidth

@@ -7,10 +7,8 @@ import ErrorPage from "./ErrorPage";
 import FavoritMentorsPage from "./FavoritMentorsPage";
 import FavoriteMentorsPage from "./FavoriteMentorsPage";
 import Home from "./Home";
-import MenteesProfilePage from "./MenteesProfilePage";
 import Mentors from "./Mentors";
 import MentorsDetailsPage from "./MentorsDetailsPage";
-import MentorsProfilePage from "./MentorsProfilePage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import SignInPage from "./SignInPage";
@@ -18,6 +16,7 @@ import SignInPageUser from "./SignInPageUser";
 import SignUpMenteePage from "../views/SignUpMenteePage";
 import SignUpMentorPage from "../views/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
+import UsersProfilePage from "./UsersProfilePage";
 
 // import Grid from "@mui/material/Grid";
 
@@ -48,14 +47,14 @@ const Main = () => {
 
         <Route path="/:userType/signin" element={<SignInPageUser />} />
 
-        <Route path="/mentors/profile" element={<MentorsProfilePage />} />
-        <Route path="/mentees/profile" element={<MenteesProfilePage />} />
+        <Route path="/:userType/profile" element={<UsersProfilePage />} />
+   
         <Route
           path="/mentors/liked-mentors"
           element={<FavoriteMentorsPage />}
         />
         <Route path="/mentors/edit-mentor" element={<EditMentor />} />
-        <Route path="/mentee/edit-mentee" element={<EditMentee />} />
+        <Route path="/:userType/edit-mentee" element={<EditMentee />} />
 
         <Route
           path="*"

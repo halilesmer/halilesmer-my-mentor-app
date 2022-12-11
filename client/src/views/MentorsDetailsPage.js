@@ -1,8 +1,8 @@
-import "./MentorsProfilePage.css";
+import "./usersProfilePage.css";
 
 import * as React from "react";
 
-import { Box, Button, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 
 import { AppContext } from "../contexts/appContext";
 import Comments from "../components/Comments.js";
@@ -14,13 +14,13 @@ import { nodeEnv } from "../utils/nodeEnv";
 import { useParams } from "react-router-dom";
 
 export default function MentorsDetailsPage() {
-  const {  setUserType } = React.useContext(AppContext);
-  const [loader, setLoader] = React.useState(true)
+  const { setUserType } = React.useContext(AppContext);
+  const [loader, setLoader] = React.useState(true);
   const [mentor, setMentor] = React.useState(null);
   const [error, setError] = React.useState(null);
   const token = getToken();
   const { mentorId } = useParams();
-const env = nodeEnv.env;
+  const env = nodeEnv.env;
 
   const getMentorsProfile = async () => {
     if (token) {
@@ -43,7 +43,6 @@ const env = nodeEnv.env;
         setMentor(result.mentor);
         setUserType("mentor");
         setLoader(false);
-
       } catch (error) {
         setError(true);
         setLoader(false);

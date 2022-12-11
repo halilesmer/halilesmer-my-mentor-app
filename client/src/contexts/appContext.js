@@ -11,8 +11,8 @@ const AppProvider = (props) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userLogIn, setUserLogIn] = useState("");
   const [userType, setUserType] = useState("");
-  const [menteesData, setMenteesData] = useState(null);
-  const [mentorsProfile, setMentorsProfile] = useState(null);
+  const [userData, setUserData] = useState(null);
+  // const [mentorsProfile, setMentorsProfile] = useState(null);
   // const [error, setError] = useState(null);
   const [decodedToken, setDecodedToken] = useState("");
   // const [allComments, setAllComments] = useState(null);
@@ -72,7 +72,7 @@ const AppProvider = (props) => {
 
   // ------ Get Mentees Profile Data -------- starts ---
   const getMenteeData = async () => {
-    // setLoader(true);
+
     if (token) {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -87,7 +87,7 @@ const AppProvider = (props) => {
           requestOptions
         );
         const result = await response.json();
-        setMenteesData(result);
+        setUserData(result);
         setUserType(result.user_type);
         setLoader(false);
       } catch (error) {
@@ -97,23 +97,6 @@ const AppProvider = (props) => {
     }
   };
   // ------ Get Mentees Profile Data -------- ends ---
-
-  // ------- Get All Mentors -------------------//
-  const getAllMentorsData = async () => {
-    setLoader(true);
-    try {
-      const response = await fetch(`${env}/mentors/allmentors`);
-      const result = await response.json();
-      console.log("getAllMentorsData: ", result);
-      // setMentorsProfile(result)
-      setAllMentorsData(result);
-      setUserType("mentor");
-      setLoader(false);
-    } catch (error) {
-      console.log("error getting prifile data: ", error);
-      setLoader(false);
-    }
-  };
 
   // ------ Get Mentor Data -------- starts ---
   const getMentorsProfile = async () => {
@@ -133,7 +116,7 @@ const AppProvider = (props) => {
           requestOptions
         );
         const result = await response.json();
-        setMentorsProfile(result);
+        setUserData(result);
         setUserType(result.user_type);
         // console.log("result, getMentorsProfile:", result);
         setLoader(false);
@@ -144,7 +127,24 @@ const AppProvider = (props) => {
       }
     }
   };
-  // ------ Get Mentor Data -------- starts ---
+  // ------ Get Mentor Data -------- ends ---
+
+  // ------- Get All Mentors -------------------//
+  const getAllMentorsData = async () => {
+    setLoader(true);
+    try {
+      const response = await fetch(`${env}/mentors/allmentors`);
+      const result = await response.json();
+      console.log("getAllMentorsData: ", result);
+      // setMentorsProfile(result)
+      setAllMentorsData(result);
+      setUserType("mentor");
+      setLoader(false);
+    } catch (error) {
+      console.log("error getting prifile data: ", error);
+      setLoader(false);
+    }
+  };
 
   // ------- like a mentor -------- starts --
   const handlePostLikeClick = async (id) => {
@@ -163,7 +163,7 @@ const AppProvider = (props) => {
     try {
       const response = await fetch(`${env}/mentees/postLikes`, requestOptions);
       const result = await response.json();
-      setMenteesData(result.mentee);
+      setUserData(result.mentee);
 
       console.log("result likes: ", result);
       setLoader(false);
@@ -203,30 +203,17 @@ const AppProvider = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (token) {
-  //     let didCancel = false;
-  //     if (!didCancel) {
-  //       // getAllComments();
-  //       // getAllMentorsData();
-  //     }
-  //     return () => (didCancel = true);
-  //   }
-  //   // eslint-disable-next-line
-  // }, []);
-  // ------- Get All Comments -------- ends --
-
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
   // console.log("mentorsProfile", mentorsProfile);
   // console.log("decodedToken: ", decodedToken);
-  // console.log("menteesData", menteesData && menteesData);
+  // console.log("userData", userData && userData);
   // console.log('token', token)
   // console.log("openSnackBar: ", openSnackBar);
   // console.log('allMentorsData,',allMentorsData,)
-  // console.log("env: ", env);
+  // console.log("userData: ", userData);
 
   return (
     <AppContext.Provider
@@ -244,11 +231,10 @@ const AppProvider = (props) => {
         setUserType,
         handlePostLikeClick,
         getMenteeData,
-        menteesData,
+        userData,
         likes,
         getAllComments,
         getMentorsProfile,
-        mentorsProfile,
         decodedToken,
         allMentorsData,
         getAllMentorsData,

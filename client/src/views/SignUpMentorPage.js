@@ -256,7 +256,7 @@ export default function SignUpMentorPage() {
       setIsEmailValid(true);
     } else {
       console.log("invalid email");
-      setIsEmailValid(false);
+     return setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
 
@@ -265,7 +265,7 @@ export default function SignUpMentorPage() {
       console.log(
         "You first Passwords is not similar with 2nd password. Please enter same password in both"
       );
-      setIsPwValid(false);
+      return setIsPwValid(false);
     } else if (pw1.length < 5) {
       console.log("Password validation is at least 6 character");
       setIsPwValid(false);
