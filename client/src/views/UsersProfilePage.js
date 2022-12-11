@@ -45,19 +45,11 @@ export default function UsersProfilePage() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      // body: JSON.stringify(
-      //          if(userType === 'mentees'){
-      //            { menteeId: userData._id }
-      //          }else if(userType === 'mentees'){
-      // { menteeId: mentorsProfile.id }
-      //          }
-      //       )
       body: JSON.stringify({ menteeId: userData.id }),
     };
     try {
       const response = await fetch(
         `${env}/${userType}/delete-account/`,
-        // `${env}/mentees/delete-account/`,
         deleteOptions
       );
       console.log("response-deleteMenteesAccount: ", response);
@@ -209,7 +201,7 @@ export default function UsersProfilePage() {
             </Paper>
             <Paper elevation={4}>
               <span>
-                Register Date: {formatDateDdMmYyyy(userData.register_Date)}
+                Register Date: {formatDateDdMmYyyy(userData.createdAt)}
               </span>
             </Paper>
 
