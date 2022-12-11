@@ -9,7 +9,7 @@ import DialogAlert from "../components/DialogAlert";
 import SnackbarMui from "../components/SnackbarMui";
 import { formatDateDdMmYyyy } from "../utils/formatData.js";
 import { getToken } from "../utils/getToken.js";
-import {nodeEnv} from "../utils/nodeEnv";
+import { nodeEnv } from "../utils/nodeEnv";
 import { useNavigate } from "react-router-dom";
 
 export default function MenteesProfilePage() {
@@ -121,9 +121,11 @@ export default function MenteesProfilePage() {
 
             <Paper elevation={4}>
               <span>
-                Couching Medium:{" "}
+                Couching Medium:
                 {menteesData.couching_medium.map((item, i) => (
-                  <span key={i}>{item}, </span>
+                  <li className="profile-info-box-list" key={i}>
+                    {item}{" "}
+                  </li>
                 ))}
               </span>
             </Paper>
@@ -131,7 +133,9 @@ export default function MenteesProfilePage() {
               <span>
                 Interests:
                 {menteesData.skills.map((skill, i) => (
-                  <span key={i}>{skill}, </span>
+                  <li className="profile-info-box-list" key={i}>
+                    {skill}{" "}
+                  </li>
                 ))}{" "}
               </span>
             </Paper>

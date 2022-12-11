@@ -64,6 +64,10 @@
     margin: auto auto auto 3px !important;
 }
 
+.profile-info-box-list{
+margin-left: 1rem;
+}
+
 .edit-profile-btn {
     margin-top: 1rem !important;
 }
