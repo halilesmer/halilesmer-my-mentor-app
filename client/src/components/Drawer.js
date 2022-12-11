@@ -15,10 +15,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 export default function Drawer({ drawerKey, setDrawerKey }) {
-  const { handleLogoutClick } = React.useContext(AppContext);
-  const [loading, setLoading] = React.useState(false);
-  const navigateTo = useNavigate();
-    const token = localStorage.getItem("token");
+  const { handleLogoutClick, isUserLoggedIn } = React.useContext(AppContext);
+  const [token, setToken] = React.useState("");
+
+  React.useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, [isUserLoggedIn]);
+
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
@@ -30,19 +33,6 @@ export default function Drawer({ drawerKey, setDrawerKey }) {
     //  setState({ ...state, [anchor]: open });
     setDrawerKey(open);
   };
-  // const logout = (e) => {
-  //   setLoading(true);
-  //   // signOut(auth)
-  //   //   .then(() => {
-  //   //     // Sign-out successful.
-  //   //     navigateTo("/");
-  //   //     setLoading(false);
-  //   //   })
-  //   //   .catch((error) => {
-  //   //     // An error happened.
-  //   //     console.log("sign out error: ", error);
-  //   //   });
-  // };
 
   let activeStyle = {
     textDecoration: "underline",
@@ -78,16 +68,18 @@ export default function Drawer({ drawerKey, setDrawerKey }) {
       </List>
 
       <Divider />
-    {token &&  <List onClick={handleLogoutClick}>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Logout"} />
-          </ListItemButton>
-        </ListItem>
-      </List>}
+      {token && (
+        <List onClick={handleLogoutClick}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      )}
     </Box>
   );
 

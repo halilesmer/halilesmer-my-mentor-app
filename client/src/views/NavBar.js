@@ -25,18 +25,19 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MenuIcon from "@mui/icons-material/Menu";
 import jwt_decode from "jwt-decode";
 
-// import { signOut } from "firebase/auth";
-
 export default function NavBar() {
   const [drawerKey, setDrawerKey] = React.useState(false);
-  // const [decodedToken, setDecodedToken] = React.useState("");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { handleLogoutClick, isUserLoggedIn } = React.useContext(AppContext);
+  const [token, setToken] = React.useState("");
 
-  const token = localStorage.getItem("token");
-const decodedToken = token ? jwt_decode(token) : '';
+  const decodedToken = token ? jwt_decode(token) : "";
+
+  React.useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, [isUserLoggedIn]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,7 +61,7 @@ const decodedToken = token ? jwt_decode(token) : '';
   // console.log("userType: ", userType);
   // console.log("token: ", token);
   // console.log("decodedToken: ", token && jwt_decode(token),decodedToken);
-// console.log("decodedToken: ", decodedToken);
+  // console.log("decodedToken: ", decodedToken);
 
   // console.log("decodedToken: ", decodedToken);
   // console.log("isUserLoggedIn: ", isUserLoggedIn);
@@ -171,7 +172,7 @@ const decodedToken = token ? jwt_decode(token) : '';
                 onClick={handleClose}
                 className="profile-links"
               >
-                {!isUserLoggedIn && (
+                {!token && (
                   <>
                     <ListItem disablePadding sx={{ padding: "0" }}>
                       <ListItemButton>
@@ -192,7 +193,7 @@ const decodedToken = token ? jwt_decode(token) : '';
                   </>
                 )}
 
-                {isUserLoggedIn && (
+                {token && (
                   <>
                     <ListItem sx={{ padding: "0" }}>
                       <ListItemButton>

@@ -28,7 +28,7 @@ const MentorsCard = ({ mentor }) => {
 
   const [likedIconColor, setLikedIconColor] = useState(null);
   const [open, setOpen] = React.useState(false);
-  const token = localStorage.getItem("token");
+  const [token, setToken] = React.useState("");
   const decodedToken = token ? jwt_decode(token) : "";
 
   const handleClickOpen = () => {
@@ -42,6 +42,7 @@ const MentorsCard = ({ mentor }) => {
   // --------- Get mentees data --------- starts //
   useEffect(() => {
     getMenteeData();
+    setToken(localStorage.getItem("token"));
     // eslint-disable-next-line
   }, []);
 

@@ -57,7 +57,7 @@ const AppProvider = (props) => {
   useEffect(() => {
     isUsrLoggIn();
     // eslint-disable-next-line
-  }, [isUserLoggedIn]);
+  }, []);
   // -------- Check is User logged in ends ----------
 
   // -------- Log out in starts ----------
@@ -72,7 +72,6 @@ const AppProvider = (props) => {
 
   // ------ Get Mentees Profile Data -------- starts ---
   const getMenteeData = async () => {
-
     if (token) {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);

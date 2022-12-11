@@ -33,7 +33,7 @@ export default function SignInPageUser() {
   const params = useParams();
   const [loggerType, setLoggerType] = React.useState("");
 
-  const { setIsUserLoggedIn, setUserLogIn, setUserType, } =
+  const { setIsUserLoggedIn, setUserLogIn, setUserType, token, setToken } =
     React.useContext(AppContext);
 
   const handleSubmit = async (e) => {

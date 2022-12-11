@@ -22,6 +22,7 @@ export default function UsersProfilePage() {
     snackBarText,
     handleOpenDialog,
     setDialogTxt1,
+    setToken,
   } = React.useContext(AppContext);
 
   const [error, setError] = React.useState(null);
@@ -31,11 +32,11 @@ export default function UsersProfilePage() {
   const { userType } = useParams();
 
   React.useEffect(() => {
-    userType === "mentees"
-      ? getMenteeData()
-      : getMentorsProfile();
+   if(token){
+     userType === "mentees" ? getMenteeData() : getMentorsProfile();
+   }
     // eslint-disable-next-line
-  }, []);
+  }, [token]);
 
   // ------- Delete Mentees Account ------- starts //
   const deleteMenteesAccount = async (commentId) => {
@@ -67,7 +68,7 @@ export default function UsersProfilePage() {
     handleOpenDialog();
     setDialogTxt1("Are you sure you want to delete your account?");
   };
-  console.log("userData: ", userData && userData);
+  // console.log("userData: ", userData && userData);
   // console.log("env: ", env);
   // console.log('userType', loggerType)
 
