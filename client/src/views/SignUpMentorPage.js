@@ -263,7 +263,7 @@ export default function SignUpMentorPage() {
     /* ---- Password Check ---- starts*/
     if (pw1 !== pw2) {
       console.log(
-        "You first Passwords is not similar with 2nd password. Please enter same password in both"
+        "Your first Passwords is not similar with 2nd password. Please enter same password in both"
       );
       return setIsPwValid(false);
     } else if (pw1.length < 5) {
@@ -312,6 +312,7 @@ export default function SignUpMentorPage() {
         if (results.msg === "user allready exists") {
           setSnackBarAlert("user allready exists");
           handleClick();
+          return false;
         } else {
           navigate("/mentors/signin");
         }

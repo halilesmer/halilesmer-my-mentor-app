@@ -132,7 +132,6 @@ const getMenteesProfile = (req, res) => {
   res.status(200).json(req.user);
 };
 
-
 // ----------- editMentee -------------------//
 const editMentee = async (req, res) => {
   // console.log("edit Mentee: req,res: ", req, res);
@@ -174,15 +173,12 @@ const editMentee = async (req, res) => {
   }
 };
 
-
-
-
 // ------- Get All Mentees ------------------- starts//
 const allMentees = async (req, res) => {
   console.log("req.body: ", req.body);
   try {
     const response = await MenteesModel.find();
-    console.log('Getting all mentees successfully!')
+    console.log("Getting all mentees successfully!");
     res.status(200).json(response);
   } catch (error) {
     console.log("error, getting all mentees failed: ", error);
@@ -194,14 +190,11 @@ const allMentees = async (req, res) => {
 };
 // ------- Get All Mentees ------------------- ends//
 
-
 // ---------- Delete Mentees Account ----------- starts --//
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentee: ", req.body);
   try {
-    const mentee = await MenteesModel.findByIdAndDelete(
-      req.body.menteeId
-    );
+    const mentee = await MenteesModel.findByIdAndDelete(req.body.userId);
     console.log("Mentee delete account successfully.");
     res.status(200).json({
       msg: "Mentee delete account successfully.",

@@ -87,22 +87,6 @@ const signUp = async (req, res) => {
   }
 };
 
-// ------- Get All Mentors ------------------- starts//
-const allMentors = async (req, res) => {
-  console.log("req.body-allMentors: ", req.body);
-  try {
-    const response = await MentorsModel.find();
-    res.status(200).json(response);
-  } catch (error) {
-    console.log("error, getting all mentors failed: ", error);
-    res.status(400).json({
-      msg: "getting all mentors failed:",
-      error: error,
-    });
-  }
-};
-// ------- Get All Mentors ------------------- ends//
-
 const mentorsSignIn = async (req, res) => {
   const user = await MentorsModel.findOne({ email: req.body.email });
   if (!user) {
@@ -141,13 +125,32 @@ const mentorsSignIn = async (req, res) => {
   }
 };
 
+// ------- Get All Mentors ------------------- starts//
+const allMentors = async (req, res) => {
+  console.log("req.body-allMentors: ", req.body);
+  try {
+    const response = await MentorsModel.find();
+    res.status(200).json(response);
+  } catch (error) {
+    console.log("error, getting all mentors failed: ", error);
+    res.status(400).json({
+      msg: "getting all mentors failed:",
+      error: error,
+    });
+  }
+};
+// ------- Get All Mentors ------------------- ends//
+
 // ------- getMentorsProfile -------------------//
 const getMentorsProfile = (req, res) => {
   console.log("req, res in getMentorsProfile: ", req, res);
   console.log("req.user- getMentorsProfile", req.user);
 
+  const { password, ...user } = req.user;
+
+  // res.status(200).json(req.user);
   res.status(200).json({
-    id: req.user.id,
+    _id: req.user.id,
     first_name: req.user.first_name,
     last_name: req.user.last_name,
     email: req.user.email,
@@ -213,7 +216,7 @@ const editMentor = async (req, res) => {
   };
 
   try {
-    // const updateMentee = await mongoose.MenteeModel.findOneAndUpdate(id_mentee, )  delete this
+    // const updateMentor = await mongoose.MentorModel.findOneAndUpdate(id_mentor, )  delete this
     console.log("req.user.id- editMentor controller: ", req.user.id);
 
     const doc = await MentorsModel.findByIdAndUpdate(req.user.id, update, {
@@ -235,9 +238,9 @@ const editMentor = async (req, res) => {
 // ---------- Delete Mentors Account ----------- starts --//
 
 const deleteAccount = async (req, res) => {
-  console.log("req.body- deleteAccount-mentee: ", req.body);
+  console.log("req.body- deleteAccount-mentor: ", req.body);
   try {
-    const mentor = await MentorsModel.findByIdAndDelete(req.body.mentorId);
+    const mentor = await MentorsModel.findByIdAndDelete(req.body.userId);
     console.log("Mentor delete account successfully.");
     res.status(200).json({
       msg: "Mentor delete account successfully.",
@@ -254,7 +257,7 @@ const deleteAccount = async (req, res) => {
 const getLikedMentors = async (req, res) => {
   console.log("res: in getLikedMentors: ", res);
   console.log("req.body: in getLikedMentors: ", req.body.mentorId);
- 
+
   try {
     // const filterMetrs = await MentorsModel.find({_id: '63038402f4076284079263d5'});
     const filterMetrs = await MentorsModel.find({

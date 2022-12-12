@@ -22,7 +22,6 @@ export default function UsersProfilePage() {
     snackBarText,
     handleOpenDialog,
     setDialogTxt1,
-    setToken,
   } = React.useContext(AppContext);
 
   const [error, setError] = React.useState(null);
@@ -32,28 +31,28 @@ export default function UsersProfilePage() {
   const { userType } = useParams();
 
   React.useEffect(() => {
-   if(token){
-     userType === "mentees" ? getMenteeData() : getMentorsProfile();
-   }
+    if (token) {
+      userType === "mentees" ? getMenteeData() : getMentorsProfile();
+    }
     // eslint-disable-next-line
   }, [token]);
 
   // ------- Delete Mentees Account ------- starts //
-  const deleteMenteesAccount = async (commentId) => {
+  const deleteUsersAccount = async () => {
     const deleteOptions = {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ menteeId: userData.id }),
+      body: JSON.stringify({ userId: userData._id }),
     };
     try {
       const response = await fetch(
         `${env}/${userType}/delete-account/`,
         deleteOptions
-      );
-      console.log("response-deleteMenteesAccount: ", response);
+        );
+        console.log("response-delete: ", response);
       localStorage.removeItem("token");
       navigate("/");
       setOpenSnackBar(true);
@@ -68,7 +67,7 @@ export default function UsersProfilePage() {
     handleOpenDialog();
     setDialogTxt1("Are you sure you want to delete your account?");
   };
-  // console.log("userData: ", userData && userData);
+  console.log("userData: ", userData && userData);
   // console.log("env: ", env);
   // console.log('userType', loggerType)
 
@@ -226,7 +225,7 @@ export default function UsersProfilePage() {
           </Box>
         </Box>
       )}
-      <DialogAlert dangerFunction={deleteMenteesAccount} />
+      <DialogAlert dangerFunction={deleteUsersAccount} />
       <SnackbarMui snackBarText={snackBarText} />
     </>
   );

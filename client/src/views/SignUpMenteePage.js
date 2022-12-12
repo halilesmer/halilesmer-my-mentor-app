@@ -111,11 +111,6 @@ export default function SignUpMenteePage() {
     }
   }; // ---- Handle Skills  ends -------
 
-  //  ------- Handle Terms --------
-  const handleTermsChange = (e) => {
-    const checked = e.target.checked;
-    checked ? setTermsAgr(true) : setTermsAgr(false);
-  };
   // ----   Handle ------
   const handleAttachFileOnchange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -196,9 +191,9 @@ export default function SignUpMenteePage() {
     /* ---- Password Check ---- starts*/
     if (pw1 !== pw2) {
       console.log(
-        "You first Passwords is not similar with 2nd password. Please enter same password in both"
+        "Your first Passwords is not similar with 2nd password. Please enter same password in both"
       );
-      setIsPwValid(false);
+      return setIsPwValid(false);
     } else if (pw1.length < 5) {
       console.log("Password validation is at least 6 character");
       setIsPwValid(false);
@@ -239,6 +234,7 @@ export default function SignUpMenteePage() {
         if (results.msg === "user allready exists") {
           setSnackBarAlert("User allready exists");
           handleClick();
+          return false;
         } else {
           navigate("/mentees/signin");
         }
@@ -508,13 +504,6 @@ export default function SignUpMenteePage() {
                 autoComplete="new-password"
                 onFocus={handlePwInputFocus}
                 onBlur={onBlur}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the terms and conditions."
-                onClick={(e) => handleTermsChange(e)}
               />
             </Grid>
           </Grid>

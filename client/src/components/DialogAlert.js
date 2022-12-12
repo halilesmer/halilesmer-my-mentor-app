@@ -32,7 +32,10 @@ const DialogAlert = ({ dangerFunction }) => {
           Cancel
         </Button>
         <Button
-          onClick={dangerFunction}
+          onClick={() => {
+            dangerFunction();
+            handleClose();
+          }}
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
           color="error"
