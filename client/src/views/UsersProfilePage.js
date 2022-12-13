@@ -51,12 +51,18 @@ export default function UsersProfilePage() {
       const response = await fetch(
         `${env}/${userType}/delete-account/`,
         deleteOptions
-        );
-        console.log("response-delete: ", response);
-      localStorage.removeItem("token");
-      navigate("/");
-      setOpenSnackBar(true);
-      setSnackBarText("Your account hase been deleted!");
+      );
+      if (response.status !== 200) {
+        setOpenSnackBar(true);
+        setSnackBarText("An error has been occuered!");
+      } else {
+        console.log("else: ");
+        localStorage.removeItem("token");
+        navigate("/");
+        setOpenSnackBar(true);
+        setSnackBarText("Your account hase been deleted!");
+      }
+      console.log("response-delete: ", response);
     } catch (error) {
       console.log("error deleting Mentees Account: ", error);
     }
@@ -67,6 +73,7 @@ export default function UsersProfilePage() {
     handleOpenDialog();
     setDialogTxt1("Are you sure you want to delete your account?");
   };
+
   console.log("userData: ", userData && userData);
   // console.log("env: ", env);
   // console.log('userType', loggerType)

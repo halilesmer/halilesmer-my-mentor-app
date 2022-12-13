@@ -193,17 +193,22 @@ const allMentees = async (req, res) => {
 // ---------- Delete Mentees Account ----------- starts --//
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentee: ", req.body);
+  const mentee = await MenteesModel.findByIdAndDelete(req.body.userId);
   try {
-    const mentee = await MenteesModel.findByIdAndDelete(req.body.userId);
-    console.log("Mentee delete account successfully.");
-    res.status(200).json({
-      msg: "Mentee delete account successfully.",
-    });
+    if (mentee) {
+      console.log("Mentee delete account successfully.");
+      res.status(200).json({
+        msg: "Mentee delete account successfully.",
+      });
+    } else {
+      console.log("Mentee delete account failed");
+      res.status(400).json({ msg: "Mentee delete account failed." });
+    }
   } catch (error) {
     console.log("error deleting Mentee account: ", error);
     res.status(400).json({
       msg: "error deleting Mentee: ",
-      error,
+      error: error,
     });
   }
 };

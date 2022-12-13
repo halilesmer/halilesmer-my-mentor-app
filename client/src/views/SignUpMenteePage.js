@@ -229,7 +229,6 @@ export default function SignUpMenteePage() {
       try {
         const response = await fetch(`${env}/mentees/signup`, requestOptions);
         const results = await response.json();
-        console.log("results handleSignUpFormSubmit: ", results);
 
         if (results.msg === "user allready exists") {
           setSnackBarAlert("User allready exists");

@@ -239,12 +239,17 @@ const editMentor = async (req, res) => {
 
 const deleteAccount = async (req, res) => {
   console.log("req.body- deleteAccount-mentor: ", req.body);
+  const mentor = await MentorsModel.findByIdAndDelete(req.body.userId);
   try {
-    const mentor = await MentorsModel.findByIdAndDelete(req.body.userId);
-    console.log("Mentor delete account successfully.");
-    res.status(200).json({
-      msg: "Mentor delete account successfully.",
-    });
+    if (mentor) {
+      console.log("Mentor delete account successfully.");
+      res.status(200).json({
+        msg: "Mentor delete account successfully.",
+      });
+    } else {
+      console.log("Mentor delete account failed");
+      res.status(400).json({ msg: "Mentor delete account failed." });
+    }
   } catch (error) {
     console.log("error deleting Mentor account: ", error);
     res.status(400).json({
