@@ -1,32 +1,35 @@
 import mongoose from "mongoose";
-import validator from 'validator';
+import validator from "validator";
 
 const { Schema } = mongoose;
 
 const menteesSchema = new Schema(
   {
     first_name: { type: String, required: true, trim: true },
-    last_name: { type: String, required:  true, trim: true },
-    birthday: { type: Date, required: true},
+    last_name: { type: String, required: true, trim: true },
+    birthday: { type: Date, required: true },
     gender: { type: String, required: false },
     language: { type: Array, required: false },
     couching_medium: { type: Array, required: false },
-    skills: { type: Array, required: true},
+    skills: { type: Array, required: true },
+    about: { type: String, required: false },
     email: {
       type: String,
       required: true,
       unique: true,
-      lowercase: true, trim: true
+      lowercase: true,
+      trim: true,
       // validate: [validator.isEmail, "Valid email is required"],
     },
     password: {
       type: String,
       required: [true, "Password are is required"],
-      minLength: [4, 'At least 4 charactars please.'], trim: true
+      minLength: [4, "At least 4 charactars please."],
+      trim: true,
     },
     user_type: { type: String, default: "mentee" },
     likes: { type: Array, required: false },
-    about: { type: String, required: false },
+
     avatar_picture: { type: String, required: false },
   },
   {

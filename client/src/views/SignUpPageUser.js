@@ -237,8 +237,8 @@ export default function SignUpPageUser() {
         website: website,
         fee: fee,
         couching_medium: couchingMedium,
-        email: email,
         skills: selectedSkills,
+        email: email,
         password: pw1,
       });
     } else if (userType === "mentees") {
@@ -246,9 +246,10 @@ export default function SignUpPageUser() {
         ...newUser,
         first_name: first_name,
         last_name: last_name,
+        gender: gender,
         birthday: data.get("birthday").trim(),
-        email: email,
         skills: selectedSkills,
+        email: email,
         password: pw1,
       });
     } else {
@@ -327,7 +328,7 @@ export default function SignUpPageUser() {
           handleClick();
           return false;
         } else {
-          navigate("/mentors/signin");
+          navigate(`/${userType}/signin`);
         }
       } catch (error) {
         console.log("error Submit new mentor", error.msg);
