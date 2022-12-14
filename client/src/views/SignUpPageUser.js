@@ -2,9 +2,22 @@ import "./signsEditsUser.css";
 
 import * as React from "react";
 
-import { Alert, IconButton, InputAdornment, Snackbar } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Alert,
+  Autocomplete,
+  ClickAwayListener,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+  Tooltip,
+} from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { languages, predefinedSkills } from "../data.js/inputData.js";
 
 import { AppContext } from "../contexts/appContext";
 import Avatar from "@mui/material/Avatar";
@@ -18,34 +31,41 @@ import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormData from "form-data";
 import Grid from "@mui/material/Grid";
+import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { nodeEnv } from "../utils/nodeEnv";
-import { predefinedSkills } from "../data.js/inputData.js";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function SignUpMenteePage() {
+export default function SignUpPageUser() {
   const [selectedSkills, setSelectedSkills] = React.useState([]);
   const [typedSkill, setTypedSkill] = React.useState("");
   const [isEmailValid, setIsEmailValid] = React.useState(Boolean);
   const [isPwValid, setIsPwValid] = React.useState(Boolean);
 
+  const [gender, setGender] = React.useState("");
+  const [language, setLanguage] = React.useState([]);
+  const [couchingMedium, setCouchingMedium] = React.useState([]);
+
+  const [fee, setFee] = React.useState(Number);
+  const [volunteer, setVolunteer] = React.useState("");
   const [availableSkills, setAvailableSkills] =
     React.useState(predefinedSkills);
   const [selectedImage, setSelectedImage] = React.useState(null);
+  const [openTooltip, setOpenTooltip] = React.useState(false);
 
   const [newUser, setNewUser] = React.useState({});
 
-  const [termsAgr, setTermsAgr] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [snackBarAlert, setSnackBarAlert] = React.useState("");
   const navigate = useNavigate();
   const inputFile = React.useRef();
   const env = nodeEnv.env;
+  const { userType } = useParams();
 
   // -------- Handle  Close   -------
   const handleClick = () => {
@@ -74,7 +94,14 @@ export default function SignUpMenteePage() {
       </IconButton>
     </React.Fragment>
   );
-
+  // -------- Handle  Tooltip Open -------
+  const handleTooltipOpen = () => {
+    setOpenTooltip(true);
+  };
+  // -------- Handle  Tooltip Close -------
+  const handleTooltipClose = () => {
+    setOpenTooltip(false);
+  };
   // -------- Onbutton Select Picture  -------
   const onButtonSelectPictureClick = () => {
     inputFile.current.click();
@@ -84,7 +111,40 @@ export default function SignUpMenteePage() {
   const removeSelectedImage = () => {
     setSelectedImage();
   };
+
   const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
+
+  // -------- Handle Gender  -------
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+
+  // -------- Handle Language  -------
+  const handleLanguageOnChange = (e, value) => {
+    setLanguage(value.filter((item) => Object.values(item)));
+  };
+
+  // -------- Handle Volunteer  -------
+  const handleSelectVolunteerClick = (e) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+    // setVolunteer(value);
+    if (checked) {
+      setVolunteer(value);
+      setFee(0);
+    } else {
+      setVolunteer("");
+    }
+  };
+  // ---- Handle Couching Medium -------
+  let couchMd = ["Presence", "Video", "Audio"];
+  const handleCouchingMediumClick = (button) => {
+    if (couchingMedium.includes(button)) {
+      setCouchingMedium(couchingMedium.filter((item) => item !== button));
+    } else {
+      setCouchingMedium([...couchingMedium, button]);
+    }
+  };
 
   // ---- Handle Skills  starts -------
   const handleSkillsClick = (button) => {
@@ -135,19 +195,19 @@ export default function SignUpMenteePage() {
 
     try {
       const response = await fetch(
-        `${env}/mentees/imageupload`,
+        `${env}/${userType}/imageupload`,
         requestOptions
       );
       const result = await response.json();
+      console.log("result handleSubmitPictureClick: ", result);
 
       setNewUser({
         ...newUser,
         avatar_picture: result.imageUrl,
       });
-      console.log("result- handleSubmitPictureClick: ", result);
       return result.imageUrl;
     } catch (error) {
-      console.log("error, Picture upload failed: ", error);
+      console.log("error: ", error);
     }
   }; // ---- Avatar Picture ---- ends ---- //
 
@@ -156,22 +216,44 @@ export default function SignUpMenteePage() {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
+    console.log("data: ", data.get("experience"));
 
     const first_name = data.get("firstName").trim();
     const last_name = data.get("lastName").trim();
-    const birthday = data.get("birthday").trim();
+    const experience = userType === "mentors" && data.get("experience").trim();
+    const website = userType === "mentors" && data.get("mentor-website").trim();
     const email = data.get("email").trim();
     const pw1 = data.get("password-1").trim();
     const pw2 = data.get("password-2").trim();
-    setNewUser({
-      ...newUser,
-      first_name: first_name,
-      last_name: last_name,
-      birthday: birthday,
-      email: email,
-      skills: selectedSkills,
-      password: pw1,
-    });
+    if (userType === "mentors") {
+      setNewUser({
+        ...newUser,
+        first_name: first_name,
+        last_name: last_name,
+        birthday: data.get("birthday").trim(),
+        gender: gender,
+        language: language.map((obj) => obj.title),
+        experience: experience,
+        website: website,
+        fee: fee,
+        couching_medium: couchingMedium,
+        email: email,
+        skills: selectedSkills,
+        password: pw1,
+      });
+    } else if (userType === "mentees") {
+      setNewUser({
+        ...newUser,
+        first_name: first_name,
+        last_name: last_name,
+        birthday: data.get("birthday").trim(),
+        email: email,
+        skills: selectedSkills,
+        password: pw1,
+      });
+    } else {
+      return console.log("an error occurred during set new user");
+    }
 
     // setFieldsInput({ ...fieldsInput, [e.target.name]: first_name });
 
@@ -184,7 +266,7 @@ export default function SignUpMenteePage() {
       setIsEmailValid(true);
     } else {
       console.log("invalid email");
-      setIsEmailValid(false);
+      return setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
 
@@ -220,6 +302,12 @@ export default function SignUpMenteePage() {
           first_name: first_name,
           last_name: last_name,
           birthday: data.get("birthday").trim(),
+          gender: gender,
+          language: language.map((obj) => obj.title),
+          experience: experience,
+          website: website,
+          fee: fee,
+          couching_medium: couchingMedium,
           email: email,
           skills: selectedSkills,
           password: pw1,
@@ -227,30 +315,29 @@ export default function SignUpMenteePage() {
       };
 
       try {
-        const response = await fetch(`${env}/mentees/signup`, requestOptions);
+        const response = await fetch(
+          `${env}/${userType}/signup`,
+          requestOptions
+        );
         const results = await response.json();
+        console.log("results: ", results);
 
         if (results.msg === "user allready exists") {
-          setSnackBarAlert("User allready exists");
+          setSnackBarAlert("user allready exists");
           handleClick();
           return false;
         } else {
-          navigate("/mentees/signin");
+          navigate("/mentors/signin");
         }
       } catch (error) {
-        console.log("error Submit new mentee", error.msg);
+        console.log("error Submit new mentor", error.msg);
       }
     }
   };
 
-  // console.log("selectedSkills: ", selectedSkills);
-  // console.log("typedSkill: ", typedSkill);
+  console.log("new user: ", newUser);
+
   // console.log("couchingMedium: ", couchingMedium);
-  // console.log("isEmailValid: ", isEmailValid);
-  // console.log("isPwValid: ", isPwValid);
-  // console.log('volunteer', volunteer)
-  // console.log("fee: ", fee);
-  console.log("newUser", newUser);
 
   return (
     <ThemeProvider theme={theme}>
@@ -272,7 +359,11 @@ export default function SignUpMenteePage() {
           Sign up
         </Typography>
         <Typography component="h1" variant="h5">
-          Mentee
+          {userType === "mentors"
+            ? "Mentor"
+            : userType === "mentees"
+            ? "Mentee"
+            : ""}
         </Typography>
         <Snackbar
           open={open}
@@ -357,8 +448,6 @@ export default function SignUpMenteePage() {
                 id="firstName"
                 label="First Name"
                 autoFocus
-                // value={firstName}
-                // onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -385,9 +474,184 @@ export default function SignUpMenteePage() {
                 autoComplete="birthday"
               />
             </Grid>
+            <Grid item xs={12}>
+              <FormControl sx={{ minWidth: 120 }} size="small">
+                <InputLabel id="gender">Gender</InputLabel>
+                <Select
+                  labelId="gender"
+                  id="gender"
+                  name="gender"
+                  value={gender}
+                  label="Gender"
+                  onChange={handleGenderChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {userType === "mentors" && (
+              <>
+                <Grid item xs={12}>
+                  <Autocomplete
+                    size="small"
+                    onChange={handleLanguageOnChange}
+                    multiple
+                    id="language"
+                    options={languages}
+                    name="language"
+                    disableCloseOnSelect
+                    getOptionLabel={(option) => option.title}
+                    renderOption={(props, option, { selected }) => (
+                      <li {...props}>
+                        <Checkbox
+                          icon={icon}
+                          checkedIcon={checkedIcon}
+                          style={{ marginRight: 8 }}
+                          checked={selected}
+                        />
+                        {option.title}
+                      </li>
+                    )}
+                    // style={{ width: 500 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Language"
+                        placeholder="Language"
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    type="number"
+                    fullWidth
+                    id="experience"
+                    label="Year of Experience"
+                    name="experience"
+                    autoComplete="off"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    fullWidth
+                    id="mentor-website"
+                    label="Website"
+                    name="mentor-website"
+                    autoComplete="website"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="fee-input-box">
+                    <TextField
+                      style={{ width: "3.5rem" }}
+                      size="small"
+                      required
+                      type=""
+                      placeholder=""
+                      id="fee"
+                      label="Fee"
+                      disabled={volunteer !== ""}
+                      name="fee"
+                      autoComplete="off"
+                      // value={fee}
+                      value={volunteer !== "" ? volunteer : fee}
+                      onChange={(e) => setFee(e.target.value)}
+                    />
+                    <span style={{ padding: "0 0.2rem ", fontSize: "0.9rem" }}>
+                      ,00 EUR
+                    </span>
+                    <span
+                      style={{ paddingRight: "0.2rem ", fontSize: "0.9rem" }}
+                    >
+                      or
+                    </span>
+                    <FormControlLabel
+                      // componentsProps={{ typography: { margin: "0px" } }}
+                      control={<Checkbox />}
+                      label={
+                        <Typography className="voluteer-box">
+                          Volunteer
+                        </Typography>
+                      }
+                      value="Volunteer"
+                      onClick={(e) => handleSelectVolunteerClick(e)}
+                      sx={{ marginRight: "0.1rem" }}
+                    />
+
+                    <ClickAwayListener onClickAway={handleTooltipClose}>
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true,
+                        }}
+                        open={openTooltip}
+                        onClose={handleTooltipClose}
+                        disableFocusListener
+                        title="Please choise your fee"
+                      >
+                        <IconButton onClick={handleTooltipOpen}>
+                          <InfoIcon size="10px" />
+                        </IconButton>
+                      </Tooltip>
+                    </ClickAwayListener>
+                  </div>
+                </Grid>
+
+                <Grid item xs={12} className="couchingMedium-con">
+                  <div>Select Your Couching Medium:</div>
+                  <div
+                    className=""
+                    style={{
+                      width: "100%",
+                      border: "solid 1px #d1d1d1",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "95%",
+                        border: "solid 1px #d1d1d1",
+                        borderRadius: "4px",
+                        margin: "4px auto 4px auto",
+                      }}
+                    >
+                      {couchMd.map((button, i) => {
+                        return (
+                          <Button
+                            key={i}
+                            size="small"
+                            id={`chouching` + i}
+                            className={
+                              couchingMedium.includes(button)
+                                ? "checkBtnClicked"
+                                : "checkBtnUnclicked"
+                            }
+                            // styles={styles.checkBtn}
+                            variant="contained"
+                            onClick={() => handleCouchingMediumClick(button)}
+                          >
+                            {button}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Grid>
+              </>
+            )}
 
             <Grid item xs={12} className="skillsInput">
-              <div>Select Your Skills:</div>
+              <div>
+                Select Your {userType === "mentors" ? "Skills" : "Interests"}:
+              </div>
               <div
                 className=""
                 style={{
@@ -438,7 +702,7 @@ export default function SignUpMenteePage() {
                     size="small"
                     // fullWidth
                     id="skills"
-                    label="Type your interests"
+                    label="Type your Skills"
                     name="skills"
                     value={typedSkill}
                     onKeyUp={handleSkillsEnter}
@@ -516,7 +780,7 @@ export default function SignUpMenteePage() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/mentees/signin">
+              <Link to={`/${userType}/signin`}>
                 <Typography variant="body2">
                   Already have an account? Sign in
                 </Typography>

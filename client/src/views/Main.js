@@ -13,12 +13,9 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import React from "react";
 import SignInPage from "./SignInPage";
 import SignInPageUser from "./SignInPageUser";
-import SignUpMenteePage from "../views/SignUpMenteePage";
-import SignUpMentorPage from "../views/SignUpMentorPage";
 import SignUpPage from "./SignUpPage";
+import SignUpPageUser from "../views/SignUpPageUser";
 import UsersProfilePage from "./UsersProfilePage";
-
-// import Grid from "@mui/material/Grid";
 
 const Main = () => {
   return (
@@ -41,8 +38,7 @@ const Main = () => {
 
         <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/:userType/signup" element={<SignUpMentorPage />} />
-        {/* <Route path="/:userType/signup" element={<SignUpMenteePage />} /> */}
+        <Route path="/:userType/signup" element={<SignUpPageUser />} />
         <Route path="/signin" element={<SignInPage />} />
 
         <Route path="/:userType/signin" element={<SignInPageUser />} />
