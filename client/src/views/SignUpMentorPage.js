@@ -15,7 +15,7 @@ import {
   Snackbar,
   Tooltip,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { languages, predefinedSkills } from "../data.js/inputData.js";
 
@@ -35,7 +35,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {nodeEnv} from "../utils/nodeEnv";
+import { nodeEnv } from "../utils/nodeEnv";
 
 const theme = createTheme();
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -66,6 +66,8 @@ export default function SignUpMentorPage() {
   const navigate = useNavigate();
   const inputFile = React.useRef();
   const env = nodeEnv.env;
+  const { userType } = useParams();
+  //  const userType = params.userType.slice(0, params.userType.length - 1);
 
   // -------- Handle  Close   -------
   const handleClick = () => {
@@ -112,7 +114,8 @@ export default function SignUpMentorPage() {
     setSelectedImage();
   };
 
-  const { handlePwInputFocus, onBlur } = React.useContext(AppContext);
+  const { handlePwInputFocus, onBlur, setUserLogIn, setUserType } =
+    React.useContext(AppContext);
 
   // -------- Handle Gender  -------
   const handleGenderChange = (e) => {
@@ -171,11 +174,6 @@ export default function SignUpMentorPage() {
     }
   }; // ---- Handle Skills  ends -------
 
-  //  ------- Handle Terms --------
-  // const handleTermsChange = (e) => {
-  //   const checked = e.target.checked;
-  //   // checked ? setTermsAgr(true) : setTermsAgr(false);
-  // };
   // ----   Handle ------
   const handleAttachFileOnchange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -256,7 +254,7 @@ export default function SignUpMentorPage() {
       setIsEmailValid(true);
     } else {
       console.log("invalid email");
-     return setIsEmailValid(false);
+      return setIsEmailValid(false);
     }
     /* ---- Email Check ---- ends*/
 
@@ -305,7 +303,10 @@ export default function SignUpMentorPage() {
       };
 
       try {
-        const response = await fetch(`${env}/mentors/signup`, requestOptions);
+        const response = await fetch(
+          `${env}/${userType}/signup`,
+          requestOptions
+        );
         const results = await response.json();
         console.log("results: ", results);
 
@@ -322,15 +323,10 @@ export default function SignUpMentorPage() {
     }
   };
 
-  // console.log("selectedSkills: ", selectedSkills);
-  // console.log("typedSkill: ", typedSkill);
+  console.log("params: ", userType);
+  console.log("halil", userType);
   // console.log("couchingMedium: ", couchingMedium);
-  // console.log("isEmailValid: ", isEmailValid);
-  // console.log("isPwValid: ", isPwValid);
-  // console.log('volunteer', volunteer)
-  // console.log("fee: ", fee);
-  // console.log("language", language);
-  // console.log("selectedImage :>> ", selectedImage);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -351,7 +347,11 @@ export default function SignUpMentorPage() {
           Sign up
         </Typography>
         <Typography component="h1" variant="h5">
-          Mentor
+          {userType === "mentors"
+            ? "Mentor"
+            : userType === "mentees"
+            ? "Mentee"
+            : ""}
         </Typography>
         <Snackbar
           open={open}
@@ -482,154 +482,164 @@ export default function SignUpMentorPage() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
-              <Autocomplete
-                size="small"
-                onChange={handleLanguageOnChange}
-                multiple
-                id="language"
-                options={languages}
-                name="language"
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.title}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.title}
-                  </li>
-                )}
-                // style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Language"
-                    placeholder="Language"
+            {userType === "mentors" && (
+              <>
+                <Grid item xs={12}>
+                  <Autocomplete
+                    size="small"
+                    onChange={handleLanguageOnChange}
+                    multiple
+                    id="language"
+                    options={languages}
+                    name="language"
+                    disableCloseOnSelect
+                    getOptionLabel={(option) => option.title}
+                    renderOption={(props, option, { selected }) => (
+                      <li {...props}>
+                        <Checkbox
+                          icon={icon}
+                          checkedIcon={checkedIcon}
+                          style={{ marginRight: 8 }}
+                          checked={selected}
+                        />
+                        {option.title}
+                      </li>
+                    )}
+                    // style={{ width: 500 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Language"
+                        placeholder="Language"
+                      />
+                    )}
                   />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="number"
-                fullWidth
-                id="experience"
-                label="Year of Experience"
-                name="experience"
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                type="text"
-                fullWidth
-                id="mentor-website"
-                label="Website"
-                name="mentor-website"
-                autoComplete="website"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <div className="fee-input-box">
-                <TextField
-                  style={{ width: "3.5rem" }}
-                  size="small"
-                  required
-                  type=""
-                  placeholder=""
-                  id="fee"
-                  label="Fee"
-                  disabled={volunteer !== ""}
-                  name="fee"
-                  autoComplete="off"
-                  // value={fee}
-                  value={volunteer !== "" ? volunteer : fee}
-                  onChange={(e) => setFee(e.target.value)}
-                />
-                <span style={{ padding: "0 0.2rem ", fontSize: "0.9rem" }}>
-                  ,00 EUR
-                </span>
-                <span style={{ paddingRight: "0.2rem ", fontSize: "0.9rem" }}>
-                  or
-                </span>
-                <FormControlLabel
-                  // componentsProps={{ typography: { margin: "0px" } }}
-                  control={<Checkbox />}
-                  label={
-                    <Typography className="voluteer-box">Volunteer</Typography>
-                  }
-                  value="Volunteer"
-                  onClick={(e) => handleSelectVolunteerClick(e)}
-                  sx={{ marginRight: "0.1rem" }}
-                />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    type="number"
+                    fullWidth
+                    id="experience"
+                    label="Year of Experience"
+                    name="experience"
+                    autoComplete="off"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    fullWidth
+                    id="mentor-website"
+                    label="Website"
+                    name="mentor-website"
+                    autoComplete="website"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="fee-input-box">
+                    <TextField
+                      style={{ width: "3.5rem" }}
+                      size="small"
+                      required
+                      type=""
+                      placeholder=""
+                      id="fee"
+                      label="Fee"
+                      disabled={volunteer !== ""}
+                      name="fee"
+                      autoComplete="off"
+                      // value={fee}
+                      value={volunteer !== "" ? volunteer : fee}
+                      onChange={(e) => setFee(e.target.value)}
+                    />
+                    <span style={{ padding: "0 0.2rem ", fontSize: "0.9rem" }}>
+                      ,00 EUR
+                    </span>
+                    <span
+                      style={{ paddingRight: "0.2rem ", fontSize: "0.9rem" }}
+                    >
+                      or
+                    </span>
+                    <FormControlLabel
+                      // componentsProps={{ typography: { margin: "0px" } }}
+                      control={<Checkbox />}
+                      label={
+                        <Typography className="voluteer-box">
+                          Volunteer
+                        </Typography>
+                      }
+                      value="Volunteer"
+                      onClick={(e) => handleSelectVolunteerClick(e)}
+                      sx={{ marginRight: "0.1rem" }}
+                    />
 
-                <ClickAwayListener onClickAway={handleTooltipClose}>
-                  <Tooltip
-                    PopperProps={{
-                      disablePortal: true,
-                    }}
-                    open={openTooltip}
-                    onClose={handleTooltipClose}
-                    disableFocusListener
-                    title="Please choise your fee"
-                  >
-                    <IconButton onClick={handleTooltipOpen}>
-                      <InfoIcon size="10px" />
-                    </IconButton>
-                  </Tooltip>
-                </ClickAwayListener>
-              </div>
-            </Grid>
-
-            <Grid item xs={12} className="couchingMedium-con">
-              <div>Select Your Couching Medium:</div>
-              <div
-                className=""
-                style={{
-                  width: "100%",
-                  border: "solid 1px #d1d1d1",
-                  borderRadius: "4px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "95%",
-                    border: "solid 1px #d1d1d1",
-                    borderRadius: "4px",
-                    margin: "4px auto 4px auto",
-                  }}
-                >
-                  {couchMd.map((button, i) => {
-                    return (
-                      <Button
-                        key={i}
-                        size="small"
-                        id={`chouching` + i}
-                        className={
-                          couchingMedium.includes(button)
-                            ? "checkBtnClicked"
-                            : "checkBtnUnclicked"
-                        }
-                        // styles={styles.checkBtn}
-                        variant="contained"
-                        onClick={() => handleCouchingMediumClick(button)}
+                    <ClickAwayListener onClickAway={handleTooltipClose}>
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true,
+                        }}
+                        open={openTooltip}
+                        onClose={handleTooltipClose}
+                        disableFocusListener
+                        title="Please choise your fee"
                       >
-                        {button}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </div>
-            </Grid>
+                        <IconButton onClick={handleTooltipOpen}>
+                          <InfoIcon size="10px" />
+                        </IconButton>
+                      </Tooltip>
+                    </ClickAwayListener>
+                  </div>
+                </Grid>
+
+                <Grid item xs={12} className="couchingMedium-con">
+                  <div>Select Your Couching Medium:</div>
+                  <div
+                    className=""
+                    style={{
+                      width: "100%",
+                      border: "solid 1px #d1d1d1",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "95%",
+                        border: "solid 1px #d1d1d1",
+                        borderRadius: "4px",
+                        margin: "4px auto 4px auto",
+                      }}
+                    >
+                      {couchMd.map((button, i) => {
+                        return (
+                          <Button
+                            key={i}
+                            size="small"
+                            id={`chouching` + i}
+                            className={
+                              couchingMedium.includes(button)
+                                ? "checkBtnClicked"
+                                : "checkBtnUnclicked"
+                            }
+                            // styles={styles.checkBtn}
+                            variant="contained"
+                            onClick={() => handleCouchingMediumClick(button)}
+                          >
+                            {button}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Grid>
+              </>
+            )}
 
             <Grid item xs={12} className="skillsInput">
-              <div>Select Your Skills:</div>
+              <div>
+                Select Your {userType === "mentors" ? "Skills" : "Interests"}:
+              </div>
               <div
                 className=""
                 style={{
@@ -747,13 +757,6 @@ export default function SignUpMentorPage() {
                 onBlur={onBlur}
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the terms and conditions."
-                // onClick={(e) => handleTermsChange(e)}
-              />
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -765,7 +768,7 @@ export default function SignUpMentorPage() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/login-page">
+              <Link to={`/${userType}/signin`}>
                 <Typography variant="body2">
                   Already have an account? Sign in
                 </Typography>

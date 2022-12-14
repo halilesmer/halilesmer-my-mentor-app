@@ -41,14 +41,14 @@ const Main = () => {
 
         <Route path="/favorit-mentor" element={<FavoritMentorsPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/mentors/signup" element={<SignUpMentorPage />} />
-        <Route path="/mentees/signup" element={<SignUpMenteePage />} />
+        <Route path="/:userType/signup" element={<SignUpMentorPage />} />
+        {/* <Route path="/:userType/signup" element={<SignUpMenteePage />} /> */}
         <Route path="/signin" element={<SignInPage />} />
 
         <Route path="/:userType/signin" element={<SignInPageUser />} />
 
         <Route path="/:userType/profile" element={<UsersProfilePage />} />
-   
+
         <Route
           path="/mentors/liked-mentors"
           element={<FavoriteMentorsPage />}

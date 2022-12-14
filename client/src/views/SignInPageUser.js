@@ -33,7 +33,7 @@ export default function SignInPageUser() {
   const params = useParams();
   const [loggerType, setLoggerType] = React.useState("");
 
-  const { setIsUserLoggedIn, setUserLogIn, setUserType, token, setToken } =
+  const { setIsUserLoggedIn, setUserLogIn, setUserType, } =
     React.useContext(AppContext);
 
   const handleSubmit = async (e) => {
@@ -46,7 +46,6 @@ export default function SignInPageUser() {
     const email = data.get("email").trim();
 
     if (!password || !email) {
-      console.log("password: ", password);
       return setIsFieldFilled(false);
     } else {
     }
